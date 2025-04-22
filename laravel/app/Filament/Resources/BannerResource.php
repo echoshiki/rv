@@ -9,9 +9,15 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
+use Filament\Tables\Filters\Filter;
 
 class BannerResource extends Resource
 {
@@ -60,15 +66,9 @@ class BannerResource extends Resource
                     ->native(false),
                 Forms\Components\TextInput::make('sort')
                     ->label('排序值')
-                    ->helperText('数字越小越靠前显示')
                     ->required()
                     ->numeric()
                     ->default(0),
-                Forms\Components\Toggle::make('is_active')
-                    ->label('是否启用')
-                    ->default(true)
-                    ->required()
-                    ->columnSpanFull(),
                 Forms\Components\DateTimePicker::make('start_at')
                     ->label('生效开始时间')
                     ->native(false),
@@ -76,6 +76,11 @@ class BannerResource extends Resource
                     ->label('生效结束时间')
                     ->native(false)
                     ->after('start_at'),
+                Forms\Components\Toggle::make('is_active')
+                    ->label('是否启用')
+                    ->default(true)
+                    ->required()
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -83,35 +88,77 @@ class BannerResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
+                ImageColumn::make('image')
+                    ->label('图片预览')
+                    // 确保预览时也用 public 盘
+                    ->disk('public') 
+                    // 设置预览宽度
+                    ->width(100)
+                    ->height('auto'),
+                TextColumn::make('title')
+                    ->label('标题')
+                    ->limit(30)
+                    // 鼠标悬停显示完整标题
+                    ->tooltip(fn (Banner $record): string => $record->title ?? '')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
-                Tables\Columns\TextColumn::make('link')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('channel')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('sort')
+                TextColumn::make('channelName')
+                    ->label('所属频道')
+                    ->badge()
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        // 自定义搜索逻辑，$channelName 是访问器
+                        $channelKeys = array_keys(array_filter(
+                            Banner::channelOptions(),
+                            fn($value) => str_contains(strtolower($value), strtolower($search))
+                        ));
+                        return $query->whereIn('channel', $channelKeys);
+                    })
+                    ->sortable(query: function (Builder $query, string $direction): Builder {
+                        // 因为 channelName 是访问器，需要告知如何排序
+                        return $query->orderBy('channel', $direction);
+                   }),
+                IconColumn::make('is_active')
+                   ->label('状态')
+                   ->boolean()
+                   ->sortable(),
+                TextColumn::make('sort')
+                    ->label('排序值')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('start_at')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('end_at')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                TextColumn::make('start_at')
+                    ->label('开始时间')
+                    ->dateTime('Y-m-d H:i')
                     ->sortable()
+                     // 默认隐藏，可切换显示    
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                TextColumn::make('end_date')
+                    ->label('结束时间')
+                    ->dateTime('Y-m-d H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('channel')
+                    ->label('按频道筛选')
+                    ->options(Banner::channelOptions()),
+                TernaryFilter::make('is_active')
+                    ->label('按状态筛选')
+                    ->boolean()
+                    ->trueLabel('仅启用')
+                    ->falseLabel('仅禁用')
+                    ->native(false),
+                Filter::make('effective_now')
+                    ->label('当前生效')
+                    ->query(function (Builder $query): Builder {
+                        $now = now();
+                        return $query
+                                ->where('is_active', true)
+                                ->where(function ($q) use ($now) {
+                                    $q->whereNull('start_at')->orWhere('start_at', '<=', $now);
+                                 })
+                                ->where(function ($q) use ($now) {
+                                     $q->whereNull('end_at')->orWhere('end_at', '>=', $now);
+                                });
+                    })
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
