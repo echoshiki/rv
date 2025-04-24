@@ -7,6 +7,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Notifications\Notification;
@@ -46,49 +47,53 @@ class ManageGeneralSettings extends SettingsPage
     {
         return $form
             ->schema([
-                // ...
-                Section::make('基本信息')
-                    ->schema([
-                        TextInput::make('title')
-                            ->label('系统名称')
-                            ->required(),
-                        TextInput::make('description')
-                            ->label('系统描述')
-                            ->required(),
-                        TextInput::make('keywords')
-                            ->label('关键词')
-                            ->required(),   
-                        FileUpload::make('logo_path')
-                            ->label('Logo')
-                            ->image()
-                            ->directory('logos')
-                            ->visibility('public')
-                            ->imagePreviewHeight('100')
-                            ->maxSize(1024),
-                    ]),
-
-                Section::make('联系信息')
-                    ->schema([
-                        TextInput::make('email')
-                            ->label('邮箱')
-                            ->email(),
-                        TextInput::make('phone')
-                            ->label('电话')
-                            ->required(),
-                        TextInput::make('address')
-                            ->label('地址')
-                            ->required(),
-                    ]),
-                
-                Section::make('其他信息')
-                    ->schema([
-                        TextInput::make('copyright')
-                            ->label('版权信息')
-                            ->required(),
-                        TextInput::make('icp')
-                            ->label('备案号')
-                            ->required(),
-                    ]),
+                Tabs::make('系统设置')
+                    ->columnSpanFull()
+                    ->tabs([
+                        Tabs\Tab::make('基本信息')
+                        ->icon('heroicon-m-adjustments-horizontal')
+                            ->schema([
+                                TextInput::make('title')
+                                    ->label('系统名称')
+                                    ->required(),
+                                TextInput::make('description')
+                                    ->label('系统描述')
+                                    ->required(),
+                                TextInput::make('keywords')
+                                    ->label('关键词')
+                                    ->required(),   
+                                FileUpload::make('logo_path')
+                                    ->label('Logo')
+                                    ->image()
+                                    ->directory('logos')
+                                    ->visibility('public')
+                                    ->imagePreviewHeight('100')
+                                    ->maxSize(1024),
+                            ]),
+                        Tabs\Tab::make('联系信息')
+                            ->icon('heroicon-m-chat-bubble-left')
+                            ->schema([
+                                TextInput::make('email')
+                                    ->label('邮箱')
+                                    ->email(),
+                                TextInput::make('phone')
+                                    ->label('电话')
+                                    ->required(),
+                                TextInput::make('address')
+                                    ->label('地址')
+                                    ->required(),
+                            ]),
+                        Tabs\Tab::make('其他信息')
+                            ->icon('heroicon-m-cog-6-tooth')
+                            ->schema([
+                                TextInput::make('copyright')
+                                    ->label('版权信息')
+                                    ->required(),
+                                TextInput::make('icp')
+                                    ->label('备案号')
+                                    ->required(),
+                            ]),
+                    ])
             ])->statePath('data');
     }
 
