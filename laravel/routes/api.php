@@ -13,8 +13,8 @@ use App\Http\Resources\UserResource;
         Route::post('/login-bound', [AuthController::class, 'miniLoginOnBound'])->name('api.v1.mini.mini-login-bound');
         // 小程序登录（绑定手机号）
         Route::post('/login', [AuthController::class, 'miniLogin'])->name('api.v1.mini.mini-login'); 
-
-        Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+        
+        Route::post('/logout', [AuthController::class, 'logout'])->name('api.v1.mini.logout')->middleware('auth:sanctum');
 
         Route::post('/user', function (Request $request) {
             return new UserResource($request->user());

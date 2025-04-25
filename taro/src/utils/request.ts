@@ -95,9 +95,13 @@ class HttpRequest {
     // 过期或者授权失败重新登录
     private handleAuthError(error: any) {
         if (error.code === 401) {
+            // 判断是否由登出操作触发的 401 错误，如果是则跳过
+            const { logout, isLoggingOut } = useAuthStore();
+            if (isLoggingOut) return;
+
+            // 其他触发 401 的错误继续逻辑
             const redirectUrl = getCurrentPageUrl();
-            console.log('redirectUrl', redirectUrl);
-            // useAuthStore.getState().logout();
+            logout();
             Taro.navigateTo({ 
                 url: `/pages/login/index?redirect=${redirectUrl}` 
             });
