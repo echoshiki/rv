@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api\V1;
 
 use App\Http\Controllers\Controller;
-use APP\Services\BannerService;
+use App\Services\BannerService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Resources\UserResource;
+use App\Http\Controllers\api\V1\BannerController;
 
     // v1
     Route::prefix('v1')->group(function () {
@@ -19,6 +20,8 @@ use App\Http\Resources\UserResource;
         Route::post('/user', function (Request $request) {
             return new UserResource($request->user());
         })->middleware('auth:sanctum');
+
+        Route::get('/banners/{channel}', [BannerController::class, 'index'])->name('api.v1.banners');
 
     });
 

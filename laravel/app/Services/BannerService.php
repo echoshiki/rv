@@ -1,6 +1,6 @@
 <?php
 
-namespace APP\Services;
+namespace App\Services;
 
 use App\Models\Banner; // 引入 Banner 模型
 use Illuminate\Support\Facades\Cache; // 引入 Cache 门面
@@ -30,27 +30,27 @@ class BannerService
             $banners = Cache::remember($cacheKey, now()->addMinutes($this->cacheDuration), function () use ($channel) {
                 // 使用模型中定义的 scope 查询活跃且在有效期内的轮播图
                 return Banner::activeForChannel($channel)
-                            ->select('image_path', 'link_url') // 仅选择 API 需要的字段
-                            ->get()
-                            ->map(function ($banner) {
-                                // 格式化数据：确保 image_path 是完整的 URL
-                                // 注意：asset() 生成的 URL 基于 APP_URL，确保其在 .env 中配置正确
-                                try {
-                                     // 如果 image_path 为空或无效，asset() 可能行为不确定，可以加判断
-                                     $imageUrl = $banner->image_path ? asset('storage/' . $banner->image_path) : null;
-                                } catch (\Exception $e) {
-                                     // 处理 asset() 可能抛出的异常 (虽然少见)
-                                     Log::warning("Failed to generate asset URL for banner image: " . $banner->image_path, ['exception' => $e]);
-                                     $imageUrl = null; // 或返回默认图片 URL
-                                }
+                        ->select('image', 'link') // 仅选择 API 需要的字段
+                        ->get()
+                        ->map(function ($banner) {
+                            // 格式化数据：确保 image_path 是完整的 URL
+                            // 注意：asset() 生成的 URL 基于 APP_URL，确保其在 .env 中配置正确
+                            try {
+                                // 如果 image_path 为空或无效，asset() 可能行为不确定，可以加判断
+                                $imageUrl = $banner->image ? asset('storage/' . $banner->image) : null;
+                            } catch (\Exception $e) {
+                                // 处理 asset() 可能抛出的异常 (虽然少见)
+                                Log::warning("Failed to generate asset URL for banner image: " . $banner->image, ['exception' => $e]);
+                                $imageUrl = null; // 或返回默认图片 URL
+                            }
 
-                                return [
-                                    'image_url' => $imageUrl, // 返回格式化后的字段名
-                                    'link_url' => $banner->link_url,
-                                ];
-                            })
-                            // 过滤掉图片 URL 生成失败的项 (可选)
-                            ->filter(fn($banner) => $banner['image_url'] !== null);
+                            return [
+                                'image' => $imageUrl, // 返回格式化后的字段名
+                                'link' => $banner->link,
+                            ];
+                        })
+                        // 过滤掉图片 URL 生成失败的项 (可选)
+                        ->filter(fn($banner) => $banner['image'] !== null);
             });
 
              // 确保返回的是 Collection 类型 (Cache::remember 可能返回 null 或其他类型，如果闭包执行失败且没有缓存)

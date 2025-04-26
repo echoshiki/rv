@@ -58,11 +58,11 @@ class Banner extends Model
                     ->where('is_active', true)
                     ->where(function ($q) use ($now) {
                         $q->whereNull('start_at')
-                            ->where('start_at', '<=', $now);
+                          ->orWhere('start_at', '<=', $now);
                     })
                     ->where(function ($q) use ($now) {
                         $q->whereNull('end_at')
-                            ->where('end_at', '>=', $now);
+                          ->orWhere('end_at', '>=', $now);
                     })
                     ->orderBy('sort', 'asc')
                     ->orderBy('created_at', 'desc');
