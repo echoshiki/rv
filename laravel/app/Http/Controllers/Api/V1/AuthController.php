@@ -11,6 +11,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Requests\Api\V1\LoginInSilenceRequest;
 use App\Http\Requests\Api\V1\LoginOnBoundRequest;
 use App\Http\Requests\Api\V1\LoginRequest;
+use Illuminate\Auth\AuthenticationException;
 
 class AuthController extends Controller
 {

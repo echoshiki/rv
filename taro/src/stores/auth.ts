@@ -24,6 +24,7 @@ interface AuthStoreProps{
     ) => Promise<void>;
     logout: () => void;
     isLoggedIn: () => boolean;
+    isLoggingOut: boolean;
 }
 
 const useAuthStore = create<AuthStoreProps>()(
@@ -34,6 +35,8 @@ const useAuthStore = create<AuthStoreProps>()(
             isBound: null,
             token: null,
             userInfo: null,
+            // 是否正在登出
+            isLoggingOut: false,
 
             loginInSilence: async () => {
                 try {
@@ -120,18 +123,14 @@ const useAuthStore = create<AuthStoreProps>()(
                         }
                     })
 
-                    console.log('正常登录响应 response', response);
-
                     // 获取后存入本地
                     if (response?.token) {
                         set({ token: response.token, userInfo: response.user });
                         Taro.showToast({ title: '登录成功', icon: 'success' });
-
                         setTimeout(() => {
-                            // 自定义跳转
-                            mapsTo(redirectUrl || '/pages/index/index');
+                            // 这里实则调用了 redirectTo() 跳转，在路径栈里将目标页替换掉登陆页
+                            mapsTo(redirectUrl || '/pages/index/index', true);
                         }, 1000);
-                        
                     } else {
                         throw new Error('登录失败');
                     }
@@ -143,17 +142,34 @@ const useAuthStore = create<AuthStoreProps>()(
             },
 
             logout: async () => {
+                // 获取状态
+                const state = get();
+                if (!state.token) {
+                    Taro.showToast({ title: '您并没有登陆', icon: 'none' });
+                    return;
+                }
+                
+                // 设置“正在登出”
+                set({ isLoggingOut: true });
+
                 try {
-                    await http.request({
+                    const response = await http.request({
                         url: '/api/v1/logout',
                         method: 'POST'
                     });
-                    set({ 
-                        token: null, 
-                        userInfo: null
+                    Taro.showToast({ 
+                        title: response.message || '登出成功',
+                        icon: 'success' 
                     });
                 } catch (e) {
-                    console.error(e);
+                    // 即使登出API失败 (例如网络错误)，我们仍然需要清理状态
+                    console.error("后端登出 API 调用失败:", e);
+                } finally {
+                    set({
+                        token: null,
+                        userInfo: null,
+                        isLoggingOut: false // <--- 重置标志位
+                    });
                 }
             },
 

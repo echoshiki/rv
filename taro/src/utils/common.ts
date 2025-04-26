@@ -53,7 +53,7 @@ const getCurrentPageUrl = (): string => {
 /**
  * 自定义跳转函数
  */
-const mapsTo = (url: string) => {
+const mapsTo = (url: string, isLoginPage = false) => {
     // 获取 url 中的路径部分，不包含参数
     const pathWithoutParams = url.split('?')[0];
 
@@ -61,7 +61,7 @@ const mapsTo = (url: string) => {
     if (isTabBarPage(pathWithoutParams)) {
         Taro.switchTab({ url });
     } else {
-        Taro.navigateTo({ url });
+        isLoginPage ? Taro.redirectTo({ url }) : Taro.navigateTo({ url });
     }
 }
 
