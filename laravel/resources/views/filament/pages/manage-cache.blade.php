@@ -4,14 +4,16 @@
         <p>在此页面可以手动清除应用程序的各种缓存。</p>
         <p>请谨慎操作，清除缓存可能会短暂影响应用性能或需要用户重新登录（取决于清除的缓存类型）。</p>
     </div>
-    <div class="bg-red-500">
+    <div class="flex flex-col gap-2">
         <x-filament::button
+            class="w-1/3"
             icon="heroicon-o-photo"
             wire:click="clearBannerCache"
         >
             清除轮播图缓存
         </x-filament::button>
         <x-filament::button 
+            class="w-1/3"
             icon="heroicon-o-cpu-chip"
             wire:click="clearApplicationCache"
         >
