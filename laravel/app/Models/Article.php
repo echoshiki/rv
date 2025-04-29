@@ -5,8 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Container\Attributes\Storage;
+use Illuminate\Support\Facades\Storage;
 
+/**
+ * 文章模型
+ */
 class Article extends Model
 {
     /** @use HasFactory<\Database\Factories\ArticleFactory> */
@@ -23,6 +26,7 @@ class Article extends Model
         'published_at'
     ];
 
+    // 数据类型转换
     protected function casts(): array
     {
         return [
@@ -48,6 +52,7 @@ class Article extends Model
         });
 
         static::updating(function (Article $article) {
+            // 更新时处理封面
             if ($article->isDirty('cover')) {
                 $oldCover = $article->getOriginal('cover');
                 if ($oldCover) {
@@ -55,7 +60,13 @@ class Article extends Model
                 }
             }
         });
-    }
 
+        static::deleting(function (Article $article) {
+            // 删除时处理封面
+            if ($article->cover) {
+                Storage::disk('public')->delete($article->cover);
+            }
+        });
+    }
 
 }
