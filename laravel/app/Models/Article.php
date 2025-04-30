@@ -4,11 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\ArticleCategory;
 
 /**
  * 文章模型
+ *
+ * @property-read ArticleCategory|null $category
+ * @property-read string|null $cover_url
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Article active()
+ * @method static \Database\Factories\ArticleFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Article newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Article newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Article query()
+ * @mixin \Eloquent
  */
 class Article extends Model
 {
@@ -67,6 +79,38 @@ class Article extends Model
                 Storage::disk('public')->delete($article->cover);
             }
         });
+    }
+
+    /**
+     * 获取文章作者
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * 获取文章分类
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(ArticleCategory::class);
+    }
+
+    /**
+     * 获取未被禁用的文章
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
+     * 获取封面图片公共地址
+     */
+    public function getCoverUrlAttribute(): ?string
+    {
+        return $this->cover ? Storage::disk('public')->url($this->cover) : null;
     }
 
 }
