@@ -86,7 +86,7 @@ class Article extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**
@@ -94,7 +94,23 @@ class Article extends Model
      */
     public function category(): BelongsTo
     {
-        return $this->belongsTo(ArticleCategory::class);
+        return $this->belongsTo(ArticleCategory::class, 'category_id');
+    }
+
+    /**
+     * 获取单页文章
+     */
+    public function scopeSinglePage($query)
+    {
+        return $query->where('is_single_page', true);
+    }
+
+    /**
+     * 获取非单页文章
+     */
+    public function scopeRegularPage($query)
+    {
+        return $query->where('is_single_page', false);
     }
 
     /**

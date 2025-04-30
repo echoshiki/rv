@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -23,11 +24,35 @@ class ArticleCategory extends Model
         'description'
     ];
 
-    /**
-     * 获取分类下所有文章
-     */
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(ArticleCategory::class, 'parent_id');
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(ArticleCategory::class, 'parent_id');
+    }
+
     public function articles(): HasMany
     {
-        return $this->hasMany(Article::class);
+        return $this->hasMany(Article::class, 'category_id');
     }
+
+    // 获取所有后代分类
+    public function descendants()
+    {
+        return $this->children()->with('descendants');
+    }
+
+    // 获取所有祖先分类
+    public function ancestors()
+    {
+        return $this->parent()->with('ancestors');
+    }
+
 }

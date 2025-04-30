@@ -20,6 +20,7 @@ class ArticleService
         int $limit = 10
     )
     {
+        // 预加载作者和分类信息
         $query = Article::with(['category', 'user']);
 
         if (!empty($filter['user_id'])) {

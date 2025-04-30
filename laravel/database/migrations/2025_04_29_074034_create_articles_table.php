@@ -17,8 +17,10 @@ return new class extends Migration
             $table->foreignId('category_id')->comment('文章分类ID');
             $table->string('title')->comment('文章标题');
             $table->string('cover')->nullable()->comment('封面图');
+            $table->string('description')->nullable()->comment('描述');
             $table->longText('content')->comment('文章内容');
             $table->integer('sort')->default(0)->comment('排序');
+            $table->boolean('is_single_page')->default(false)->comment('是否单页');
             $table->boolean('is_active')->default(true)->index()->comment('是否启用');
             $table->timestamp('published_at')->nullable()->comment('发布时间');
             $table->timestamps();
