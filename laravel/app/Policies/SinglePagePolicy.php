@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Article;
+use App\Models\SinglePage;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ArticlePolicy
+class SinglePagePolicy
 {
     use HandlesAuthorization;
 
@@ -15,15 +15,15 @@ class ArticlePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_article');
+        return $user->can('view_any_single::page');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Article $article): bool
+    public function view(User $user, SinglePage $singlePage): bool
     {
-        return $user->can('view_article');
+        return $user->can('view_single::page');
     }
 
     /**
@@ -31,23 +31,23 @@ class ArticlePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_article');
+        return $user->can('create_single::page');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Article $article): bool
+    public function update(User $user, SinglePage $singlePage): bool
     {
-        return $user->can('update_article');
+        return $user->can('update_single::page');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Article $article): bool
+    public function delete(User $user, SinglePage $singlePage): bool
     {
-        return $user->can('delete_article');
+        return $user->can('delete_single::page');
     }
 
     /**
@@ -55,15 +55,15 @@ class ArticlePolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_article');
+        return $user->can('delete_any_single::page');
     }
 
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Article $article): bool
+    public function forceDelete(User $user, SinglePage $singlePage): bool
     {
-        return $user->can('force_delete_article');
+        return $user->can('force_delete_single::page');
     }
 
     /**
@@ -71,15 +71,15 @@ class ArticlePolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_article');
+        return $user->can('force_delete_any_single::page');
     }
 
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Article $article): bool
+    public function restore(User $user, SinglePage $singlePage): bool
     {
-        return $user->can('restore_article');
+        return $user->can('restore_single::page');
     }
 
     /**
@@ -87,15 +87,15 @@ class ArticlePolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_article');
+        return $user->can('restore_any_single::page');
     }
 
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Article $article): bool
+    public function replicate(User $user, SinglePage $singlePage): bool
     {
-        return $user->can('replicate_article');
+        return $user->can('replicate_single::page');
     }
 
     /**
@@ -103,6 +103,6 @@ class ArticlePolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_article');
+        return $user->can('reorder_single::page');
     }
 }

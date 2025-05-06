@@ -80,6 +80,10 @@ class Article extends Model
                 Storage::disk('public')->delete($article->cover);
             }
         });
+
+        static::addGlobalScope('isSinglePage', function ($query) {
+            $query->where('is_single_page', false);
+        });
     }
 
     /**

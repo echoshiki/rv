@@ -18,18 +18,13 @@ class ArticleResource extends Resource
 {
     protected static ?string $model = Article::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
 
     protected static ?string $navigationGroup = '内容管理';
 
     protected static ?string $navigationLabel = '文章管理';
 
     protected static ?string $label = '文章列表';
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()->whereNot('is_single_page', true);
-    }
 
     public static function form(Form $form): Form
     {
@@ -105,7 +100,7 @@ class ArticleResource extends Resource
                     ->placeholder('无分类'),
                 Tables\Columns\TextColumn::make('title')
                     ->label('标题')
-                    ->limit(80)
+                    ->limit(60)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('published_at')
                     ->label('发布时间')

@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\SinglePageResource\Pages;
 use App\Filament\Resources\SinglePageResource\RelationManagers;
-use App\Models\Article;
+use App\Models\SinglePage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,20 +15,15 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SinglePageResource extends Resource
 {
-    protected static ?string $model = Article::class;
+    protected static ?string $model = SinglePage::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document';
 
     protected static ?string $navigationGroup = '内容管理';
 
     protected static ?string $navigationLabel = '单页管理';
 
     protected static ?string $label = '单页列表';
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()->where('is_single_page', true);
-    }
 
     public static function form(Form $form): Form
     {
@@ -67,6 +62,14 @@ class SinglePageResource extends Resource
                         ->nullable()
                         ->columnSpanFull()
                         ->maxLength(255),
+                    Forms\Components\TextInput::make('code')
+                        ->label('业务代码')
+                        ->required()
+                        ->nullable()
+                        ->placeholder('选填')
+                        ->disabled(function (SinglePage $record): bool {
+                            return $record && in_array($record->code, SinglePage::getProtectedCode() ?? []);
+                        }),
                     Forms\Components\TextInput::make('sort')
                         ->label('排序值')
                         ->required()
@@ -92,6 +95,8 @@ class SinglePageResource extends Resource
             Tables\Columns\TextColumn::make('id')
                 ->label('ID')
                 ->sortable(),
+            Tables\Columns\TextColumn::make('code')
+                ->label('分类标识'),
             Tables\Columns\TextColumn::make('title')
                 ->label('单页标题')
                 ->limit(80)
