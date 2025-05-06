@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Support\Enums\FontFamily;
 
 class ArticleResource extends Resource
 {
@@ -99,9 +100,11 @@ class ArticleResource extends Resource
                     ->placeholder('无分类'),
                 Tables\Columns\TextColumn::make('title')
                     ->label('标题')
+                    ->limit(80)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('published_at')
                     ->label('发布时间')
+                    ->fontFamily(FontFamily::Mono)
                     ->date('Y-m-d')
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_active')

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Database\Seeders\ArticleCategorySeeder;
 
 /**
  * 文章分类模型
@@ -20,7 +21,9 @@ class ArticleCategory extends Model
     use HasFactory;
 
     protected $fillable = [
+        'parent_id',
         'title',
+        'code',
         'description'
     ];
 
@@ -53,6 +56,12 @@ class ArticleCategory extends Model
     public function ancestors()
     {
         return $this->parent()->with('ancestors');
+    }
+
+    // 获取所有受保护的分类标识
+    public static function getProtectedCode(): array
+    {
+        return array_column(ArticleCategorySeeder::CATEGORY_CODE_GROUP, 'code');
     }
 
 }

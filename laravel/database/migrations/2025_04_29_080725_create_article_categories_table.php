@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('parent_id')->nullable()->comment('父级ID');
             $table->string('title')->comment('分类名称');
+            $table->string('code')->nullable()->unique()->comment('分类业务代码标识');
             $table->text('description')->nullable()->comment('分类描述');
             $table->boolean('is_active')->default(true)->index()->comment('是否启用');
             $table->timestamps();

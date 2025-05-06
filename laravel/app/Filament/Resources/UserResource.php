@@ -98,7 +98,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
                     ->label('创建时间')
-                    ->dateTime(),
+                    ->date('Y-m-d'),
             ])
             ->filters([
                 //

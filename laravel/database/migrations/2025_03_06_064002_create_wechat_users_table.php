@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('openid')->unique();
             $table->string('unionid')->unique()->nullable();
-            $table->string('session_key')->nullable();
+            $table->text('session_key')->nullable();
             
             // 微信特有属性
             $table->json('raw_data')->nullable()->comment('原始微信数据');
