@@ -26,6 +26,11 @@ class ArticleResource extends Resource
 
     protected static ?string $label = '文章列表';
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->whereNot('is_single_page', true);
+    }
+
     public static function form(Form $form): Form
     {
         return $form

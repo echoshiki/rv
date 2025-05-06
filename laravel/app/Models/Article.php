@@ -35,6 +35,7 @@ class Article extends Model
         'content',
         'sort', 
         'is_active',
+        'code',
         'published_at'
     ];
 
