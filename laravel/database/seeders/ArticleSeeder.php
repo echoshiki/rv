@@ -72,7 +72,9 @@ class ArticleSeeder extends Seeder
 
         $this->command->info('开始填充常规文章...');
 
-        Article::factory()->count(30)->create();
+        Article::factory()->singlePage()->count(30)->create();
+
+        Article::factory()->regularArticles()->count(30)->create();
 
         $this->command->info('常规文章填充完毕');
 

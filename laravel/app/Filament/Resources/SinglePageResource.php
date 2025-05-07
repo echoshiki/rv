@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\SinglePageResource\Pages;
 use App\Filament\Resources\SinglePageResource\RelationManagers;
 use App\Models\SinglePage;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -67,7 +68,7 @@ class SinglePageResource extends Resource
                         ->required()
                         ->nullable()
                         ->placeholder('选填')
-                        ->disabled(function (SinglePage $record): bool {
+                        ->disabled(function (?SinglePage $record): bool {
                             return $record && in_array($record->code, SinglePage::getProtectedCode() ?? []);
                         }),
                     Forms\Components\TextInput::make('sort')
@@ -140,5 +141,19 @@ class SinglePageResource extends Resource
             'create' => Pages\CreateSinglePage::route('/create'),
             'edit' => Pages\EditSinglePage::route('/{record}/edit'),
         ];
+    }
+
+    // UI 层面保护核心单页不被删除
+    public static function canDelete($record): bool
+    {
+        if ($record->is_single_page && $record->code && in_array($record->code, SinglePage::getProtectedCode())) {
+            return false;
+        }
+        return true;
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return false;
     }
 }

@@ -80,21 +80,26 @@ class ArticleCategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->label('ID')->sortable(),
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->width(100)
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('parent.title')
                     ->label('父级分类')
+                    ->width(200)
                     ->placeholder('顶级分类')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('分类名称')
+                    ->width(200)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('code')
                     ->label('分类标识')
+                    ->width(200)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('articles_count')
                     ->label('文章数量')
-                    ->counts('articles')
-                    ->sortable(),
+                    ->counts('articles'),
             ])
             ->actions([
                 Tables\Actions\Action::make('view_articles')
@@ -130,5 +135,19 @@ class ArticleCategoryResource extends Resource
             'create' => Pages\CreateArticleCategory::route('/create'),
             'edit' => Pages\EditArticleCategory::route('/{record}/edit'),
         ];
+    }
+
+    // UI 层面保护核心分类不被删除
+    public static function canDelete($record): bool
+    {
+        if ($record->is_single_page && $record->code && in_array($record->code, ArticleCategory::getProtectedCode())) {
+            return false;
+        }
+        return true;
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return false;
     }
 }

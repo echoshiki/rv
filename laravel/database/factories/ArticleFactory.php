@@ -42,7 +42,7 @@ class ArticleFactory extends Factory
         return $this->state(fn(array $attributes) => [
             'is_single_page' => true,
             'category_id' => null, // 单页通常没有分类
-            'published_at' => fake()->dateTimeBetween('-1 year', $attributes['created_at'] ?? 'now'),
+            'published_at' => fake()->dateTimeBetween('-1 year', 'now'),
         ]);
     }
 
