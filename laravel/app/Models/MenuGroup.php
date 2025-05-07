@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-
+use Database\Seeders\MenuGroupSeeder;
 
 class MenuGroup extends Model
 {
@@ -14,7 +14,7 @@ class MenuGroup extends Model
     protected $fillable = [
         'name',
         'description',
-        'slug',
+        'code',
         'layout',
         'is_active',
         'sort',
@@ -39,6 +39,14 @@ class MenuGroup extends Model
     public function activeMenuItems(): HasMany
     {
         return $this->menuItems()->where('is_active', true);
+    }
+
+    /**
+     * 获取所有受保护的菜单标识
+     */
+    public static function getProtectedCode(): array
+    {
+        return array_column(MenuGroupSeeder::MENU_CODE_GROUP, 'code');
     }
 
 }

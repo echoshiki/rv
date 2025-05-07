@@ -3,17 +3,16 @@
 namespace App\Services;
 
 use App\Models\MenuGroup;
-use App\Models\MenuItem;
 use Illuminate\Support\Collection;
 
 class MenuService
 {
     /**
-     * 获取指定slug的菜单组及其项目
+     * 获取指定 code 的菜单组及其项目
      */
-    public function getMenuGroupBySlug(string $slug, bool $onlyActive = true): ?array
+    public function getMenuGroupByCode(string $code, bool $onlyActive = true): ?array
     {
-        $query = MenuGroup::where('slug', $slug);
+        $query = MenuGroup::where('code', $code);
         
         if ($onlyActive) {
             $query->where('is_active', true);
@@ -31,7 +30,7 @@ class MenuService
             $itemsQuery->where('is_active', true);
         }
         
-        $items = $itemsQuery->orderBy('sort_order')->get();
+        $items = $itemsQuery->orderBy('sort')->get();
         
         return [
             'menuGroup' => $menuGroup->toArray(),
@@ -45,9 +44,9 @@ class MenuService
     public function getAllActiveMenuGroups(): Collection
     {
         return MenuGroup::where('is_active', true)
-            ->orderBy('sort_order')
+            ->orderBy('sort')
             ->with(['menuItems' => function ($query) {
-                $query->where('is_active', true)->orderBy('sort_order');
+                $query->where('is_active', true)->orderBy('sort');
             }])
             ->get();
     }

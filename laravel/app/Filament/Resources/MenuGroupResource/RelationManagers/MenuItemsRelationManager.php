@@ -47,12 +47,12 @@ class MenuItemsRelationManager extends RelationManager
                 Forms\Components\FileUpload::make('icon')
                     ->label('图标')
                     ->image()
-                    ->directory('menu-icons'),
+                    ->directory('menu/icons'),
                 
                 Forms\Components\FileUpload::make('cover')
                     ->label('封面')
                     ->image()
-                    ->directory('menu-covers'),
+                    ->directory('menu/covers'),
                 
                 Forms\Components\Toggle::make('requires_auth')
                     ->label('需要登录')
@@ -94,7 +94,7 @@ class MenuItemsRelationManager extends RelationManager
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('状态'),
                 
-                Tables\Columns\TextColumn::make('sort_order')
+                Tables\Columns\TextColumn::make('sort')
                     ->label('排序'),
             ])
             ->filters([

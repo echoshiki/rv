@@ -57,8 +57,7 @@ class ArticleCategoryResource extends Resource
                             ->columnSpanFull()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('code')
-                            ->label('业务代码')
-                            ->helperText('请勿随意修改')
+                            ->label('标识')
                             ->placeholder('选填')
                             ->unique(ArticleCategory::class, 'code', ignoreRecord: true)
                             ->columnSpanFull()

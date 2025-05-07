@@ -24,16 +24,16 @@ class ArticleFactory extends Factory
         $categoryId = ArticleCategory::inRandomOrder()->first()?->id;
 
         return [
-            'user_id' => rand(1, 2), // 关联一个用户
-            'category_id' => $categoryId, // 关联一个分类 (可能为 null)
+            'user_id' => rand(1, 2),
+            'category_id' => $categoryId,
             'title' => $title,
-            'content' => fake()->paragraphs(rand(5, 15), true), // 生成 5 到 15 段假文本内容
-            'description' => fake()->paragraph(rand(2, 3)), // 生成 2 到 5 句的摘要
+            'content' => fake()->paragraphs(rand(5, 15), true),
+            'description' => fake()->paragraph(rand(1, 2)),
             'cover' => 'covers/cover.jpg', 
-            'is_single_page' => fake()->boolean(10), // 10% 的概率为 true (是单页)
+            'is_single_page' => fake()->boolean(10),
             'published_at' => fake()->dateTimeBetween('-2 years', 'now'), 
-            'created_at' => fake()->dateTimeBetween('-2 years', 'now'), // 创建时间在过去两年内
-            'updated_at' => fake()->dateTimeBetween('-1 years', 'now'), // 更新时间在过去一年内
+            'created_at' => fake()->dateTimeBetween('-2 years', 'now'),
+            'updated_at' => fake()->dateTimeBetween('-1 years', 'now'),
         ];
     }
 

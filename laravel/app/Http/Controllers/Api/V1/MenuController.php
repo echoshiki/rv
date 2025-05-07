@@ -17,11 +17,11 @@ class MenuController extends Controller
     }
     
     /**
-     * 获取指定slug的菜单组
+     * 获取指定code的菜单组
      */
-    public function getMenuGroup(Request $request, string $slug): JsonResponse
+    public function getMenuGroup(Request $request, string $code): JsonResponse
     {
-        $menuGroup = $this->menuService->getMenuGroupBySlug($slug);
+        $menuGroup = $this->menuService->getMenuGroupByCode($code);
         
         if (!$menuGroup) {
             return response()->json([

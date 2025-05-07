@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('menu_groups', function (Blueprint $table) {
             $table->id();
             $table->string('name')->comment('菜单组名称');
-            $table->string('slug')->unique()->comment('菜单组标识符');
+            $table->string('code')->unique()->comment('菜单组标识符');
             $table->string('description')->nullable()->comment('描述');
             $table->enum('layout', ['grid', 'horizontal', 'vertical'])->default('grid')->comment('布局类型');
             $table->boolean('is_active')->default(true)->comment('是否激活');

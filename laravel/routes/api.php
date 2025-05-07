@@ -27,7 +27,7 @@ use App\Http\Controllers\api\V1\MenuController;
         // 菜单相关API
         Route::prefix('menus')->group(function () {
             Route::get('/groups', [MenuController::class, 'getAllMenuGroups']);
-            Route::get('/group/{slug}', [MenuController::class, 'getMenuGroup']);
+            Route::get('/group/{code}', [MenuController::class, 'getMenuGroup']);
         });
 
     });

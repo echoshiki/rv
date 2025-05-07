@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
                 UserSeeder::class,
                 ArticleCategorySeeder::class,
                 ArticleSeeder::class, 
+                MenuGroupSeeder::class, 
             ]);
         }
     }

@@ -64,7 +64,7 @@ class SinglePageResource extends Resource
                         ->columnSpanFull()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('code')
-                        ->label('业务代码')
+                        ->label('标识')
                         ->required()
                         ->nullable()
                         ->placeholder('选填')

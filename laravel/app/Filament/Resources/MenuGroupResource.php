@@ -36,10 +36,14 @@ class MenuGroupResource extends Resource
                             ->label('名称')
                             ->required(),
                         
-                        Forms\Components\TextInput::make('slug')
+                        Forms\Components\TextInput::make('code')
                             ->label('标识')
-                            ->required()
-                            ->unique(ignoreRecord: true),                
+                            ->placeholder('选填')
+                            ->unique(ignoreRecord: true)
+                            ->disabled(function (?MenuGroup $record): bool {
+                                // 无法修改受保护的菜单标识
+                                return $record && in_array($record->code, MenuGroup::getProtectedCode() ?? []);
+                            }),                
                         
                         Forms\Components\Select::make('layout')
                             ->label('布局类型')
@@ -80,7 +84,7 @@ class MenuGroupResource extends Resource
                     ->label('名称')
                     ->searchable(),
                 
-                Tables\Columns\TextColumn::make('slug')
+                Tables\Columns\TextColumn::make('code')
                     ->label('标识'),
                 
                 Tables\Columns\TextColumn::make('layout')
@@ -122,7 +126,7 @@ class MenuGroupResource extends Resource
     public static function getRelations(): array
     {
         return [
-            // 关联器
+            // 子菜单关联器，编辑页下方出现列表
             RelationManagers\MenuItemsRelationManager::class,
         ];
     }
