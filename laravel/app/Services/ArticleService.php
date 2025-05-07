@@ -37,6 +37,13 @@ class ArticleService
             $query->where('category_id', $filter['category_id']);
         }
 
+        // 通过分类标识获取列表
+        if (!empty($filter['category_code'])) {
+            $query->whereHas('category', function ($q) use ($filter) {
+                $q->where('code', $filter['category_code']);
+            });
+        }
+
         if (!empty($filter['search'])) {
             // 标题模糊搜索
             $searchText = $filter['search'];
@@ -63,60 +70,8 @@ class ArticleService
         return $this->getArticleList(['category_id' => $categoryId], 'created_at', 'desc', $page, $limit);
     }
 
-    // 创建文章
-    public function createArticle(array $data): ?Article
+    public function getArticleListByCategoryCode(string $categoryCode, int $page = 1, int $limit = 10)
     {
-        try {
-            // 开启事务
-            return DB::transaction(function () use ($data) {
-                // 创建文章主体
-                $article = Article::create($data);
-                return $article;
-            });
-        } catch (Throwable $e) {
-            Log::error('创建文章时发生数据库错误:', [ /* ... */ ]);
-            if (!empty($data['cover'])) {
-                // 尝试删除可能已上传的文件
-                Storage::disk('public')->delete($data['cover']);
-            }
-            return null;
-        }
-    }
-
-    // 更新文章
-    public function updateArticle(Article $article, array $data): ?Article
-    {
-        // 不允许修改作者
-        unset($data['user_id']);
-
-        try {
-            // 开启事务
-            return DB::transaction(function () use ($article, $data) {
-                // 更新文章主体
-                $article->update($data);
-                return $article;
-            });
-        } catch (Throwable $e) {
-            Log::error('更新文章时发生数据库错误:', [ /* ... */ ]);
-            if (!empty($data['cover'])) {
-                // 尝试删除可能已上传的文件
-                Storage::disk('public')->delete($data['cover']);
-            }
-            return null;
-        }
-    }
-
-    // 删除文章
-    public function deleteArticle(Article $article): bool
-    {
-        try {
-            return DB::transaction(function () use ($article) {
-                $deleted = $article->delete();
-                return $deleted;
-            });
-        } catch (Throwable $e) {
-            Log::error("删除文章 [ID:{$article->id}] 时发生错误:", [ /* ... */ ]);
-            return false;
-        }
+        return $this->getArticleList(['category_code' => $categoryCode], 'published_at', 'desc', $page, $limit);
     }
 }
