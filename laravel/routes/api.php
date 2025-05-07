@@ -2,9 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Resources\UserResource;
+use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\api\V1\BannerController;
+use App\Http\Controllers\api\V1\MenuController;
 
     // v1
     Route::prefix('v1')->group(function () {
@@ -22,6 +23,12 @@ use App\Http\Controllers\api\V1\BannerController;
         })->middleware('auth:sanctum');
 
         Route::get('/banners/{channel}', [BannerController::class, 'index'])->name('api.v1.banners');
+
+        // 菜单相关API
+        Route::prefix('menus')->group(function () {
+            Route::get('/groups', [MenuController::class, 'getAllMenuGroups']);
+            Route::get('/group/{slug}', [MenuController::class, 'getMenuGroup']);
+        });
 
     });
 
