@@ -52,10 +52,9 @@ class ArticleService
         }
 
         $query->orderBy($orderBy, $sort);
-        $query->paginate($limit, ['*'], 'page', $page);
 
         // 确保翻页时带上了除页码之外所有的参数
-        return $query->withQueryString();
+        return $query->paginate($limit, ['*'], 'page', $page)->withQueryString();
     }
 
     // 通过作者获取文章列表
@@ -70,6 +69,7 @@ class ArticleService
         return $this->getArticleList(['category_id' => $categoryId], 'created_at', 'desc', $page, $limit);
     }
 
+    // 通过分类标识获取文章列表
     public function getArticleListByCategoryCode(string $categoryCode, int $page = 1, int $limit = 10)
     {
         return $this->getArticleList(['category_code' => $categoryCode], 'published_at', 'desc', $page, $limit);

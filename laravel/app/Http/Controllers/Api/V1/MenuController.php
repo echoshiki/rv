@@ -24,22 +24,18 @@ class MenuController extends Controller
         $menuGroup = $this->menuService->getMenuGroupByCode($code);
         
         if (!$menuGroup) {
-            return response()->json([
-                'success' => false,
-                'message' => '未找到该菜单组',
-            ], 404);
+            return $this->errorResponse('未找到菜单组', 404);
         }
         
         $menuItems = collect($menuGroup['menuItems']);
         $menuItems = $this->menuService->formatMenuItems($menuItems);
-        
-        return response()->json([
-            'success' => true,
-            'data' => [
-                'menuGroup' => $menuGroup['menuGroup'],
-                'menuItems' => $menuItems,
-            ],
-        ]);
+
+        $data = [
+            'menuGroup' => $menuGroup['menuGroup'],
+            'menuItems' => $menuItems,
+        ];
+
+        return $this->successResponse($data);
     }
     
     /**
@@ -47,21 +43,22 @@ class MenuController extends Controller
      */
     public function getAllMenuGroups(Request $request): JsonResponse
     {
+        try {
+            $menuGroups = $this->menuService->getAllActiveMenuGroups();
 
-        $menuGroups = $this->menuService->getAllActiveMenuGroups();
-        
-        $result = $menuGroups->map(function ($group) {
-            $items = $this->menuService->formatMenuItems(collect($group->menuItems));     
+            $result = $menuGroups->map(function ($group) {
+                $items = $this->menuService->formatMenuItems(collect($group->menuItems));     
 
-            $groupData = $group->toArray();
-            $groupData['menuItems'] = $items;
-            
-            return $groupData;
-        });
-        
-        return response()->json([
-            'success' => true,
-            'data' => $result,
-        ]);
+                $groupData = $group->toArray();
+                $groupData['menuItems'] = $items;
+                
+                return $groupData;
+            });
+
+            return $this->successResponse($result);
+
+        } catch (\Throwable $e) {
+            return $this->errorResponse('菜单数据获取失败：' . $e->getMessage(), 500);
+        }
     }
 }

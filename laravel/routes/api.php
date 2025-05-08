@@ -6,6 +6,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\api\V1\BannerController;
 use App\Http\Controllers\api\V1\MenuController;
+use App\Http\Controllers\api\V1\ArticleController;
 
     // v1
     Route::prefix('v1')->group(function () {
@@ -29,6 +30,10 @@ use App\Http\Controllers\api\V1\MenuController;
             Route::get('/groups', [MenuController::class, 'getAllMenuGroups']);
             Route::get('/group/{code}', [MenuController::class, 'getMenuGroup']);
         });
+
+        Route::get('/articles', [ArticleController::class, 'index']);
+        // Route::get('/articles/{article}', [ArticleController::class, 'show']);
+
 
     });
 

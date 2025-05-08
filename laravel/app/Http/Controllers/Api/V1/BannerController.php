@@ -31,9 +31,13 @@ class BannerController extends Controller
      */
     public function index(string $channel): JsonResponse
     {
-        // 调用服务层方法获取数据
-        $banners = $this->bannerService->getActiveBannersByChannel($channel);
-        // 服务层已经处理了错误和空数据情况，直接返回即可
-        return response()->json($banners);
+        try {
+            // 调用服务层方法获取数据
+            $banners = $this->bannerService->getActiveBannersByChannel($channel);
+            // 服务层已经处理了错误和空数据情况，直接返回即可
+            return $this->successResponse($banners);
+        } catch (\Throwable $e) {
+            return $this->errorResponse('轮播图列表获取失败：' . $e->getMessage(), 500);
+        }
     }
 }

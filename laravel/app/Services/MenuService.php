@@ -10,7 +10,7 @@ class MenuService
     /**
      * 获取指定 code 的菜单组及其项目
      */
-    public function getMenuGroupByCode(string $code, bool $onlyActive = true): ?array
+    public function getMenuGroupByCode(string $code, bool $onlyActive = true): ?MenuGroup
     {
         $query = MenuGroup::where('code', $code);
         
@@ -18,24 +18,14 @@ class MenuService
             $query->where('is_active', true);
         }
         
-        $menuGroup = $query->first();
-        
-        if (!$menuGroup) {
-            return null;
-        }
-        
-        $itemsQuery = $menuGroup->menuItems();
-        
-        if ($onlyActive) {
-            $itemsQuery->where('is_active', true);
-        }
-        
-        $items = $itemsQuery->orderBy('sort')->get();
-        
-        return [
-            'menuGroup' => $menuGroup->toArray(),
-            'menuItems' => $items->toArray(),
-        ];
+        $query->with(['menuItems' => function ($query) use ($onlyActive) {
+            if ($onlyActive) {
+                $query->where('is_active', true);
+            }
+            $query->orderBy('sort');
+        }]);
+
+        return $query->first();
     }
     
     /**
@@ -59,6 +49,7 @@ class MenuService
         return $menuItems->map(function ($item) {
             // 处理图标URL
             if ($item->icon) {
+                // 数据里增加图标真实路径参数
                 $item->icon_url = asset('storage/' . $item->icon);
             }
             

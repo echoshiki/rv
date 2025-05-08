@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Http\Controllers\Api\V1;
+
+use App\Http\Controllers\Controller;
+use App\Services\ArticleService;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Http\Resources\ArticleResource;
+use App\Http\Resources\ArticleResourceCollection;
+
+class ArticleController extends Controller
+{
+    protected $articleService;
+
+    /**
+     * 注入文章服务
+     */
+    public function __construct(ArticleService $articleService)
+    {
+        $this->articleService = $articleService;
+    }
+    
+    /**
+     * 获取文章列表
+     */
+    public function index(Request $request)
+    {
+        try {
+            // 获取请求中的特定键值组成条件数组
+            $filter = $request->only([
+                'user_id',
+                'is_active',
+                'category_id',
+                'category_code',
+                'search'
+            ]);
+
+            // 获取排序字段
+            $orderBy = $request->get('orderBy', 'created_at');
+            // 获取排序方式
+            $sort = $request->get('sort', 'desc');
+            // 获取当前页码
+            $page = $request->get('page', 1);
+            // 获取每页数据量
+            $limit = $request->get('limit', 10);
+
+            $articles = $this->articleService->getArticleList($filter, $orderBy, $sort, $page, $limit);
+
+            // 使用 ArticleResourceCollection 包装分页结果
+            return $this->successResponse(new ArticleResourceCollection($articles));
+
+        } catch (\Throwable $e) {
+            return $this->errorResponse('文章列表获取失败：' . $e->getMessage(), 500);
+        }
+    }
+}
