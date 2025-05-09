@@ -42,22 +42,6 @@ class MenuService
     }
     
     /**
-     * 格式化菜单项，处理图标URL等
-     */
-    public function formatMenuItems(Collection $menuItems): Collection
-    {
-        return $menuItems->map(function ($item) {
-            // 处理图标URL
-            if ($item->icon) {
-                // 数据里增加图标真实路径参数
-                $item->icon_url = asset('storage/' . $item->icon);
-            }
-            
-            return $item;
-        });
-    }
-    
-    /**
      * 根据用户认证状态过滤菜单项
      */
     public function filterMenuItemsByAuth(Collection $menuItems, bool $isAuthenticated): Collection

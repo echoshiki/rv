@@ -4,13 +4,13 @@ import { useBanner } from '@/hooks/useBanner';
 
 const Index = () => {
 
-	const { banners, loading, error } = useBanner('home');
+	// const { banners } = useBanner('home');
 
-	return (
-		<View>
-			<CustomSwiper imageList={banners} />
-		</View>
-	)
+	// return (
+	// 	<View>
+	// 		<CustomSwiper imageList={banners} />
+	// 	</View>
+	// )
 }
 
 export default Index;

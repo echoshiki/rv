@@ -1,9 +1,10 @@
 import { View, Text, Image } from "@tarojs/components";
 import { mapsTo } from "@/utils/common";
-import { menuItemProps, menuListProps } from '@/types/menu';
+import { MenuItem, MenuList } from '@/types/ui';
 import RightArrowIcon from '@/assets/icons/right-arrow.svg'
 
-const handleItemClick = (item: menuItemProps) => {
+// 处理菜单项的点击
+const handleItemClick = (item: MenuItem) => {
     if (item.onClick) {
         item.onClick(item);
         return;
@@ -15,7 +16,7 @@ const handleItemClick = (item: menuItemProps) => {
  * 用户中心竖向菜单
  * @param menuList 菜单数据
  */
-const MenuColumn = ({ menuList }: menuListProps) => {
+const MenuColumn = ({ menuList }: MenuList) => {
     return (
         <View className="px-5 mt-4">
             <View className="bg-white rounded-xl">
@@ -41,7 +42,7 @@ const MenuColumn = ({ menuList }: menuListProps) => {
  * 横向带图标的菜单
  * @param menuList 菜单数据
  */
-const MenuRow = ({ menuList }: menuListProps) => {
+const MenuRow = ({ menuList }: MenuList) => {
     return (
         <View className="px-5 mt-4">
             <View className="w-full py-5 rounded-xl bg-white grid grid-cols-4 gap-y-2">
@@ -64,7 +65,7 @@ const MenuRow = ({ menuList }: menuListProps) => {
  * 频道页竖向菜单
  * @param menuList 菜单数据
  */
-const MenuPage = ({ menuList }: menuListProps) => {
+const MenuPage = ({ menuList }: MenuList) => {
     return (
         <View className="flex flex-col space-y-3">
             {menuList.map((item, index) => (

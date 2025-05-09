@@ -1,20 +1,20 @@
 import { View, Text, Image } from "@tarojs/components";
 import BottomCopyright from "@/components/Copyright";
 import { MenuColumn, MenuRow } from "@/components/Menu";
-import { userCenterColumnMenu, userCenterRowMenu } from '@/config/menu.config';
 import useAuthStore from "@/stores/auth";
+import { UserInfo } from "@/types/ui";
+import { useMenu } from "@/hooks/useMenu";
+import { transformApiMenuItem } from "@/utils/apiTransformers";
 import { checkLoginBeforeNavigate } from "@/utils/auth";
-import UserInfoProps from "@/types/user";
 import avatarRightImg from '@/assets/images/avatar-right-img.png';
 import bottomImg from '@/assets/images/center-bottom-img.svg';
-import { useMenuGroup } from "@/hooks/userMenuGroup";
 
 /**
  * 包含昵称、头像以及右边图片的用户信息块
  * @param userInfo 用户信息
  */
-const UserInfo = ({ userInfo }: {
-    userInfo: UserInfoProps | null
+const UserInfoArea = ({ userInfo }: {
+    userInfo: UserInfo | null
 }) => {
     return (
         <View className="max-w-screen-md mx-auto rounded-xl shadow-sm flex flex-nowrap p-4 justify-between items-center bg-white">
@@ -56,15 +56,21 @@ const UserInfo = ({ userInfo }: {
  */
 const UserCenter = () => {
     const { userInfo } = useAuthStore();
-    const { menuGroup } = useMenuGroup('user_row_menu');
-    console.log('菜单组', menuGroup);
+
+    // 原始菜单数据
+    const { rawMenuItems: userRowMenu } = useMenu('user_row_menu');
+    const { rawMenuItems: userColumnMenu } = useMenu('user_column_menu');
+
+    // 菜单数据转换
+    const userCenterRowMenu = userRowMenu.map(transformApiMenuItem);
+    const userCenterColumnMenu = userColumnMenu.map(transformApiMenuItem);
 
     return (
         <View className="bg-gray-100 min-h-screen pb-10">
             {/* 用户信息块 */}
             <View className="relative block w-full h-32 bg-gray-950 mb-12">
                 <View className="absolute w-[calc(100%-2.5rem)] left-1/2 bottom-[-2rem] -translate-x-1/2">
-                    <UserInfo userInfo={userInfo} />
+                    <UserInfoArea userInfo={userInfo} />
                 </View>
             </View>
 

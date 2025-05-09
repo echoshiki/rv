@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use App\Http\Resources\MenuResource;
 
 class MenuController extends Controller
 {
@@ -28,14 +29,8 @@ class MenuController extends Controller
         }
         
         $menuItems = collect($menuGroup['menuItems']);
-        $menuItems = $this->menuService->formatMenuItems($menuItems);
 
-        $data = [
-            'menuGroup' => $menuGroup['menuGroup'],
-            'menuItems' => $menuItems,
-        ];
-
-        return $this->successResponse($data);
+        return $this->successResponse(MenuResource::collection($menuItems));
     }
     
     /**
@@ -47,7 +42,7 @@ class MenuController extends Controller
             $menuGroups = $this->menuService->getAllActiveMenuGroups();
 
             $result = $menuGroups->map(function ($group) {
-                $items = $this->menuService->formatMenuItems(collect($group->menuItems));     
+                $items = collect($group->menuItems);     
 
                 $groupData = $group->toArray();
                 $groupData['menuItems'] = $items;
