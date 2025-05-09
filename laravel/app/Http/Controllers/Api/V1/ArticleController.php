@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\ArticleService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Http\Resources\ArticleResource;
+use App\Http\Resources\ArticleShowResource;
 use App\Http\Resources\ArticleResourceCollection;
 
 class ArticleController extends Controller
@@ -54,4 +54,31 @@ class ArticleController extends Controller
             return $this->errorResponse('文章列表获取失败：' . $e->getMessage(), 500);
         }
     }
+
+    /**
+     * 获取文章详情
+     */
+    public function show(Request $request, int $id)
+    {
+        try {
+            $article = $this->articleService->getArticleById($id);
+            return $this->successResponse(new ArticleShowResource($article));
+        } catch (\Throwable $e) {
+            return $this->errorResponse('文章详情获取失败：' . $e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * 通过 code 获取单页详情
+     */
+    public function showByCode(Request $request, string $code)
+    {
+        try {
+            $article = $this->articleService->getSinglePageByCode($code);
+            return $this->successResponse(new ArticleShowResource($article));
+        } catch (\Throwable $e) {
+            return $this->errorResponse('单页详情获取失败：' . $e->getMessage(), 500);
+        }
+    }
+    
 }

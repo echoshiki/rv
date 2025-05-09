@@ -3,11 +3,7 @@
 namespace App\Services;
 
 use App\Models\Article;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use Throwable;
+use App\Models\SinglePage;
 
 class ArticleService
 {
@@ -73,5 +69,17 @@ class ArticleService
     public function getArticleListByCategoryCode(string $categoryCode, int $page = 1, int $limit = 10)
     {
         return $this->getArticleList(['category_code' => $categoryCode], 'published_at', 'desc', $page, $limit);
+    }
+
+    // 获取文章详情
+    public function getArticleById(int $id): Article
+    {
+        return Article::with(['category'])->findOrFail($id);
+    }
+
+    // 通过 code 获取单页详情
+    public function getSinglePageByCode(string $code): SinglePage
+    {
+        return SinglePage::with(['category'])->where('code', $code)->firstOrFail();
     }
 }

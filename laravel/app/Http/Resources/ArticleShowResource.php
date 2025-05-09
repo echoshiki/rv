@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ArticleResource extends JsonResource
+class ArticleShowResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,6 +19,7 @@ class ArticleResource extends JsonResource
             'user_id' => $this->user_id, // 作者 ID
             'category_id' => $this->category_id, // 分类 ID
             'title' => $this->title,
+            'content' => $this->content,
             'cover' => asset('storage/' . $this->cover), // 调用了模型中的 Accessor 获取封面 URL
             'sort' => $this->sort,
             'is_active' => (bool) $this->is_active, // 确保返回布尔值

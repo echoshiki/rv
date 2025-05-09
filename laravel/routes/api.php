@@ -7,6 +7,9 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\api\V1\BannerController;
 use App\Http\Controllers\api\V1\MenuController;
 use App\Http\Controllers\api\V1\ArticleController;
+use DragonCode\Contracts\Cashier\Resources\Model;
+
+use App\Models\Article;
 
     // v1
     Route::prefix('v1')->group(function () {
@@ -23,6 +26,7 @@ use App\Http\Controllers\api\V1\ArticleController;
             return new UserResource($request->user());
         })->middleware('auth:sanctum');
 
+        // 轮播图
         Route::get('/banners/{channel}', [BannerController::class, 'index'])->name('api.v1.banners');
 
         // 菜单相关API
@@ -31,10 +35,10 @@ use App\Http\Controllers\api\V1\ArticleController;
             Route::get('/group/{code}', [MenuController::class, 'getMenuGroup']);
         });
 
+        // 文章相关API
         Route::get('/articles', [ArticleController::class, 'index']);
-        // Route::get('/articles/{article}', [ArticleController::class, 'show']);
-
-
+        Route::get('/articles/{id}', [ArticleController::class, 'show']);
+        Route::get('/articles/code/{code}', [ArticleController::class, 'showByCode']);
     });
 
     Route::prefix('v2')->group(function () {
