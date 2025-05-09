@@ -7,6 +7,7 @@ import { checkLoginBeforeNavigate } from "@/utils/auth";
 import UserInfoProps from "@/types/user";
 import avatarRightImg from '@/assets/images/avatar-right-img.png';
 import bottomImg from '@/assets/images/center-bottom-img.svg';
+import { useMenuGroup } from "@/hooks/userMenuGroup";
 
 /**
  * 包含昵称、头像以及右边图片的用户信息块
@@ -55,6 +56,9 @@ const UserInfo = ({ userInfo }: {
  */
 const UserCenter = () => {
     const { userInfo } = useAuthStore();
+    const { menuGroup } = useMenuGroup('user_row_menu');
+    console.log('菜单组', menuGroup);
+
     return (
         <View className="bg-gray-100 min-h-screen pb-10">
             {/* 用户信息块 */}
