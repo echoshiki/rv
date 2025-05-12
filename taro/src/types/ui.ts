@@ -17,8 +17,23 @@ interface MenuList {
     menuList: MenuItem[]
 }
 
+interface ArticleItem {
+    id: string,
+    title: string,
+    date: string,
+    cover?: string
+}
+
+interface ArticleList {
+    title: string,
+    subtitle?: string,
+    list: ArticleItem[]
+}
+
 export {
     MenuItem,
     MenuList,
-    UserInfo
+    UserInfo,
+    ArticleItem,
+    ArticleList
 }
