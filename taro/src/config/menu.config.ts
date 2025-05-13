@@ -1,8 +1,8 @@
 import { checkLoginBeforeNavigate } from '@/utils/auth';
 import useAuthStore from '@/stores/auth';
 import Taro from '@tarojs/taro';
-
 import ServiceIcon from '@/assets/icons/service.svg';
+import DefaultCover from '@/assets/images/cover.jpg';
 
 
 const userCenterRowMenu = [
@@ -124,19 +124,19 @@ const articleList = [
         id: '1',
         title: '卫航房车西藏10天三晚自驾游活动开始报名了',
         date: '2025-01-15',
-        cover: ServiceIcon
+        cover: DefaultCover
     },
     {
         id: '2',
         title: '卫航房车西藏10天三晚自驾游活动开始报名了',
         date: '2025-01-15',
-        cover: ServiceIcon
+        cover: DefaultCover
     },
     {
         id: '3',
         title: '卫航房车西藏10天三晚自驾游活动开始报名了',
         date: '2025-01-15',
-        cover: ServiceIcon
+        cover: DefaultCover
     }
 ]
 

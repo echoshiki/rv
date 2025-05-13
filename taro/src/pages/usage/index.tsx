@@ -1,16 +1,17 @@
-import { View, Text, Button, Image } from '@tarojs/components';
+import { View, Button, Image } from '@tarojs/components';
 import MyCarBg from '@/assets/images/mycar.jpg';
 import { MenuRow } from '@/components/Menu';
 import { ArticleList } from '@/components/ArticleList';
 import { usageRowMenu, articleList } from '@/config/menu.config';
+import { SectionTitle } from '@/components/SectionTitle';
 
 /**
- * 
+ * 用车频道
  * @returns 
  */
 const Usage = () => {
     return (
-        <View className="bg-gray-100 min-h-screen">
+        <View className="bg-gray-100 min-h-screen pb-5">
             {/* 添加爱车 */}
             <View className="w-full relative flex justify-center">
                 <Image
@@ -26,12 +27,13 @@ const Usage = () => {
             {/* 宫格菜单 */}
             <MenuRow menuList={usageRowMenu} />
 
+            <SectionTitle
+                title={`用车常识`}
+                subtitle={`在使用房车时的小知识`}
+            />
+
             {/* 用车常识 */}
-            <ArticleList 
-                title="用车常识"
-                subtitle="一些房车使用时候的日常小知识"
-                list={articleList}
-            /> 
+            <ArticleList list={articleList} /> 
         </View>
     )
 }

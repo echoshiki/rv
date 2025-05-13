@@ -25,9 +25,12 @@ interface ArticleItem {
 }
 
 interface ArticleList {
-    title: string,
-    subtitle?: string,
     list: ArticleItem[]
+}
+
+interface SectionTitle {
+    title: string,
+    subtitle?: string
 }
 
 export {
@@ -35,5 +38,6 @@ export {
     MenuList,
     UserInfo,
     ArticleItem,
-    ArticleList
+    ArticleList,
+    SectionTitle
 }
