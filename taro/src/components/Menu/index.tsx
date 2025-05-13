@@ -45,7 +45,7 @@ const MenuColumn = ({ menuList }: MenuList) => {
 const MenuRow = ({ menuList }: MenuList) => {
     return (
         <View className="px-5 mt-4">
-            <View className="w-full py-5 rounded-xl bg-white grid grid-cols-4 gap-y-2">
+            <View className="w-full py-5 rounded-xl bg-white grid grid-cols-4 gap-y-3">
                 {menuList.map((item, index) => (
                     <View 
                         key={index} 

@@ -97,6 +97,70 @@ class MenuGroupSeeder extends Seeder
                     'requires_auth' => true,
                 ],
             ]
+        ],
+        [
+            'name' => '用车频道主菜单',
+            'code' => 'usage_row_menu',
+            'description' => '用车频道主菜单',
+            'layout' => 'grid',
+            'items' => [
+                [
+                    'title' => '我的房车',
+                    'icon' =>  'menu/icons/origin/usage/car.svg',
+                    'link_type' => 'page',
+                    'link_value' => '/pages/user/mycar/index',
+                    'requires_auth' => true,
+                ],
+                [
+                    'title' => '维保续约',
+                    'icon' =>  'menu/icons/origin/usage/agreement.svg',
+                    'link_type' => 'page',
+                    'link_value' => '/pages/article/index?code=maintain_renewal',
+                    'requires_auth' => true,
+                ],
+                [
+                    'title' => '售后标准',
+                    'icon' =>  'menu/icons/origin/usage/handshake.svg',
+                    'link_type' => 'page',
+                    'link_value' => '/pages/article/index?code=after_sale_standard',
+                    'requires_auth' => false,
+                ],
+                [
+                    'title' => '售后网点',
+                    'icon' =>  'menu/icons/origin/usage/net.svg',
+                    'link_type' => 'page',
+                    'link_value' => '/pages/article/detail/index?code=after_sale_network',
+                    'requires_auth' => false,
+                ],
+                [
+                    'title' => '水路使用',
+                    'icon' =>  'menu/icons/origin/usage/water.svg',
+                    'link_type' => 'page',
+                    'link_value' => '/pages/article/index?code=waterway_use',
+                    'requires_auth' => false,
+                ],
+                [
+                    'title' => '电路使用',
+                    'icon' =>  'menu/icons/origin/usage/electric.svg',
+                    'link_type' => 'page',
+                    'link_value' => '/pages/article/index?code=circuit_use',
+                    'requires_auth' => false,
+                ],
+                [
+                    'title' => '设备使用',
+                    'icon' =>  'menu/icons/origin/usage/equipment.svg',
+                    'link_type' => 'page',
+                    'link_value' => '/pages/article/index?code=equipment_use',
+                    'requires_auth' => false,
+                ],
+                [
+                    'title' => '仪表指示',
+                    'icon' =>  'menu/icons/origin/usage/dashboard.svg',
+                    'link_type' => 'page',
+                    'link_value' => '/pages/article/index?code=meter_indication',
+                    'requires_auth' => false,
+                ],
+            ]
         ]
     ];
 

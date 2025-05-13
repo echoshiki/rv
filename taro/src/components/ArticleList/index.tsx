@@ -7,7 +7,7 @@ const ArticleItem = ({ id, title, date, cover }: ArticleItemProps) => {
     return (
         <View 
             className="flex flex-nowrap items-center space-x-3 py-3 border-b border-gray-300 border-dashed" 
-            onClick={() => mapsTo(`/pages/usage/detail/index?id=${id}`)}
+            onClick={() => mapsTo(`/pages/article/index?id=${id}`)}
         >
             <View className="w-24">
                 <View className="relative block h-0 p-0 overflow-hidden pb-[80%] rounded-xl">

@@ -4,7 +4,7 @@ export default defineAppConfig({
     'pages/user/index',
     'pages/login/index',
     'pages/usage/index',
-    'pages/usage/detail/index',
+    'pages/article/index',
     'pages/sale/index',
     'pages/activity/index'
   ],

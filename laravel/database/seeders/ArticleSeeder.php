@@ -32,6 +32,16 @@ class ArticleSeeder extends Seeder
             'title' => '积分规则',
             'content' => '请在此处填写积分规则内容...',
         ],
+        [
+            'code' => 'after_sales_standard',
+            'title' => '售后标准',
+            'content' => '请在此处填写售后标准内容...',
+        ],
+        [
+            'code' => 'after_sales_network',
+            'title' => '售后网点',
+            'content' => '请在此处填写售后网点内容...',
+        ],
         // ... 其他需要的核心单页
     ];
 
@@ -72,9 +82,7 @@ class ArticleSeeder extends Seeder
 
         $this->command->info('开始填充常规文章...');
 
-        Article::factory()->singlePage()->count(30)->create();
-
-        Article::factory()->regularArticles()->count(30)->create();
+        Article::factory()->regularArticles()->count(50)->create();
 
         $this->command->info('常规文章填充完毕');
 

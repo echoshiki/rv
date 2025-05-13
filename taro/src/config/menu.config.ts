@@ -1,9 +1,16 @@
 import { checkLoginBeforeNavigate } from '@/utils/auth';
 import useAuthStore from '@/stores/auth';
 import Taro from '@tarojs/taro';
+import CarIcon from '@/assets/icons/usage/car.svg';
+import AgreementIcon from '@/assets/icons/usage/agreement.svg';
+import HandshakeIcon from '@/assets/icons/usage/handshake.svg';
+import NetIcon from '@/assets/icons/usage/net.svg';
+import ElectricIcon from '@/assets/icons/usage/electric.svg';
+import WaterIcon from '@/assets/icons/usage/water.svg';
+import EquipmentIcon from '@/assets/icons/usage/equipment.svg';
+import DashboardIcon from '@/assets/icons/usage/dashboard.svg';
 import ServiceIcon from '@/assets/icons/service.svg';
 import DefaultCover from '@/assets/images/cover.jpg';
-
 
 const userCenterRowMenu = [
     {
@@ -77,44 +84,44 @@ const userCenterColumnMenu = [
 const usageRowMenu = [
     {
         title: '我的房车',
-        icon: ServiceIcon,
+        icon: CarIcon,
         link: '/pages/activity/form/index',
         onClick: ({ link }) => checkLoginBeforeNavigate(link)
     },
     {
         title: '维保续约',
-        icon: ServiceIcon,
+        icon: AgreementIcon,
         link: '/pages/point/index'
     },
     {
         title: '售后标准',
-        icon: ServiceIcon,
+        icon: HandshakeIcon,
         link: '/pages/book/index'
     },
     {
         title: '售后网点',
-        icon: ServiceIcon,
+        icon: NetIcon,
         link: '',
     },
     {
-        title: '我的房车',
-        icon: ServiceIcon,
+        title: '水路使用',
+        icon: WaterIcon,
         link: '/pages/activity/form/index',
         onClick: ({ link }) => checkLoginBeforeNavigate(link)
     },
     {
-        title: '维保续约',
-        icon: ServiceIcon,
+        title: '电路使用',
+        icon: ElectricIcon,
         link: '/pages/point/index'
     },
     {
-        title: '售后标准',
-        icon: ServiceIcon,
+        title: '设备使用',
+        icon: EquipmentIcon,
         link: '/pages/book/index'
     },
     {
-        title: '售后网点',
-        icon: ServiceIcon,
+        title: '仪表指示',
+        icon: DashboardIcon,
         link: '',
     }
 ];
