@@ -34,7 +34,19 @@ interface MenuItem {
     requires_auth: boolean
 }
 
+interface ArticleItem {
+    id: string,
+    title: string,
+    cover?: string,
+    published_at: string
+}
+
+interface ArticleList {
+    list: ArticleItem[]
+}
+
 export {
     BannerItem,
-    MenuItem
+    MenuItem,
+    ArticleList
 }

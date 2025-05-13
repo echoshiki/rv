@@ -30,7 +30,8 @@ interface ArticleList {
 
 interface SectionTitle {
     title: string,
-    subtitle?: string
+    subtitle?: string,
+    link?: string,
 }
 
 export {

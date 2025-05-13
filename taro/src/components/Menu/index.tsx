@@ -1,7 +1,7 @@
 import { View, Text, Image } from "@tarojs/components";
 import { mapsTo } from "@/utils/common";
 import { MenuItem, MenuList } from '@/types/ui';
-import RightArrowIcon from '@/assets/icons/right-arrow.svg'
+import RightArrowIcon from '@/assets/icons/right-arrow.svg';
 
 // 处理菜单项的点击
 const handleItemClick = (item: MenuItem) => {
