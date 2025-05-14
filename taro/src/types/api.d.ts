@@ -47,25 +47,33 @@ interface MenuItem {
 interface ArticleItem {
     id: string,
     title: string,
-    cover?: string,
+    cover: string | null,
+    category: ArticleCategory,
     published_at: string
 }
 
 interface ArticleList {
     list: ArticleItem[],
     total: number,
-    limit: number,
-    page: number,
+    per_page: number,
+    current_page: number,
     has_more_pages: boolean
 }
 
-interface ArticleView {
+interface ArticleDetail {
     id: string,
     title: string,
     content: string,
-    cover?: string,
+    cover: string | null,
     published_at: string
-    category: any
+    category: ArticleCategory | null
+}
+
+interface ArticleCategory {
+    id: string,
+    title: string,
+    description: string,
+    code: string
 }
 
 export {
@@ -73,5 +81,5 @@ export {
     BannerItem,
     MenuItem,
     ArticleList,
-    ArticleView
+    ArticleDetail
 }

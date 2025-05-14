@@ -21,7 +21,8 @@ interface ArticleItem {
     id: string,
     title: string,
     date: string,
-    cover?: string
+    cover: string | null,
+    category: ArticleCategory
 }
 
 interface ArticleList {
@@ -32,9 +33,16 @@ interface ArticleDetail {
     id: string,
     title: string,
     content: string,
-    cover?: string,
+    cover: string | null,
     date: string,
-    category: any
+    category: ArticleCategory | null
+}
+
+interface ArticleCategory {
+    id: string,
+    title: string,
+    description: string,
+    code: string
 }
 
 interface SectionTitle {
@@ -50,5 +58,6 @@ export {
     UserInfo,
     ArticleItem,
     ArticleList,
-    ArticleDetail
+    ArticleDetail,
+    ArticleCategory
 }

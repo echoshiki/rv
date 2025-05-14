@@ -1,5 +1,5 @@
 import { http } from "@/utils/request";
-import { ApiResponse, ArticleList, ArticleView } from "@/types/api";
+import { ApiResponse, ArticleList, ArticleDetail } from "@/types/api";
 
 const ARTICLE_API = `/api/v1/articles/`;
 
@@ -51,14 +51,14 @@ const getArticleList = ({
 /**
  * 通过文章 ID 获取文章详情
  */
-const getArticleById = (id: string): Promise<ApiResponse<ArticleView>> => {
+const getArticleById = (id: string): Promise<ApiResponse<ArticleDetail>> => {
     return http.get(`${ARTICLE_API}${id}`);
 };
 
 /**
  * 通过 code 获取单页详情
  */
-const getArticleByCode = (code: string): Promise<ApiResponse<ArticleView>> => {
+const getArticleByCode = (code: string): Promise<ApiResponse<ArticleDetail>> => {
     return http.get(`${ARTICLE_API}code/${code}`);
 };
 
