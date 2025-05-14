@@ -28,6 +28,15 @@ interface ArticleList {
     list: ArticleItem[]
 }
 
+interface ArticleDetail {
+    id: string,
+    title: string,
+    content: string,
+    cover?: string,
+    date: string,
+    category: any
+}
+
 interface SectionTitle {
     title: string,
     subtitle?: string,
@@ -35,10 +44,11 @@ interface SectionTitle {
 }
 
 export {
+    SectionTitle,
     MenuItem,
     MenuList,
     UserInfo,
     ArticleItem,
     ArticleList,
-    SectionTitle
+    ArticleDetail
 }

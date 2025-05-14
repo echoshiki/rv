@@ -109,8 +109,17 @@ class HttpRequest {
     }
 
     // 再次将上面的方法进行快捷方法封装
-    public get<T = any>(url: string, config?: RequestConfig) {
-        return this.request<T>({ ...config, url, method: 'GET' })
+    public get<T = any>(url: string, params?: Record<string, any>, config?: RequestConfig) {
+        let queryUrl = url;
+        // 将参数拼接到 url 上
+        if (params && Object.keys(params).length > 0) {
+            const queryString = Object.entries(params)
+                .filter(([_, value]) => value !== undefined && value !== null)
+                .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
+                .join('&');
+            queryUrl = `${url}${url.includes('?') ? '&' : '?'}${queryString}`;
+        }
+        return this.request<T>({ ...config, url: queryUrl, method: 'GET' });
     }
 
     public post<T = any>(url: string, data?: any, config?: RequestConfig) {

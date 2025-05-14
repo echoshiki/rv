@@ -14,15 +14,16 @@ class ArticleResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $defaultCover = asset('storage/covers/cover.jpg');
         return [
             'id' => $this->id,
             'user_id' => $this->user_id, // 作者 ID
             'category_id' => $this->category_id, // 分类 ID
             'title' => $this->title,
-            'cover' => asset('storage/' . $this->cover), // 调用了模型中的 Accessor 获取封面 URL
+            'cover' => $this->cover ? asset('storage/' . $this->cover) : $defaultCover,
             'sort' => $this->sort,
             'is_active' => (bool) $this->is_active, // 确保返回布尔值
-            'published_at' => $this->published_at ? $this->published_at->toIso8601String() : null,
+            'published_at' => $this->published_at ? $this->published_at->format('Y-m-d') : null,
             // 包含关联关系，使用 whenLoaded 确保关系已被加载时才包含
             // 这样可以避免 N+1 问题，并且只在你需要时才加载关联数据
             'category' => $this->whenLoaded('category', function () {

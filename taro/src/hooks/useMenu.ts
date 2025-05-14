@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
-import { MenuItem } from "@/types/api";
+import { MenuItem } from '@/types/ui';
 import { getMenuGroup } from "@/api/menu";
+import { transformApiMenuItem } from "@/utils/apiTransformers";
 
 const useMenu = (code: string) => {
-    const [menuItems, setMenuItems] =  useState<MenuItem[]>([]);
+    const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -15,7 +16,8 @@ const useMenu = (code: string) => {
         try {
             // 通过菜单表示获取菜单数据
             const { data } = await getMenuGroup(code);
-            setMenuItems(data || []);
+            // 转换菜单数据
+            setMenuItems(data.map(transformApiMenuItem) || []);
         } catch (e) {
             setError(e.message || '获取菜单数据时出现问题');
         } finally {

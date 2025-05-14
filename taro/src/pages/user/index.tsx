@@ -4,7 +4,6 @@ import { MenuColumn, MenuRow } from "@/components/Menu";
 import useAuthStore from "@/stores/auth";
 import { UserInfo } from "@/types/ui";
 import { useMenu } from "@/hooks/useMenu";
-import { transformApiMenuItem } from "@/utils/apiTransformers";
 import { checkLoginBeforeNavigate } from "@/utils/auth";
 import avatarRightImg from '@/assets/images/avatar-right-img.png';
 import bottomImg from '@/assets/images/center-bottom-img.svg';
@@ -61,10 +60,6 @@ const UserCenter = () => {
     const { rawMenuItems: userRowMenu } = useMenu('user_row_menu');
     const { rawMenuItems: userColumnMenu } = useMenu('user_column_menu');
 
-    // 菜单数据转换
-    const userCenterRowMenu = userRowMenu.map(transformApiMenuItem);
-    const userCenterColumnMenu = userColumnMenu.map(transformApiMenuItem);
-
     return (
         <View className="bg-gray-100 min-h-screen pb-10">
             {/* 用户信息块 */}
@@ -75,9 +70,9 @@ const UserCenter = () => {
             </View>
 
             {/* 横向菜单块 */}  
-            <MenuRow menuList={userCenterRowMenu} />
+            <MenuRow menuList={userRowMenu} />
             {/* 条目菜单块 */}
-            <MenuColumn menuList={userCenterColumnMenu} />
+            <MenuColumn menuList={userColumnMenu} />
 
             {/* 底部版权信息 */}
             <BottomCopyright

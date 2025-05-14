@@ -18,7 +18,7 @@ const ArticleItem = ({ id, title, date, cover }: ArticleItemProps) => {
                     />
                 </View>
             </View>
-            <View className="flex-1 flex flex-col">
+            <View className="flex-1 flex flex-col space-y-2">
                 <View className="text-sm text-ellipsis overflow-hidden line-clamp-2">
                     <Text>{title}</Text>
                 </View>

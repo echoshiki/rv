@@ -1,4 +1,14 @@
 /**
+ * API 响应泛用类型
+ */
+interface ApiResponse<T> {
+    success: boolean;
+    code: number;
+    message: string;
+    data: T;
+}
+
+/**
  * 轮播图
  * @param id 轮播图ID
  * @param image 图片路径
@@ -42,11 +52,26 @@ interface ArticleItem {
 }
 
 interface ArticleList {
-    list: ArticleItem[]
+    list: ArticleItem[],
+    total: number,
+    limit: number,
+    page: number,
+    has_more_pages: boolean
+}
+
+interface ArticleView {
+    id: string,
+    title: string,
+    content: string,
+    cover?: string,
+    published_at: string
+    category: any
 }
 
 export {
+    ApiResponse,
     BannerItem,
     MenuItem,
-    ArticleList
+    ArticleList,
+    ArticleView
 }

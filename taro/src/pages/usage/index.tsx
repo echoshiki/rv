@@ -4,8 +4,7 @@ import { MenuRow } from '@/components/Menu';
 import { ArticleList } from '@/components/ArticleList';
 import { SectionTitle } from '@/components/SectionTitle';
 import { useMenu } from '@/hooks/useMenu';
-import { transformApiMenuItem } from '@/utils/apiTransformers';
-import { articleList } from '@/config/menu.config';
+import { useArticleList } from '@/hooks/useArticleList';
 
 /**
  * 用车频道
@@ -13,11 +12,15 @@ import { articleList } from '@/config/menu.config';
  */
 const Usage = () => {
 
-    // 原始菜单数据
+    // 菜单数据
     const { rawMenuItems } = useMenu('usage_row_menu');
 
-    // 菜单数据转换
-    const usageRowMenu = rawMenuItems.map(transformApiMenuItem);
+    // 用车常识列表
+    const { articleList } = useArticleList({
+        filter: {
+            category_code: 'common_sense'
+        }
+    });
 
     return (
         <View className="bg-gray-100 min-h-screen pb-5">
@@ -34,7 +37,7 @@ const Usage = () => {
             </View>
 
             {/* 宫格菜单 */}
-            <MenuRow menuList={usageRowMenu} />
+            <MenuRow menuList={rawMenuItems} />
 
             <SectionTitle
                 title={`用车常识`}
