@@ -34,7 +34,9 @@ class ManageGeneralSettings extends SettingsPage
             'title' => $settings->title,
             'description' => $settings->description,
             'keywords' => $settings->keywords,
-            'logo_path' => $settings->logo_path,
+            'logo' => $settings->logo,
+            'default_cover' => $settings->default_cover,
+            'default_avatar' => $settings->default_avatar,
             'copyright' => $settings->copyright,
             'email' => $settings->email,
             'phone' => $settings->phone,
@@ -62,10 +64,10 @@ class ManageGeneralSettings extends SettingsPage
                                 TextInput::make('keywords')
                                     ->label('关键词')
                                     ->required(),   
-                                FileUpload::make('logo_path')
+                                FileUpload::make('logo')
                                     ->label('Logo')
                                     ->image()
-                                    ->directory('logos')
+                                    ->directory('settings')
                                     ->visibility('public')
                                     ->imagePreviewHeight('100')
                                     ->maxSize(1024),
@@ -83,9 +85,23 @@ class ManageGeneralSettings extends SettingsPage
                                     ->label('地址')
                                     ->required(),
                             ]),
-                        Tabs\Tab::make('其他信息')
+                        Tabs\Tab::make('其他设置')
                             ->icon('heroicon-m-cog-6-tooth')
                             ->schema([
+                                FileUpload::make('default_cover')
+                                    ->label('默认封面')
+                                    ->image()
+                                    ->directory('settings')
+                                    ->visibility('public')
+                                    ->imagePreviewHeight('100')
+                                    ->maxSize(1024),
+                                FileUpload::make('default_avatar')
+                                    ->label('默认头像')
+                                    ->image()
+                                    ->directory('settings')
+                                    ->visibility('public')
+                                    ->imagePreviewHeight('100')
+                                    ->maxSize(1024),
                                 TextInput::make('copyright')
                                     ->label('版权信息')
                                     ->required(),
@@ -105,7 +121,7 @@ class ManageGeneralSettings extends SettingsPage
         $settings->title = $data['title'];
         $settings->description = $data['description'];
         $settings->keywords = $data['keywords'];
-        $settings->logo_path = $data['logo_path'];  
+        $settings->logo = $data['logo'];  
         $settings->email = $data['email'];
         $settings->phone = $data['phone'];
         $settings->address = $data['address'];
