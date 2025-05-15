@@ -1,61 +1,67 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ArticleDetail } from "@/types/ui";
-import { getArticleByCode, getArticleById } from "@/api/article";
+import { getArticleDetail, type ArticleDetailQueryParams } from "@/api/article";
 
-const useArticleDetail = (id: string | null, code: string | null) => {
-    // 文章详情
+interface UseArticleDetailOptions {
+    autoLoad?: boolean;
+    onLoaded?: (detail: ArticleDetail) => void;
+}
+
+const useArticleDetail = (
+    params: ArticleDetailQueryParams,
+    options: UseArticleDetailOptions = {}
+) => {
+    const { autoLoad = true, onLoaded } = options;
+
     const [articleDetail, setArticleDetail] = useState<ArticleDetail | null>(null);
-    // 加载状态
     const [loading, setLoading] = useState<boolean>(false);
-    // 错误信息
     const [error, setError] = useState<string | null>(null);
 
-    const fetchArticleByCode = async (code: string) => {
-        setLoading(true);
-        setError(null);
-        try {
-            const { data } = await getArticleByCode(code);
-            setArticleDetail({
-                ...data,
-                date: data.published_at
-            });
-        } catch (e) {
-            setError(e.message || 'Failed to fetch articles.');
-        } finally {
-            setLoading(false);
+    // 获取文章详情
+    const fetchArticleDetail = useCallback(async () => {
+        // 检测参数
+        if (!params.id && !params.code) {
+            setError("文章 ID 或 Code 不能为空");
+            return;   
         }
-    };
 
-    const fetchArticleById = async (id: string) => {
         setLoading(true);
         setError(null);
+
         try {
-            const { data } = await getArticleById(id);
+            const { data: responseData } = await getArticleDetail(params);
             setArticleDetail({
-                ...data,
-                date: data.published_at
+                ...responseData,
+                date: responseData.published_at,
+                category: responseData.category || undefined
             });
+            // 执行加载完成后的回调
+            if (onLoaded && articleDetail) {
+                onLoaded(articleDetail);
+            }
         } catch (e) {
-            setError(e.message || 'Failed to fetch articles.');
+            setError(e.message || '获取文章详情时出现问题');
         } finally {
             setLoading(false);
         }
-    };
+    }, [params.id, params.code, onLoaded]);
 
     useEffect(() => {
-        if (id) {
-            fetchArticleById(id);
-        } else if (code) {
-            fetchArticleByCode(code);
+        if (autoLoad && (params.id || params.code)) {
+            fetchArticleDetail();
         }
-    }, [id, code]);
+    }, [fetchArticleDetail, autoLoad]);
+
+    // 手动刷新
+    const refresh = useCallback(() => {
+        return fetchArticleDetail();
+    }, [fetchArticleDetail]);
 
     return {
         articleDetail,
         loading,
         error,
-        fetchArticleByCode,
-        fetchArticleById
+        refresh
     }
 }
 

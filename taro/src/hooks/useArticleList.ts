@@ -1,9 +1,34 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ArticleItem, ArticleCategory } from "@/types/ui";
 import { getArticleList, type ArticleListQueryParams } from "@/api/article";
 
-const useArticleList = (params: ArticleListQueryParams) => {
-    const [articleList, setArticleList] =  useState<ArticleItem[]>([]);
+interface UseArticleListOptions {
+    autoLoad?: boolean,
+    // 分类加载完成后的回调，比如修改标题
+    onCategoryLoaded?: (category: ArticleCategory) => void,
+}
+
+// 默认配置选项
+const defaultOptions: UseArticleListOptions = {
+    autoLoad: true,
+};
+
+/**
+ * 文章列表数据管理 Hook
+ * @param initialParams - 初始查询参数
+ * @param options - 配置选项
+ */
+const useArticleList = (
+    initialParams: ArticleListQueryParams,
+    options: UseArticleListOptions = {}
+) => {
+    const {
+        autoLoad,
+        onCategoryLoaded
+    } = { ...defaultOptions, ...options };
+
+    const [params, setParams] = useState<ArticleListQueryParams>(initialParams);
+    const [articleList, setArticleList] = useState<ArticleItem[]>([]);
     const [articleCategory, setArticleCategory] = useState<ArticleCategory | null>(null);
     const [total, setTotal] = useState<number>(0);
     const [page, setPage] = useState<number>(1);
@@ -11,78 +36,99 @@ const useArticleList = (params: ArticleListQueryParams) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchArticles = async (
+    // 格式化文章列表
+    const transformArticleList = (list: any[]) => {
+        return list.map(item => ({
+            ...item,
+            date: item.published_at
+        }));
+    };
+
+    const fetchArticles = useCallback(async (
         fetchParams: ArticleListQueryParams,
         isLoadMore: boolean = false
     ) => {
+        if (loading) return;
+
+        // 开始执行请求
         setLoading(true);
         setError(null);
+
         try {
-            console.log(fetchParams);
-            const response = await getArticleList(fetchParams);
-            const responseData = response.data;
+            const { data: responseData } = await getArticleList(fetchParams);
 
             if (isLoadMore) {
-                // 累加数据
+                // 格式化列表并累加数据
                 setArticleList(pre => [
                     ...pre,
-                    ...responseData.list.map(item => ({
-                        ...item,
-                        date: item.published_at
-                    }))
+                    ...transformArticleList(responseData.list)
                 ]);
             } else {
-                // 设置数据
-                setArticleList(responseData.list.map(item => ({
-                    ...item,
-                    date: item.published_at
-                })));
-            }
+                // 格式化列表
+                const transformedList = transformArticleList(responseData.list);
+                setArticleList(transformedList);
 
-            setTotal(responseData.total);
-            setPage(responseData.current_page);
-            setHasMore(responseData.has_more_pages);
-
-            const filter = fetchParams.filter;
-
-            // 获取列表里的分类用于展示
-            if (filter && (filter.category_id !== undefined || filter.category_code !== undefined)) {
-                if (responseData.list && responseData.list.length > 0) {
-                    // 获取第一个项的分类
-                    const firstItem = responseData.list[0];
-                    if (firstItem.category) {
-                        setArticleCategory(firstItem.category);
+                // 从列表子项里拿出分类并注入
+                const filter = fetchParams.filter;
+                if (filter && (filter.category_id !== undefined || filter.category_code !== undefined)) {
+                    if (responseData.list && responseData.list.length > 0) {
+                        // 获取第一个项的分类
+                        const firstItem = responseData.list[0];
+                        if (firstItem.category) {
+                            setArticleCategory(firstItem.category);
+                            // 执行分类加载完成后的回调
+                            onCategoryLoaded?.(firstItem.category);
+                        }
                     }
                 }
             }
+            
+            // 更新信息
+            setTotal(responseData.total);
+            setPage(responseData.current_page);
+            setHasMore(responseData.has_more_pages);
         } catch (e) {
             setError(e.message || 'Failed to fetch articles.');
         } finally {
             setLoading(false);
         }
-    };
+    }, [loading, transformArticleList, onCategoryLoaded]);
 
+    // 初次加载
     useEffect(() => {
-        fetchArticles(params);
+        if (autoLoad) {
+            fetchArticles(initialParams);
+        }
     }, []);
 
     // 刷新数据
-    const refresh = () => {
-        return fetchArticles({
+    const refresh = useCallback(async () => {
+        const refreshParams = {
             ...params,
             page: 1
-        });
-    };
+        };
+        setParams(refreshParams);
+        return fetchArticles(refreshParams);
+    }, [params, fetchArticles]);
 
     // 载入更多
-    const loadMore = () => {
+    const loadMore = useCallback(async () => {
         if (!loading && hasMore) {
-            return fetchArticles({
+            const loadMoreParams = {
                 ...params,
-                page: Number(page) + 1
-            }, true);
+                page: page + 1
+            };
+            setParams(loadMoreParams);
+            return fetchArticles(loadMoreParams, true);
         }
-    }
+    }, [loading, hasMore, params, page, fetchArticles]);
+
+    // 更新查询参数
+    const updateParams = useCallback((newParams: Partial<ArticleListQueryParams>) => {
+        const updatedParams = { ...params, ...newParams, page: 1 };
+        setParams(updatedParams);
+        fetchArticles(updatedParams);
+    }, [params, fetchArticles]);
 
     return {
         articleList,
@@ -93,7 +139,8 @@ const useArticleList = (params: ArticleListQueryParams) => {
         page,
         total,
         refresh,
-        loadMore
+        loadMore,
+        updateParams
     }
 }
 

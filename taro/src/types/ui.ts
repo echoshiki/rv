@@ -22,7 +22,7 @@ interface ArticleItem {
     title: string,
     date: string,
     cover: string | null,
-    category: ArticleCategory
+    category?: ArticleCategory
 }
 
 interface ArticleList {
@@ -35,7 +35,7 @@ interface ArticleDetail {
     content: string,
     cover: string | null,
     date: string,
-    category: ArticleCategory | null
+    category?: ArticleCategory
 }
 
 interface ArticleCategory {
