@@ -45,7 +45,7 @@ const Detail = () => {
                         </View>
                     </View>
                     <View>
-                        <RichText className="font-light" nodes={articleDetail?.content || ''} />
+                        <RichText className="font-light leading-relaxed" nodes={articleDetail?.content || ''} />
                     </View>
                 </View>
             </View>

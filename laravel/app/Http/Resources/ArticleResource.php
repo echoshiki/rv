@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Settings\GeneralSettings;
 
 class ArticleResource extends JsonResource
 {
@@ -14,7 +15,9 @@ class ArticleResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $defaultCover = asset('storage/covers/cover.jpg');
+        $siteSettings = app(GeneralSettings::class);
+        $defaultCover = asset('storage/' . $siteSettings->default_cover);
+
         return [
             'id' => $this->id,
             'user_id' => $this->user_id, // 作者 ID
