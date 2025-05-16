@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\api\V1\BannerController;
 use App\Http\Controllers\api\V1\MenuController;
 use App\Http\Controllers\api\V1\ArticleController;
-use DragonCode\Contracts\Cashier\Resources\Model;
+use App\Http\Controllers\api\V1\RegionController;
 
 use App\Models\Article;
 
@@ -39,6 +39,14 @@ use App\Models\Article;
         Route::get('/articles', [ArticleController::class, 'index']);
         Route::get('/articles/{id}', [ArticleController::class, 'show']);
         Route::get('/articles/code/{code}', [ArticleController::class, 'showByCode']);
+
+        // 区域相关API
+        Route::prefix('regions')->group(function () {
+            Route::get('/provinces', [RegionController::class, 'provinces']);
+            Route::get('/cities/{provinceCode}', [RegionController::class, 'cities']);
+            Route::get('/districts/{cityCode}', [RegionController::class, 'districts']);
+            Route::get('/name/{code}', [RegionController::class, 'name']);
+        });
     });
 
     Route::prefix('v2')->group(function () {
