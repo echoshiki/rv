@@ -23,8 +23,9 @@ class ArticleCategory extends Model
     protected $fillable = [
         'parent_id',
         'title',
+        'description',
         'code',
-        'description'
+        'is_active'
     ];
 
     protected $casts = [

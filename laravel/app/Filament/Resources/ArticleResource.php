@@ -43,12 +43,12 @@ class ArticleResource extends Resource
                             ->required()
                             ->columnSpanFull()
                             ->maxLength(255),
-                        Forms\Components\RichEditor::make('content')
+                        Forms\Components\MarkdownEditor::make('content')
                             ->label('内容')
                             ->required()
                             ->fileAttachmentsDisk('public')
                             ->fileAttachmentsDirectory('articles/'. now()->format('Ymd'))
-                            ->fileAttachmentsVisibility('private')
+                            ->fileAttachmentsVisibility('public')
                             ->columnSpanFull(),
                     ]),
                 Forms\Components\Section::make('设置')
