@@ -38,14 +38,16 @@ const Detail = () => {
             <View className="px-5 relative mt-[-3rem]">
                 <View className="bg-white rounded-xl p-5 pb-10">
                     <View className="mb-5">
-                        <Text className="text-xl font-bold text-justify">{articleDetail?.title}</Text>
-                        <View className="flex flex-nowrap space-x-3 mt-3 text-xs">
+                        <Text className="text-xl font-bold text-justify leading-relaxed">
+                            {articleDetail?.title}
+                        </Text>
+                        <View className="flex flex-nowrap space-x-3 mt-3 text-xs font-light">
                             <Text className="text-gray-500">{articleDetail?.date}</Text>
                             <Text className="underline">{articleDetail?.category?.title}</Text>
                         </View>
                     </View>
                     <View>
-                        <RichText className="font-light leading-relaxed" nodes={articleDetail?.content || ''} />
+                        <RichText className="font-light text-justify leading-loose" nodes={articleDetail?.content || ''} />
                     </View>
                 </View>
             </View>

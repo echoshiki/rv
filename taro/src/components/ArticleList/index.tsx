@@ -37,7 +37,7 @@ const ArticleItem = ({ id, title, date, cover }: ArticleItemProps) => {
 const ArticleList = ({ list }: ArticleListProps) => {
     return (
         <View className="px-5">
-            <View className="w-full py-3 rounded-xl bg-white px-3">
+            <View className="w-full p-3 rounded-xl bg-white pb-5">
                 <View>
                     {list.map(item => (
                         <ArticleItem 
