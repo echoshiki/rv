@@ -43,7 +43,7 @@ class ArticleResource extends Resource
                             ->required()
                             ->columnSpanFull()
                             ->maxLength(255),
-                        Forms\Components\MarkdownEditor::make('content')
+                        Forms\Components\RichEditor::make('content')
                             ->label('内容')
                             ->required()
                             ->fileAttachmentsDisk('public')

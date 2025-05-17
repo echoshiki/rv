@@ -4,6 +4,7 @@ import { useArticleDetail } from "@/hooks/useArticleDetail";
 import Taro from "@tarojs/taro";
 import { type ArticleDetailQueryParams } from "@/api/article";
 import Loading from "@/components/Loading";
+import { cleanHTML } from '@/utils/common';
 
 const Detail = () => {
 
@@ -30,7 +31,7 @@ const Detail = () => {
                     {/* 封面图片 */}
                     <Image
                         src={articleDetail?.cover || DefaultCover}
-                        className="absolute object-cover w-full h-full border-none align-middle" 
+                        className="absolute object-cover w-full h-full border-none align-middle"
                         mode={`aspectFill`}
                     />
                 </View>
@@ -47,7 +48,10 @@ const Detail = () => {
                         </View>
                     </View>
                     <View>
-                        <RichText className="font-light text-justify leading-loose" nodes={articleDetail?.content || ''} />
+                        <RichText
+                            className="font-light text-left leading-loose"
+                            nodes={cleanHTML(articleDetail?.content || '')}
+                        />
                     </View>
                 </View>
             </View>

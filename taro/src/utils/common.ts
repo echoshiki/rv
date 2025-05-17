@@ -42,8 +42,8 @@ const getCurrentPageUrl = (): string => {
     // 最后遍历数组，将键值对组合成字符串
     if (Object.keys(params).length > 0) {
         queryString = '?' + Object.entries(params)
-          .map(([key, value]) => `${key}=${value}`)
-          .join('&');
+            .map(([key, value]) => `${key}=${value}`)
+            .join('&');
     }
 
     // 返回当前页面路由路径和参数
@@ -65,8 +65,32 @@ const mapsTo = (url: string, isLoginPage = false) => {
     }
 }
 
+/**
+ * 格式化富文本中的图片
+ * @param html 
+ * @returns 
+ */
+const cleanHTML = (html: string) => {
+    return html
+        // 移除 figure 标签但保留内部内容
+        .replace(/<figure[^>]*>/g, '').replace(/<\/figure>/g, '')
+        // 移除 figcaption 标签
+        .replace(/<figcaption[^>]*>.*?<\/figcaption>/g, '')
+        // 移除 data-trix-* 自定义属性
+        .replace(/ data-trix-[^=]+="[^"]*"/g, '')
+        // 为图片添加自适应样式（核心修改）
+        .replace(/<img([^>]*)>/gi, (_match, attrs) => {
+            // 保留原有属性，移除可能存在的width/height
+            const cleanAttrs = attrs
+                .replace(/(width|height)\s*=\s*["']\d+["']/gi, '')
+                .replace(/style\s*=\s*["'][^"']*["']/gi, '');
+            return `<img style="margin-top:10px;margin-bottom:10px;max-width:100%;height:auto;${cleanAttrs.match(/style\s*=\s*["']([^"']*)["']/)?.[1] || ''}" ${cleanAttrs}>`;
+        });
+};
+
 export {
     isTabBarPage,
     getCurrentPageUrl,
-    mapsTo
+    mapsTo,
+    cleanHTML
 };

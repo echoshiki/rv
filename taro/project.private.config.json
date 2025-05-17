@@ -20,5 +20,17 @@
   },
   "projectname": "rv_taro",
   "libVersion": "3.7.12",
-  "condition": {}
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/article/detail/index",
+          "pathName": "pages/article/detail/index",
+          "query": "id=7",
+          "scene": null,
+          "launchMode": "default"
+        }
+      ]
+    }
+  }
 }
