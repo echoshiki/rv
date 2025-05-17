@@ -80,11 +80,11 @@ class ArticleSeeder extends Seeder
         }
         $this->command->info('核心单页填充完毕');
 
-        $this->command->info('开始填充常规文章...');
-
-        Article::factory()->regularArticles()->count(50)->create();
-
-        $this->command->info('常规文章填充完毕');
-
+        // 开发环境执行填充普通文章
+        if (app()->environment('local')) {
+            $this->command->info('开始填充常规文章...');
+            Article::factory()->regularArticles()->count(50)->create();
+            $this->command->info('常规文章填充完毕');
+        }
     }
 }

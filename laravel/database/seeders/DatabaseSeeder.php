@@ -13,13 +13,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 开发环境
+        $this->call([
+            UserSeeder::class,
+            ArticleCategorySeeder::class,
+            ArticleSeeder::class, 
+            MenuGroupSeeder::class
+        ]);
+
         if (app()->environment('local')) {
             $this->call([
-                UserSeeder::class,
-                ArticleCategorySeeder::class,
-                ArticleSeeder::class, 
-                MenuGroupSeeder::class, 
+                ActivityCategorySeeder::class,
+                ActivitySeeder::class,
+                ActivityRegistrationSeeder::class,
             ]);
         }
     }

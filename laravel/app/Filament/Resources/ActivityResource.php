@@ -33,7 +33,7 @@ class ActivityResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('主要内容')
+                Forms\Components\Section::make('活动信息')
                     ->columns(2)
                     ->schema([
                         Forms\Components\Select::make('category_id')
@@ -50,39 +50,70 @@ class ActivityResource extends Resource
                             ->label('活动内容')
                             ->required()
                             ->fileAttachmentsDisk('public')
-                            ->fileAttachmentsDirectory('activities/'. now()->format('Ymd'))
+                            ->fileAttachmentsDirectory('activities/' . now()->format('Ymd'))
                             ->fileAttachmentsVisibility('private')
                             ->columnSpanFull(),
                     ]),
+
+                Forms\Components\Section::make('报名设置')
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\DatePicker::make('registration_start_at')
+                        ->label('报名开始时间')
+                        ->default(now())
+                        ->nullable(),
+                    Forms\Components\DatePicker::make('registration_end_at')
+                        ->label('报名结束时间')
+                        ->nullable(),
+                    Forms\Components\TextInput::make('registration_fee')
+                        ->label('报名费用')
+                        ->required()
+                        ->numeric()
+                        ->default(0.00),
+                    Forms\Components\TextInput::make('max_participants')
+                        ->label('最大报名人数')
+                        ->helperText('0表示不限制')
+                        ->default(0)
+                        ->numeric(),
+                    Forms\Components\DatePicker::make('started_at')
+                        ->label('活动开始时间'),
+                    Forms\Components\DatePicker::make('ended_at')
+                        ->label('活动结束时间'),
+                ]),
                 
-                Forms\Components\TextInput::make('cover')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('description')
-                    ->maxLength(255),
-                
-                Forms\Components\DateTimePicker::make('registration_start_at'),
-                Forms\Components\DateTimePicker::make('registration_end_at'),
-                Forms\Components\TextInput::make('registration_fee')
-                    ->required()
-                    ->numeric()
-                    ->default(0.00),
-                Forms\Components\DateTimePicker::make('started_at'),
-                Forms\Components\DateTimePicker::make('ended_at'),
-                Forms\Components\TextInput::make('max_participants')
-                    ->numeric(),
-                Forms\Components\TextInput::make('current_participants')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                Forms\Components\TextInput::make('code')
-                    ->maxLength(255),
-                Forms\Components\Toggle::make('is_active')
-                    ->required(),
-                Forms\Components\TextInput::make('sort')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                Forms\Components\DateTimePicker::make('published_at'),
+                Forms\Components\Section::make('其他设置')
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\FileUpload::make('cover')
+                            ->label('封面')
+                            ->image()
+                            ->required()
+                            ->directory('activities/'. now()->format('Ymd'))
+                            ->disk('public')
+                            ->imageEditor()
+                            ->nullable()
+                            ->columnSpanFull(),
+                        Forms\Components\TextInput::make('description')
+                            ->label('活动摘要')
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+                        Forms\Components\TextInput::make('code')
+                            ->label('标识')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('sort')
+                            ->label('排序')
+                            ->numeric()
+                            ->default(0),
+                        Forms\Components\DatePicker::make('published_at')
+                            ->label('发布时间')
+                            ->default(now())
+                            ->columnSpanFull(),
+                        Forms\Components\Toggle::make('is_active')
+                            ->label('是否启用') 
+                            ->default(true)
+                            ->columnSpanFull()
+                            ->required(),
+                    ]),
             ]);
     }
 
@@ -90,60 +121,73 @@ class ActivityResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('category.title')
+                    ->label('活动分类')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\ImageColumn::make('cover')
+                    ->label('封面')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('cover')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('description')
+                    ->label('活动标题')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('registration_start_at')
-                    ->dateTime()
-                    ->sortable(),
+                    ->label('报名开始时间')
+                    ->date('Y-m-d')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('registration_end_at')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('registration_fee')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('报名结束时间')
+                    ->date('Y-m-d')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('started_at')
-                    ->dateTime()
-                    ->sortable(),
+                    ->label('活动开始时间')
+                    ->date('Y-m-d')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('ended_at')
-                    ->dateTime()
-                    ->sortable(),
+                    ->label('活动结束时间')
+                    ->date('Y-m-d')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('max_participants')
+                    ->label('最大报名人数')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('current_participants')
+                    ->label('当前报名人数')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('code')
-                    ->searchable(),
                 Tables\Columns\IconColumn::make('is_active')
+                    ->label('是否启用')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('sort')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('published_at')
-                    ->dateTime()
+                    ->label('发布时间')
+                    ->date('Y-m-d')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('创建时间')
+                    ->date('Y-m-d')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('更新时间')
+                    ->date('Y-m-d')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('category_id')
+                    ->relationship('category', 'title')
+                    ->label('活动分类'),
+                Tables\Filters\SelectFilter::make('is_active')
+                    ->options([
+                        true => '是',
+                        false => '否',
+                    ])
+                    ->label('是否启用'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

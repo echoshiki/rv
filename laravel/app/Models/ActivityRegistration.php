@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 class ActivityRegistration extends Model
 {
@@ -51,16 +52,30 @@ class ActivityRegistration extends Model
     }
 
     /**
-     * 生成报名编号
+     * 模型创建时自动生成唯一报名编号
      */
-    protected static function boot()
+    protected static function booted()
     {
-        parent::boot();
-        static::creating(function ($model) {
-            if (empty($model->registration_no)) {
-                // Example: A-YYYYMMDD-HHMMSS-RANDOM
-                $model->registration_no = 'A-' . now()->format('YmdHis') . '-' . strtoupper(str()->random(4));
+        static::creating(function ($registration) {
+            // 自动生成唯一报名编号
+            $registration->registration_no = self::generateUniqueRegistrationNo();
+
+            // 默认状态（可选）
+            if (!$registration->status) {
+                $registration->status = 'pending';
             }
         });
+    }
+
+    /**
+     * 生成唯一编号
+     */
+    public static function generateUniqueRegistrationNo()
+    {
+        do {
+            $no = 'REG' . now()->format('Ymd') . Str::upper(Str::random(6));
+        } while (self::where('registration_no', $no)->exists());
+
+        return $no;
     }
 }
