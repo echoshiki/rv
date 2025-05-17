@@ -90,14 +90,14 @@ class ArticleResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->label('ID')
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('category.title')
                     ->label('分类')
                     ->badge()
                     ->searchable()
                     ->placeholder('无分类'),
+                Tables\Columns\ImageColumn::make('cover')
+                    ->label('封面')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('标题')
                     ->limit(60)

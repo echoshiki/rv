@@ -93,8 +93,9 @@ class ArticleCategoryResource extends Resource
                     ->width(200)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('code')
-                    ->label('分类标识')
+                    ->label('标识')
                     ->width(200)
+                    ->badge()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('articles_count')
                     ->label('文章数量')

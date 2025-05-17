@@ -29,6 +29,13 @@ class ActivityService
             $query->where('category_id', $filter['category_id']);
         }
 
+        // 通过分类标识获取列表
+        if (!empty($filter['category_code'])) {
+            $query->whereHas('category', function ($q) use ($filter) {
+                $q->where('code', $filter['category_code']);
+            });
+        }
+
         // 根据报名是否开始
         if (!empty($filter['is_registration_started'])) {
             $query->where('registration_start_at', '<=', now());

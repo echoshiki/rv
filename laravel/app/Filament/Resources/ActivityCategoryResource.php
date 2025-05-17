@@ -70,6 +70,7 @@ class ActivityCategoryResource extends Resource
                 Tables\Columns\TextColumn::make('code')
                     ->label('标识')
                     ->width(200)
+                    ->badge()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('activities_count')
                     ->label('活动数量')

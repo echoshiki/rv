@@ -113,6 +113,14 @@ class Activity extends Model
     }
 
     /**
+     * 获取未被禁用的活动
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
      * 检查活动是否满员
      */
     public function isFull(): bool

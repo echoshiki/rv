@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Support\Enums\FontFamily;
 
 class ActivityResource extends Resource
 {
@@ -123,7 +124,7 @@ class ActivityResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('category.title')
                     ->label('活动分类')
-                    ->numeric()
+                    ->badge()
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('cover')
                     ->label('封面')
@@ -134,21 +135,25 @@ class ActivityResource extends Resource
                 Tables\Columns\TextColumn::make('registration_start_at')
                     ->label('报名开始时间')
                     ->date('Y-m-d')
+                    ->fontFamily(FontFamily::Mono)
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('registration_end_at')
                     ->label('报名结束时间')
                     ->date('Y-m-d')
+                    ->fontFamily(FontFamily::Mono)
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('started_at')
                     ->label('活动开始时间')
                     ->date('Y-m-d')
+                    ->fontFamily(FontFamily::Mono)
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('ended_at')
                     ->label('活动结束时间')
                     ->date('Y-m-d')
+                    ->fontFamily(FontFamily::Mono)
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('max_participants')
@@ -157,24 +162,24 @@ class ActivityResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('current_participants')
-                    ->label('当前报名人数')
+                    ->label('报名人数')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->label('是否启用')
-                    ->boolean(),
                 Tables\Columns\TextColumn::make('published_at')
                     ->label('发布时间')
                     ->date('Y-m-d')
+                    ->fontFamily(FontFamily::Mono)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('创建时间')
                     ->date('Y-m-d')
+                    ->fontFamily(FontFamily::Mono)
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('更新时间')
                     ->date('Y-m-d')
+                    ->fontFamily(FontFamily::Mono)
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

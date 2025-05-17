@@ -8,6 +8,7 @@ use App\Http\Controllers\api\V1\BannerController;
 use App\Http\Controllers\api\V1\MenuController;
 use App\Http\Controllers\api\V1\ArticleController;
 use App\Http\Controllers\api\V1\RegionController;
+use App\Http\Controllers\api\V1\ArtivityController;
 
 use App\Models\Article;
 
@@ -47,6 +48,11 @@ use App\Models\Article;
             Route::get('/districts/{cityCode}', [RegionController::class, 'districts']);
             Route::get('/name/{code}', [RegionController::class, 'name']);
         });
+
+        // 活动相关API
+        Route::get('/activities', [ArtivityController::class, 'index']);
+        Route::get('/activities/{id}', [ArtivityController::class, 'show']);
+        
     });
 
     Route::prefix('v2')->group(function () {

@@ -80,6 +80,7 @@ class ArticleFactory extends Factory
     {
         return $this->state(fn(array $attributes) => [
             'is_single_page' => false,
+            'cover' => 'origin/default_cover.jpg',
             // 确保有关联分类 ID (如果 factory 默认可能为 null)
             'category_id' => $attributes['category_id'] ?? ArticleCategory::inRandomOrder()->first()?->id,
         ]);
