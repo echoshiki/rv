@@ -66,4 +66,17 @@ class ArtivityController extends Controller
             return $this->errorResponse('活动详情获取失败：' . $e->getMessage(), 500);
         }
     }
+
+    /**
+     * 获取活动分类列表
+     */
+    public function categories(Request $request)
+    {
+        try {
+            $categories = $this->activityService->getActivityCategoryList();
+            return $this->successResponse($categories);
+        } catch (\Throwable $e) {
+            return $this->errorResponse('活动分类列表获取失败：' . $e->getMessage(), 500);
+        }
+    }
 }

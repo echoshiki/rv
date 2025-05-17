@@ -37,9 +37,11 @@ use App\Models\Article;
         });
 
         // 文章相关API
-        Route::get('/articles', [ArticleController::class, 'index']);
-        Route::get('/articles/{id}', [ArticleController::class, 'show']);
-        Route::get('/articles/code/{code}', [ArticleController::class, 'showByCode']);
+        Route::prefix('articles')->group(function () {
+            Route::get('/code/{code}', [ArticleController::class, 'showByCode']);
+            Route::get('/', [ArticleController::class, 'index']);
+            Route::get('/{id}', [ArticleController::class, 'show']);
+        });
 
         // 区域相关API
         Route::prefix('regions')->group(function () {
@@ -50,9 +52,11 @@ use App\Models\Article;
         });
 
         // 活动相关API
-        Route::get('/activities', [ArtivityController::class, 'index']);
-        Route::get('/activities/{id}', [ArtivityController::class, 'show']);
-        
+        Route::prefix('activities')->group(function () {
+            Route::get('/categories', [ArtivityController::class, 'categories']);
+            Route::get('/', [ArtivityController::class, 'index']);
+            Route::get('/{id}', [ArtivityController::class, 'show']);
+        });
     });
 
     Route::prefix('v2')->group(function () {
