@@ -44,7 +44,7 @@ class Banner extends Model
 
     // 定义频道（PHP 8.1+）
     public const CHANNEL_HOME = 'home';
-    public const CHANNEL_ACTIVE = 'active';
+    public const CHANNEL_ACTIVITY = 'activity';
     public const CHANNEL_POINTS_MALL = 'points_mall';
 
     // 定义频道名称映射
@@ -52,7 +52,7 @@ class Banner extends Model
     {
         return [
             self::CHANNEL_HOME => '首页',
-            self::CHANNEL_ACTIVE => '活动',
+            self::CHANNEL_ACTIVITY => '活动',
             self::CHANNEL_POINTS_MALL => '积分商城'
         ];
     }

@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ArticleCategorySeeder::class,
             ArticleSeeder::class, 
-            MenuGroupSeeder::class
+            MenuGroupSeeder::class,
         ]);
 
         if (app()->environment('local')) {
@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
                 ActivityCategorySeeder::class,
                 ActivitySeeder::class,
                 ActivityRegistrationSeeder::class,
+                BannerSeeder::class,
             ]);
         }
     }
