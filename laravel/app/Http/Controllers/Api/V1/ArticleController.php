@@ -31,6 +31,7 @@ class ArticleController extends Controller
             $filter = $request->only([
                 'user_id',
                 'is_active',
+                'is_recommend',
                 'category_id',
                 'category_code',
                 'search'

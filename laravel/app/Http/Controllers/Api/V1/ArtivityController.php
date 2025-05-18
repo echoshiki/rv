@@ -26,6 +26,7 @@ class ArtivityController extends Controller
             // 获取请求中的特定键值组成条件数组
             $filter = $request->only([
                 'is_active',
+                'is_recommend',
                 'category_id',
                 'is_registration_started',
                 'is_registration_ended',

@@ -24,6 +24,11 @@ class ActivityService
             $query->active();
         }
 
+        // 推荐
+        if (!empty($filter['is_recommend'])) {
+            $query->recommend();
+        }
+
         // 根据分类ID筛选
         if (!empty($filter['category_id'])) {
             $query->where('category_id', $filter['category_id']);

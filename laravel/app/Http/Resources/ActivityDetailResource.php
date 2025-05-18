@@ -33,6 +33,7 @@ class ActivityDetailResource extends JsonResource
             'registration_end_at' => $this->registration_end_at ? $this->registration_end_at->format('Y-m-d') : null,
             'started_at' => $this->started_at ? $this->started_at->format('Y-m-d') : null,
             'ended_at' => $this->ended_at ? $this->ended_at->format('Y-m-d') : null,
+            'is_recommend' => (bool) $this->is_recommend,
             'published_at' => $this->published_at ? $this->published_at->format('Y-m-d') : null,
             'category' => $this->whenLoaded('category', function () {
                  if ($this->category) {

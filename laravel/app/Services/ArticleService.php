@@ -29,6 +29,11 @@ class ArticleService
             $query->active();
         }
 
+        // 推荐
+        if (!empty($filter['is_recommend'])) {
+            $query->recommend();
+        }
+
         if (!empty($filter['category_id'])) {
             $query->where('category_id', $filter['category_id']);
         }

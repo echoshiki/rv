@@ -27,6 +27,7 @@ class ArticleDetailResource extends JsonResource
             'cover' => $this->cover ? asset('storage/' . $this->cover) : $defaultCover,
             'sort' => $this->sort,
             'is_active' => (bool) $this->is_active, // 确保返回布尔值
+            'is_recommend' => (bool) $this->is_recommend,
             'published_at' => $this->published_at ? $this->published_at->format('Y-m-d') : null,
             // 包含关联关系，使用 whenLoaded 确保关系已被加载时才包含
             // 这样可以避免 N+1 问题，并且只在你需要时才加载关联数据

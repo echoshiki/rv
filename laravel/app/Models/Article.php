@@ -34,7 +34,8 @@ class Article extends Model
         'title', 
         'cover', 
         'content',
-        'sort', 
+        'sort',
+        'is_recommend',
         'is_active',
         'code',
         'published_at'
@@ -45,6 +46,7 @@ class Article extends Model
     {
         return [
             'is_active' => 'boolean',
+            'is_recommend' => 'boolean',
             'sort' => 'integer',
             'published_at' => 'datetime'
         ];
@@ -117,6 +119,14 @@ class Article extends Model
     public function scopeRegularPage($query)
     {
         return $query->where('is_single_page', false);
+    }
+
+    /**
+     * 获取推荐文章
+     */
+    public function scopeRecommend($query)
+    {
+        return $query->where('is_recommend', true);
     }
 
     /**

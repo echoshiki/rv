@@ -29,6 +29,7 @@ class Activity extends Model
         'max_participants',
         'current_participants',
         'code',
+        'is_recommend',
         'is_active',
         'sort',
         'published_at',
@@ -45,6 +46,7 @@ class Activity extends Model
             'registration_fee' => 'decimal:2',
             'max_participants' => 'integer',
             'current_participants' => 'integer',
+            'is_recommend' => 'boolean',
             'is_active' => 'boolean',
             'sort' => 'integer',
             'published_at' => 'datetime',
@@ -110,6 +112,14 @@ class Activity extends Model
     public function registrations(): HasMany
     {
         return $this->hasMany(ActivityRegistration::class);
+    }
+
+    /**
+     * 获取推荐活动
+     */
+    public function scopeRecommend($query)
+    {
+        return $query->where('is_recommend', true);
     }
 
     /**

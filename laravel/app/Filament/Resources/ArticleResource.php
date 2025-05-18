@@ -77,6 +77,10 @@ class ArticleResource extends Resource
                             ->label('发布时间')
                             ->required()
                             ->default(now()),
+                        Forms\Components\Toggle::make('is_recommend')
+                            ->label('是否推荐') 
+                            ->default(false)
+                            ->columnSpanFull(),
                         Forms\Components\Toggle::make('is_active')
                             ->label('是否启用')
                             ->default(true)
@@ -119,6 +123,9 @@ class ArticleResource extends Resource
                     ->native(false),
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('是否启用')
+                    ->native(false),
+                Tables\Filters\TernaryFilter::make('is_recommend')
+                    ->label('是否推荐')
                     ->native(false),
             ])
             ->actions([

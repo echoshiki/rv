@@ -27,6 +27,7 @@ return new class extends Migration
             $table->unsignedInteger('max_participants')->nullable()->comment('最大报名人数');
             $table->unsignedInteger('current_participants')->default(0)->comment('当前报名人数');
             $table->string('code')->nullable()->unique()->comment('活动业务代码标识');
+            $table->boolean('is_recommend')->default(false)->index()->comment('是否推荐');
             $table->boolean('is_active')->default(true)->index()->comment('是否启用');
             $table->integer('sort')->default(0)->comment('排序');
             $table->timestamp('published_at')->nullable()->comment('发布时间');
