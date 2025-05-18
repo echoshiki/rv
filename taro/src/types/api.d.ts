@@ -48,6 +48,7 @@ interface ArticleItem {
     id: string,
     title: string,
     cover: string | null,
+    is_recommend: boolean,
     category: ArticleCategory,
     published_at: string
 }
@@ -65,11 +66,48 @@ interface ArticleDetail {
     title: string,
     content: string,
     cover: string | null,
-    published_at: string
+    is_recommend: boolean,
+    published_at: string,
     category: ArticleCategory | null
 }
 
 interface ArticleCategory {
+    id: string,
+    title: string,
+    description: string,
+    code: string
+}
+
+interface ActivityItem {
+    id: string,
+    title: string,
+    cover: string | null,
+    description: string,
+    registration_fee: string,
+    max_participants: number,
+    current_participants: number,
+    registration_start_at: string,
+    registration_end_at: string,
+    started_at: string,
+    ended_at: string,
+    is_recommend: boolean,
+    category: ActivityCategory,
+    published_at: string
+}
+
+interface ActivityList {
+    list: ActivityItem[],
+    total: number,
+    per_page: number,
+    current_page: number,
+    has_more_pages: boolean
+}
+
+interface ActivityDetail extends ActivityItem {
+    content: string
+}
+
+interface ActivityCategory {
     id: string,
     title: string,
     description: string,
@@ -81,5 +119,8 @@ export {
     BannerItem,
     MenuItem,
     ArticleList,
-    ArticleDetail
+    ArticleDetail,
+    ActivityList,
+    ActivityDetail,
+    ActivityCategory
 }

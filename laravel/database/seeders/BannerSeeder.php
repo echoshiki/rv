@@ -11,7 +11,7 @@ use App\Models\Banner;
 class BannerSeeder extends Seeder
 {
     // 首页频道轮播图
-    const BANNER_INDEX = [
+    const BANNERS = [
         [
             'title' => '首页轮播图示例01',
             'image' => 'origin/banners/banner_01.jpg',
@@ -29,6 +29,12 @@ class BannerSeeder extends Seeder
             'image' => 'origin/banners/banner_03.jpg',
             'channel' => Banner::CHANNEL_HOME,
             'link' => '',
+        ],
+        [
+            'title' => '活动轮播图示例01',
+            'image' => 'origin/banners/banner_01.jpg',
+            'channel' => Banner::CHANNEL_ACTIVITY,
+            'link' => '',
         ]
     ];
 
@@ -40,8 +46,7 @@ class BannerSeeder extends Seeder
         // 清空表数据
         Banner::query()->delete();
 
-        foreach (self::BANNER_INDEX as $banner) {
-            
+        foreach (self::BANNERS as $banner) {
             // 插入轮播图数据
             Banner::updateOrCreate(
                 [

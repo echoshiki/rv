@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { BannerItem } from "@/types/api";
+import { useState, useEffect, useCallback } from "react";
+import { BannerItem } from "@/types/ui";
 import { getBannerList } from "@/api/banner";
 
 const useBanner = (channel: string) => {
@@ -7,7 +7,7 @@ const useBanner = (channel: string) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchBanners = async () => {
+    const fetchBanners = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
@@ -18,11 +18,11 @@ const useBanner = (channel: string) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [channel]);
 
     useEffect(() => {
         fetchBanners();
-    }, []);
+    }, [fetchBanners]);
 
     return {
         banners,
