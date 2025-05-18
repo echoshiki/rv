@@ -80,10 +80,10 @@ class ActivityRegistrationService
                 'phone' => $data['phone'],
                 'province' => $data['province'] ?? null,
                 'city' => $data['city'] ?? null,
-                'registration_no' => ActivityRegistration::generateRegistrationNumber(),
+                'registration_no' => ActivityRegistration::generateUniqueRegistrationNo(),
                 'status' => 'pending', 
                 'paid_amount' => 0.00,
-                'form_data' => isset($data['form_data']) ? json_encode($data['form_data']) : null,
+                'form_data' => json_encode($data),
                 'remarks' => $data['remarks'] ?? null,
             ];
 

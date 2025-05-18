@@ -12,6 +12,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Services\RegionService;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 
 class ActivityRegistrationResource extends Resource
 {
@@ -33,60 +36,106 @@ class ActivityRegistrationResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('activity_id')
-                    ->relationship('activity', 'title')
-                    ->label('对应活动')
-                    ->native(false)
-                    ->columnSpanFull()
-                    ->required(),
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->label('发布用户')
-                    ->native(false)
-                    ->columnSpanFull()
-                    ->required(),
-                Forms\Components\TextInput::make('name')
-                    ->label('报名人')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('phone')
-                    ->label('联系电话')
-                    ->tel()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('province')
-                    ->label('省')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('city')
-                    ->label('市')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('registration_no')
-                    ->label('报名编号')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('status')
-                    ->label('状态')
-                    ->required(),
-                Forms\Components\TextInput::make('paid_amount')
-                    ->label('支付金额')
-                    ->numeric()
-                    ->default(0.00),
-                Forms\Components\TextInput::make('payment_method')
-                    ->label('支付方式')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('payment_no')
-                    ->label('支付单号')
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('payment_time')
-                    ->label('支付时间'),
-                Forms\Components\TextInput::make('form_data')
-                    ->label('表单数据'),
-                Forms\Components\Textarea::make('admin_remarks')
-                    ->label('管理员备注')
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('remarks')
-                    ->label('备注')
-                    ->columnSpanFull(),
+                Forms\Components\Section::make()
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\Select::make('activity_id')
+                            ->relationship('activity', 'title')
+                            ->label('报名活动')
+                            ->native(false)
+                            ->disabled()
+                            ->columnSpanFull()
+                            ->required(),
+                        Forms\Components\TextInput::make('registration_no')
+                            ->label('报名编号')
+                            ->required()
+                            ->disabled()
+                            ->maxLength(255),
+                        Forms\Components\Select::make('user_id')
+                            ->relationship('user', 'name')
+                            ->label('用户')
+                            ->native(false)
+                            ->disabled()
+                            ->required(),
+                    ]),
+                Forms\Components\Section::make()
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('姓名')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('phone')
+                            ->label('联系电话')
+                            ->tel()
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Select::make('province')
+                            ->label('省')
+                            ->options(function () {
+                                $regionService = app(RegionService::class);
+                                $provinces = $regionService->getProvinces();
+                                return array_column($provinces, 'name', 'code');
+                            })
+                            ->searchable()
+                            ->reactive()
+                            ->afterStateUpdated(function (Set $set) {
+                                $set('city', null);
+                            })
+                            ->native(false),
+                        Forms\Components\Select::make('city')
+                            ->label('市')
+                            ->options(function (Get $get) {
+                                $regionService = app(RegionService::class);
+                                $provinceCode = $get('province');
+                                if (!$provinceCode) {
+                                    return [];
+                                }
+                                $cities = $regionService->getCities($provinceCode);
+                                return array_column($cities, 'name', 'code');
+                            })
+                            ->native(false),
+                        Forms\Components\Textarea::make('remarks')
+                            ->label('备注')
+                            ->columnSpanFull(),
+                    ]),
+                Forms\Components\Section::make()
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\Select::make('status')
+                            ->label('状态')
+                            ->options([
+                                'pending' => '待支付',
+                                'approved' => '已报名',
+                                'rejected' => '未通过',
+                                'cancelled' => '已取消',
+                            ])
+                            ->default('pending')
+                            ->required(),
+                        Forms\Components\TextInput::make('paid_amount')
+                            ->label('支付金额')
+                            ->numeric()
+                            ->default(0.00),
+                        Forms\Components\TextInput::make('payment_method')
+                            ->label('支付方式')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('payment_no')
+                            ->label('支付单号')
+                            ->maxLength(255),
+                        Forms\Components\DateTimePicker::make('payment_time')
+                            ->label('支付时间'),
+                    ]),
+                Forms\Components\Section::make()
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\Textarea::make('admin_remarks')
+                            ->label('管理员备注')
+                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('form_data')
+                            ->label('原始数据')
+                            ->disabled()
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 
@@ -115,14 +164,14 @@ class ActivityRegistrationResource extends Resource
                     ->label('状态')
                     ->badge()
                     ->formatStateUsing(function ($state) {
-                        return match($state) {
+                        return match ($state) {
                             'pending' => '待支付',
                             'approved' => '已报名',
                             'rejected' => '未通过',
                             'cancelled' => '已取消'
                         };
                     })
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'pending' => 'warning',
                         'approved' => 'success',
                         'rejected' => 'danger',
@@ -151,6 +200,7 @@ class ActivityRegistrationResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('activity_id')
                     ->relationship('activity', 'title')

@@ -9,6 +9,7 @@ use App\Http\Controllers\api\V1\MenuController;
 use App\Http\Controllers\api\V1\ArticleController;
 use App\Http\Controllers\api\V1\RegionController;
 use App\Http\Controllers\api\V1\ArtivityController;
+use App\Http\Controllers\api\V1\ActivityRegistrationController;
 
 use App\Models\Article;
 
@@ -20,7 +21,6 @@ use App\Models\Article;
         Route::post('/login-bound', [AuthController::class, 'miniLoginOnBound'])->name('api.v1.mini.mini-login-bound');
         // 小程序登录（绑定手机号）
         Route::post('/login', [AuthController::class, 'miniLogin'])->name('api.v1.mini.mini-login'); 
-        
         Route::post('/logout', [AuthController::class, 'logout'])->name('api.v1.mini.logout')->middleware('auth:sanctum');
 
         Route::post('/user', function (Request $request) {
@@ -57,6 +57,15 @@ use App\Models\Article;
             Route::get('/', [ArtivityController::class, 'index']);
             Route::get('/{id}', [ArtivityController::class, 'show']);
         });
+
+        // 报名相关API
+        Route::middleware('auth:sanctum')->prefix('registrations')->group(function () {
+            Route::post('/', [ActivityRegistrationController::class, 'store']);
+            Route::post('/{id}/cancel', [ActivityRegistrationController::class, 'cancel']);
+            Route::get('/my', [ActivityRegistrationController::class, 'index']);
+            Route::get('/{id}', [ActivityRegistrationController::class, 'show']);
+        });
+
     });
 
     Route::prefix('v2')->group(function () {
