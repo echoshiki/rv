@@ -6,7 +6,6 @@ import { SectionTitle } from '@/components/SectionTitle';
 import { useMenu } from '@/hooks/useMenu';
 import { useArticleList } from '@/hooks/useArticleList';
 
-
 /**
  * 用车频道
  * @returns 

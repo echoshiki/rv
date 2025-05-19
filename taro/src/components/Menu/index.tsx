@@ -94,8 +94,12 @@ const MenuPage = ({ menuList }: MenuList) => {
     )
 }
 
+/**
+ * 悬浮菜单
+ * @param menuList 菜单数据
+ */
 const MenuFloat = ({ menuList }: MenuList) => {
-    
+    // 将菜单数据格式化成 NutUI 需要的格式
     const fixedMenu = menuList.map((item, index) => {
         return {
             ...item,
@@ -106,11 +110,11 @@ const MenuFloat = ({ menuList }: MenuList) => {
 
     // 控制折叠
     const [visible, setVisible] = useState(false);
-
     const change = (value: boolean) => {
         setVisible(value)
     }
 
+    // 点选触发
     const selected = (
         item: FixedNavItem,
         _event: React.MouseEvent<Element, MouseEvent>
@@ -134,9 +138,102 @@ const MenuFloat = ({ menuList }: MenuList) => {
     )
 }
 
+/**
+ * 首页图片矩阵菜单
+ * @param menuList 菜单数据
+ */
+const MenuMatrix = ({ menuList }: MenuList) => {
+
+    // 渲染左侧矩形图片菜单
+    const renderLeftMenu = (item: MenuItem) => {
+        return (
+            <View className="relative block h-0 p-0 overflow-hidden pb-[100%] rounded-xl" onClick={() => handleItemClick(item)}>
+                <Image
+                    src={item.icon}
+                    className="absolute object-cover w-full h-full border-none align-middle" 
+                    mode={`aspectFill`}
+                />
+                <View className="absolute w-full h-full flex justify-center items-center">
+                    <Text className="text-xl text-white text-opacity-75 font-semibold">{item.title}</Text>
+                </View>
+            </View>
+        )
+    }
+
+    // 渲染右侧长方形菜单
+    const renderRightMenu = (item: MenuItem) => {
+        return (
+            <View className="relative block h-0 p-0 overflow-hidden pb-[48%] rounded-xl" onClick={() => handleItemClick(item)}>
+                <Image
+                    src={item.icon}
+                    className="absolute object-cover w-full h-full border-none align-middle" 
+                    mode={`aspectFill`}
+                />
+                <View className="absolute w-full h-full flex items-center justify-center text-white text-opacity-75">
+                    <Text className="text-base font-bold">{item.title}</Text>
+                </View>
+            </View>
+        )
+    }
+
+    return (
+        <View className="flex flex-nowrap space-x-2">
+            {menuList[0] && (
+                <View className="w-1/2">
+                    {renderLeftMenu(menuList[0])}
+                </View>
+            )}
+            <View className="w-1/2 flex flex-col justify-between">
+                {menuList[1] && renderRightMenu(menuList[1])}
+                {menuList[2] && renderRightMenu(menuList[2])}
+            </View>
+        </View>
+    )
+}
+
+/**
+ * 首页标签栏菜单
+ * @param menuList 菜单数据
+ */
+const MenuTab = ({ menuList }: MenuList) => {
+
+    // 格式化菜单数据
+    console.log(menuList);
+
+
+    return (
+        <View className="flex flex-col space-y-3">
+            {menuList.map((item, index) => (
+                <View 
+                    key={index}
+                    className="flex flex-row items-center justify-between bg-white rounded-xl px-3 py-4" 
+                    onClick={() => handleItemClick(item)}
+                >
+                    <View className="flex flex-row items-center">
+                        <View className="flex flex-row items-center mr-5">
+                            <Image src={item.icon} className="w-12 h-12" />
+                        </View>
+                        <View className="leading-none">
+                            <Text className="text-base font-bold block">{item.title}</Text>
+                            <Text className="text-xs text-gray-500">{item.description}</Text>
+                        </View>
+                    </View>
+                    <View className="flex flex-row items-center">
+                        <Image src={RightArrowIcon} className="w-5 h-5" />
+                    </View>
+                </View>                    
+            ))}
+        </View>
+    )
+}
+
+
+
 export {
     MenuColumn,
     MenuRow,
     MenuPage,
-    MenuFloat
+    MenuFloat,
+    MenuMatrix,
+    MenuTab
 };

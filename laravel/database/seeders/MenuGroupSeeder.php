@@ -160,7 +160,7 @@ class MenuGroupSeeder extends Seeder
                     'link_value' => '/pages/article/index?code=meter_indication',
                     'requires_auth' => false,
                 ],
-            ]
+            ],
         ],
         [
             'name' => '用车频道悬浮菜单',
@@ -197,7 +197,66 @@ class MenuGroupSeeder extends Seeder
                     'requires_auth' => true,
                 ]
             ]
+        ],
+        [
+            'name' => '首页矩阵图片菜单',
+            'code' => 'home_matrix_menu',
+            'description' => '首页矩阵图片菜单',
+            'layout' => 'grid',
+            'items' => [
+                [
+                    'title' => '企业简介',
+                    'icon' =>  'origin/home/company.jpg',
+                    'link_type' => 'page',
+                    'link_value' => '/pages/article/detail/index?code=about_us',
+                    'requires_auth' => false,
+                ],
+                [
+                    'title' => '官方发布',
+                    'icon' =>  'origin/home/publish.jpg',
+                    'link_type' => 'page',
+                    'link_value' => '/pages/article/index?code=official_release',
+                    'requires_auth' => false,
+                ],
+                [
+                    'title' => '行业资讯',
+                    'icon' =>  'origin/home/industry.jpg',
+                    'link_type' => 'page',
+                    'link_value' => '/pages/article/index?code=industry_news',
+                    'requires_auth' => false,
+                ]
+            ]
+        ],
+        [
+            'name' => '首页标签栏菜单',
+            'code' => 'home_tab_menu',
+            'description' => '首页标签栏菜单',
+            'layout' => 'grid',
+            'items' => [
+                [
+                    'title' => '车友活动',
+                    'icon' =>  null,
+                    'link_type' => 'function',
+                    'link_value' => 'onFetchTabList(3, "activity")',
+                    'requires_auth' => false,
+                ],
+                [
+                    'title' => '二手车',
+                    'icon' =>  null,
+                    'link_type' => 'function',
+                    'link_value' => 'onFetchTabList(3, "sale")',
+                    'requires_auth' => false,
+                ],
+                [
+                    'title' => '促销活动',
+                    'icon' =>  null,
+                    'link_type' => 'function',
+                    'link_value' => 'onFetchTabList(1, "activity")',
+                    'requires_auth' => false,
+                ]
+            ]
         ]
+        
     ];
 
     /**
