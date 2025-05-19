@@ -42,16 +42,15 @@ const Usage = () => {
             <SectionTitle
                 title={`用车常识`}
                 subtitle={`在使用房车时的小知识`}
-                link={'/pages/article/index?code=circuit_use'}
+                link={'/pages/article/index?code=common_sense'}
             />
 
             {/* 用车常识 */}
-            <ArticleList 
-                queryParams={queryParams} 
-                isPullDownRefresh
-                isReachBottomRefresh
-                changePageTitle
-            /> 
+            <View className="px-5">
+                <ArticleList 
+                    queryParams={queryParams}
+                /> 
+            </View>
 
             {/* 悬浮导航 */}
             <MenuFloat menuList={floatMenuItems} />

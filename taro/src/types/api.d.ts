@@ -114,5 +114,6 @@ export {
     ArticleList,
     ArticleDetail,
     ActivityList,
-    ActivityDetail
+    ActivityDetail,
+    Category
 }

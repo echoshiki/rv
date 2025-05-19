@@ -1,5 +1,5 @@
 import { http } from "@/utils/request";
-import { ApiResponse, ActivityList, ActivityDetail, ActivityCategory } from "@/types/api";
+import { ApiResponse, ActivityList, ActivityDetail, Category } from "@/types/api";
 
 const ACTIVITY_API = `/api/v1/activities/`;
 
@@ -56,7 +56,7 @@ const getActivityDetail = (id: string): Promise<ApiResponse<ActivityDetail>> => 
     return http.get(`${ACTIVITY_API}${id}`);
 };
 
-const getActivityCategoryList = (): Promise<ApiResponse<ActivityCategory[]>> => {
+const getActivityCategoryList = (): Promise<ApiResponse<Category[]>> => {
     return http.get(`${ACTIVITY_API}categories`);
 };
 

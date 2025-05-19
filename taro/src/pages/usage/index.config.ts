@@ -1,5 +1,5 @@
 export default definePageConfig({
-    navigationBarTitleText: '玩车',
+    navigationBarTitleText: '用车',
     navigationBarBackgroundColor: '#000000',
     navigationBarTextStyle: 'white',
 })

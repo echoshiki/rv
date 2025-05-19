@@ -30,6 +30,17 @@ interface CustomTabsProps {
     className?: string;
 }
 
+/**
+ * 自定义标签页组件
+ * @param items 标签页数据
+ * @param renderTabContent 渲染标签页内容函数，会传入标签项作为参数
+ * @param initialTabId 初始选中标签页
+ * @param isLoading 是否加载中
+ * @param theme 自定义主题
+ * @param onTabChange 标签页切换回调
+ * @param className 自定义类名 
+ * @returns 
+ */
 const CustomTabs = ({
     items,
     renderTabContent,

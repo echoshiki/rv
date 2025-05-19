@@ -1,4 +1,4 @@
-import { View, Text } from '@tarojs/components';
+import { View } from '@tarojs/components';
 import CustomSwiper from '@/components/CustomSwiper';
 import { useBanner } from '@/hooks/useBanner';
 import Loading from '@/components/Loading';
@@ -6,8 +6,7 @@ import { useActivityList } from '@/hooks/useActivityList';
 import CustomTabs from '@/components/CustomTabs';
 import { useMemo } from 'react';
 import { useActivityCategoryList } from '@/hooks/useActivityCategoryList';
-import { ActivityList } from '@/components/ActivityList';
-import Taro from '@tarojs/taro';
+import ActivityList from '@/components/ActivityList';
 
 /**
  * 活动频道轮播图
@@ -54,63 +53,8 @@ const ActivitySwiper = () => {
     )
 }
 
-/**
- * Tab 标签页下的活动列表内容
- * @param param0 
- * @returns 
- */
-const ActivityTabList = ({ category_id }: { category_id: string | number }) => {
-    const { 
-        activityList,
-        loading,
-        refresh,
-        loadMore,
-        hasMore,
-     } = useActivityList({
-        filter: {
-            category_id
-        },
-        limit: 5
-    });
-
-    const handlePullDownRefresh = async () => {
-        console.log('下拉刷新');
-        try {
-            await refresh();
-        } finally {
-            Taro.stopPullDownRefresh();
-        }
-    };
-
-    const handleReachBottom = async () => {
-        console.log('触底加载');
-        if (hasMore && !loading) {
-            await loadMore();
-        }
-    };
-
-    // 注册下拉刷新与触底加载
-    Taro.usePullDownRefresh(handlePullDownRefresh);
-    Taro.useReachBottom(handleReachBottom);
-
-    if (activityList.length === 0 && !loading) {
-        return (
-            <View className="flex justify-center items-center h-64">
-                <Text className="text-gray-500">该分类下还没有活动</Text>
-            </View>
-        );
-    }
-    return (
-        <View>
-            <ActivityList list={activityList} />
-            {loading && <Loading />}
-        </View>
-    );
-};
-
 const Activity = () => {
     const { categories, loading } = useActivityCategoryList();
-
     return (
         <View className="bg-gray-100 min-h-screen py-3">
             {/* 活动频道轮播图 */}
@@ -122,7 +66,19 @@ const Activity = () => {
             <View className="w-full px-5 mt-2">
                 <CustomTabs 
                     items={categories}
-                    renderTabContent={(item) => <ActivityTabList category_id={item.id} />}
+                    renderTabContent={(item) => (
+                        // 渲染活动列表
+                        <ActivityList 
+                            queryParams={{
+                                filter: {
+                                    category_id: item.id
+                                },
+                                limit: 5
+                            }} 
+                            isPullDownRefresh={true} 
+                            isReachBottomRefresh={true} 
+                        />
+                    )}
                     isLoading={loading}
                 />
             </View>

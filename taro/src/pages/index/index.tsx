@@ -1,4 +1,4 @@
-import { View } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import CustomSwiper from '@/components/CustomSwiper';
 import { useBanner } from '@/hooks/useBanner';
 import Loading from '@/components/Loading';
@@ -7,9 +7,10 @@ import { MenuMatrix } from '@/components/Menu';
 import { useMemo } from 'react';
 import { Category } from '@/types/ui';
 import CustomTabs from '@/components/CustomTabs';
+import ArticleList from '@/components/ArticleList';
+import ActivityList from '@/components/ActivityList';
 
 const Index = () => {
-
 	const { banners, loading: bannerLoading } = useBanner('home');
 	const { rawMenuItems: matrixMenuItems } = useMenu('home_matrix_menu');
 	const { rawMenuItems: tabMenuItems, loading: tabLoading } = useMenu('home_tab_menu');
@@ -22,18 +23,33 @@ const Index = () => {
 		channel: item.link.split('|')[1]
 	})), [tabMenuItems]);
 
-	// 根据 item.link.split('|') 获取频道数据
-	// 选择 useArticleList useActivityList
 	const renderTabPanel = (item: Category) => {
 		const category_id = item.id.split('|')[0];
-		// article | activity
 		const channel = item.id.split('|')[1];
+		const queryParams = {
+			filter: {
+				category_id: category_id
+			},
+			limit: 5
+		};
 
-		return <View>{item.title}</View>
+		if (channel === 'article') {
+			return <ArticleList queryParams={queryParams} />
+		}
+
+		if (channel === 'activity') {
+			return <ActivityList queryParams={queryParams} />
+		}
+
+		return (
+			<View className="flex justify-center items-center h-64">
+				<Text>暂无数据</Text>
+			</View>
+		);
 	}
 	
 	return (
-		<View>
+		<View className='bg-gray-100 min-h-screen'>
 			{/* 首页轮播图 */}
 			<View>
 				<CustomSwiper 

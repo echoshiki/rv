@@ -41,7 +41,7 @@ const Articles = () => {
     });
 
     return (
-        <View className="bg-gray-100 min-h-screen py-5">
+        <View className="bg-gray-100 min-h-screen p-5">
             <ArticleList 
                 queryParams={queryParams} 
                 isPullDownRefresh

@@ -40,9 +40,9 @@ const ArticleItem = ({ id, title, date, cover }: ArticleItemProps) => {
 
 interface ArticleListProps {
     queryParams: ArticleListQueryParams;
-    isPullDownRefresh: boolean;
-    isReachBottomRefresh: boolean;
-    changePageTitle: boolean;
+    isPullDownRefresh?: boolean;
+    isReachBottomRefresh?: boolean;
+    changePageTitle?: boolean;
 }
 
 const ArticleList = ({ 
@@ -95,36 +95,34 @@ const ArticleList = ({
     }
 
     return (
-        <View className="px-5">
-            <View className="w-full p-3 rounded-xl bg-white pb-5">
-                <View>
-                    {articleList.map(item => (
-                        <ArticleItem
-                            id={item.id}
-                            title={item.title}
-                            cover={item.cover}
-                            date={item.date}
-                        />
-                    ))}
+        <View className="w-full p-3 rounded-xl bg-white pb-5">
+            <View>
+                {articleList.map(item => (
+                    <ArticleItem
+                        id={item.id}
+                        title={item.title}
+                        cover={item.cover}
+                        date={item.date}
+                    />
+                ))}
 
-                    {articleList.length === 0 && !loading && (
-                        <View className="flex justify-center items-center h-64">
-                            <Text className="text-gray-500">该分类下还没有文章</Text>
-                        </View>
-                    )}
+                {articleList.length === 0 && !loading && (
+                    <View className="flex justify-center items-center h-64">
+                        <Text className="text-gray-500">该分类下还没有文章</Text>
+                    </View>
+                )}
 
-                    {loading && (
-                        <View className="flex justify-center items-center h-64">
-                            <Loading />
-                        </View>
-                    )}
+                {loading && (
+                    <View className="flex justify-center items-center h-64">
+                        <Loading />
+                    </View>
+                )}
 
-                    {!hasMore && articleList.length > 0 && (
-                        <View className="text-center text-gray-500 text-sm py-4">
-                            没有更多数据了
-                        </View>
-                    )}
-                </View>
+                {!hasMore && articleList.length > 0 && (
+                    <View className="text-center text-gray-500 text-sm py-4">
+                        没有更多数据了
+                    </View>
+                )}
             </View>
         </View>
     )
