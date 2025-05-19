@@ -1,14 +1,13 @@
-import { View } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import CustomSwiper from '@/components/CustomSwiper';
 import { useBanner } from '@/hooks/useBanner';
 import Loading from '@/components/Loading';
 import { useActivityList } from '@/hooks/useActivityList';
-import { Tabs } from '@nutui/nutui-react-taro'
-import { useState, useMemo, useEffect } from 'react';
+import CustomTabs from '@/components/CustomTabs';
+import { useMemo } from 'react';
 import { useActivityCategoryList } from '@/hooks/useActivityCategoryList';
 import { ActivityList } from '@/components/ActivityList';
-import { ConfigProvider } from '@nutui/nutui-react-taro'
-// import { nutuiTheme } from '@/theme/nutui-theme'
+import Taro from '@tarojs/taro';
 
 /**
  * 活动频道轮播图
@@ -55,66 +54,77 @@ const ActivitySwiper = () => {
     )
 }
 
-const ActivityTabList = ({ category_id }: { category_id: string }) => {
-    const { activityList, loading } = useActivityList({
+/**
+ * Tab 标签页下的活动列表内容
+ * @param param0 
+ * @returns 
+ */
+const ActivityTabList = ({ category_id }: { category_id: string | number }) => {
+    const { 
+        activityList,
+        loading,
+        refresh,
+        loadMore,
+        hasMore,
+     } = useActivityList({
         filter: {
             category_id
+        },
+        limit: 5
+    });
+
+    const handlePullDownRefresh = async () => {
+        console.log('下拉刷新');
+        try {
+            await refresh();
+        } finally {
+            Taro.stopPullDownRefresh();
         }
-    }); 
-
-    return (
-        <View>
-            {loading ? <Loading /> : (
-                <ActivityList list={activityList} />
-            )}
-        </View>
-    )
-}
-
-const Activity = () => {
-    const [tabIndex, setTabIndex] = useState<number | string>(0);
-    const { categories, loading: categoriesLoading } = useActivityCategoryList();
-
-    useEffect(() => {
-        if (categories.length > 0 && tabIndex === 0) {
-            setTabIndex(categories[0].id);
-        }
-    }, [categories, tabIndex]);
-
-    const handleTabChange = (index: number | string) => {
-        setTabIndex(index);
     };
 
+    const handleReachBottom = async () => {
+        console.log('触底加载');
+        if (hasMore && !loading) {
+            await loadMore();
+        }
+    };
+
+    // 注册下拉刷新与触底加载
+    Taro.usePullDownRefresh(handlePullDownRefresh);
+    Taro.useReachBottom(handleReachBottom);
+
+    if (activityList.length === 0 && !loading) {
+        return (
+            <View className="flex justify-center items-center h-64">
+                <Text className="text-gray-500">该分类下还没有活动</Text>
+            </View>
+        );
+    }
     return (
-        <View className="p-3 bg-gray-100">
-            <View>
+        <View>
+            <ActivityList list={activityList} />
+            {loading && <Loading />}
+        </View>
+    );
+};
+
+const Activity = () => {
+    const { categories, loading } = useActivityCategoryList();
+
+    return (
+        <View className="bg-gray-100 min-h-screen py-3">
+            {/* 活动频道轮播图 */}
+            <View className="px-5">
                 <ActivitySwiper />
             </View>
-            <View className="mt-5">
-                {categoriesLoading && <Loading />}
-                <ConfigProvider theme={{ 
-                    '--nutui-tabs-tabpane-padding': '0px',
-                    '--nutui-tabs-titles-background-color': 'transparent',
-                    '--nutui-tabs-tab-line-width': '32px',
-                    '--nutui-tabs-titles-item-active-color': '#000',
-                    '--nutui-tabs-titles-item-active-font-weight': 'bold',
-                    '--nutui-tabs-line-bottom': '8%',
-                    '--nutui-tabs-tab-line-color': '#000',
-                }}>
-                    <Tabs
-                        value={tabIndex}
-                        onChange={handleTabChange}
-                    >
-                        {categories.map((category) => (
-                            <Tabs.TabPane 
-                                value={category.id} 
-                                title={category.title}
-                            >
-                                <ActivityTabList category_id={category.id} />
-                            </Tabs.TabPane>
-                        ))}
-                    </Tabs>
-                </ConfigProvider>
+
+            {/* 活动频道标签页 */}
+            <View className="w-full px-5 mt-2">
+                <CustomTabs 
+                    items={categories}
+                    renderTabContent={(item) => <ActivityTabList category_id={item.id} />}
+                    isLoading={loading}
+                />
             </View>
         </View>
     )

@@ -8,6 +8,7 @@ export default defineAppConfig({
     'pages/article/detail/index',
     'pages/sale/index',
     'pages/activity/index',
+    'pages/activity/detail/index',
     'pages/404/index',
   ],
   window: {

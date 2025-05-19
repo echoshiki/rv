@@ -2,6 +2,7 @@ import { View, Text, Image } from '@tarojs/components';
 import DefaultCover from '@/assets/images/cover.jpg';
 import { ActivityItem as ActivityItemProps, ActivityList as ActivityListProps } from '@/types/ui';
 import { mapsTo } from '@/utils/common';
+import { Tag } from '@nutui/nutui-react-taro';
 
 const ActivityItem = ({ item }: { item: ActivityItemProps }) => {
     return (
@@ -19,17 +20,19 @@ const ActivityItem = ({ item }: { item: ActivityItemProps }) => {
                 </View>
             </View>
             <View className="flex-1 flex flex-col space-y-2">
-                <View className="text-sm text-ellipsis overflow-hidden line-clamp-2">
+                <View className="text-sm text-ellipsis overflow-hidden line-clamp-2 h-10">
                     <Text>{item.title}</Text>
                 </View>
-                <View>
-                    <View className="flex flex-col">
+                <View className="flex flex-row justify-between items-center">
+                    <View>
                         <Text className="text-gray-400 text-xs">
                             报名开始: {item.registration_start_at}
                         </Text>
-                        <Text className="text-gray-400 text-xs">
-                            报名结束: {item.registration_end_at}
-                        </Text>
+                    </View>
+                    <View>
+                        {item.registration_fee === '0.00' && (
+                            <Tag type="success">免费</Tag>
+                        )}
                     </View>
                 </View>
             </View>
@@ -39,9 +42,9 @@ const ActivityItem = ({ item }: { item: ActivityItemProps }) => {
 
 const ActivityList = ({ list }: ActivityListProps) => {
     return (
-        <View className="py-3 bg-gray-100">
-            <View className="w-full">
-                <View className="w-full p-2 rounded-xl bg-white pb-5">
+        <View className="">
+            <View className="w-full p-3 rounded-xl bg-white pb-5">
+                <View>
                     {list.map(item => (
                         <ActivityItem item={item} />
                     ))}
