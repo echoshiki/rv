@@ -1,4 +1,4 @@
-import { View, Text } from '@tarojs/components';
+import { View } from '@tarojs/components';
 import CustomSwiper from '@/components/CustomSwiper';
 import { useBanner } from '@/hooks/useBanner';
 import Loading from '@/components/Loading';
@@ -7,6 +7,8 @@ import { Tabs } from '@nutui/nutui-react-taro'
 import { useState, useMemo, useEffect } from 'react';
 import { useActivityCategoryList } from '@/hooks/useActivityCategoryList';
 import { ActivityList } from '@/components/ActivityList';
+import { ConfigProvider } from '@nutui/nutui-react-taro'
+// import { nutuiTheme } from '@/theme/nutui-theme'
 
 /**
  * 活动频道轮播图
@@ -84,25 +86,35 @@ const Activity = () => {
     };
 
     return (
-        <View className="p-3">
+        <View className="p-3 bg-gray-100">
             <View>
                 <ActivitySwiper />
             </View>
-            <View>
+            <View className="mt-5">
                 {categoriesLoading && <Loading />}
-                <Tabs
-                    value={tabIndex}
-                    onChange={handleTabChange}
-                >
-                    {categories.map((category) => (
-                        <Tabs.TabPane 
-                            value={category.id} 
-                            title={category.title}
-                        >
-                            <ActivityTabList category_id={category.id} />
-                        </Tabs.TabPane>
-                    ))}
-                </Tabs>
+                <ConfigProvider theme={{ 
+                    '--nutui-tabs-tabpane-padding': '0px',
+                    '--nutui-tabs-titles-background-color': 'transparent',
+                    '--nutui-tabs-tab-line-width': '32px',
+                    '--nutui-tabs-titles-item-active-color': '#000',
+                    '--nutui-tabs-titles-item-active-font-weight': 'bold',
+                    '--nutui-tabs-line-bottom': '8%',
+                    '--nutui-tabs-tab-line-color': '#000',
+                }}>
+                    <Tabs
+                        value={tabIndex}
+                        onChange={handleTabChange}
+                    >
+                        {categories.map((category) => (
+                            <Tabs.TabPane 
+                                value={category.id} 
+                                title={category.title}
+                            >
+                                <ActivityTabList category_id={category.id} />
+                            </Tabs.TabPane>
+                        ))}
+                    </Tabs>
+                </ConfigProvider>
             </View>
         </View>
     )

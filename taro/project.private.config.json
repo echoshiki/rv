@@ -27,8 +27,8 @@
           "name": "pages/activity/index",
           "pathName": "pages/activity/index",
           "query": "",
-          "scene": null,
-          "launchMode": "default"
+          "launchMode": "default",
+          "scene": null
         },
         {
           "name": "pages/article/detail/index",

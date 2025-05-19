@@ -23,9 +23,12 @@ const ActivityItem = ({ item }: { item: ActivityItemProps }) => {
                     <Text>{item.title}</Text>
                 </View>
                 <View>
-                    <View>
+                    <View className="flex flex-col">
                         <Text className="text-gray-400 text-xs">
-                            {item.date}
+                            报名开始: {item.registration_start_at}
+                        </Text>
+                        <Text className="text-gray-400 text-xs">
+                            报名结束: {item.registration_end_at}
                         </Text>
                     </View>
                 </View>
@@ -36,9 +39,9 @@ const ActivityItem = ({ item }: { item: ActivityItemProps }) => {
 
 const ActivityList = ({ list }: ActivityListProps) => {
     return (
-        <View className="px-5">
-            <View className="w-full p-3 rounded-xl bg-white pb-5">
-                <View>
+        <View className="py-3 bg-gray-100">
+            <View className="w-full">
+                <View className="w-full p-2 rounded-xl bg-white pb-5">
                     {list.map(item => (
                         <ActivityItem item={item} />
                     ))}
