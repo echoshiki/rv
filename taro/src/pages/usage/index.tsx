@@ -1,10 +1,11 @@
 import { View, Button, Image } from '@tarojs/components';
 import MyCarBg from '@/assets/images/mycar.jpg';
-import { MenuRow } from '@/components/Menu';
+import { MenuRow, MenuFloat } from '@/components/Menu';
 import { ArticleList } from '@/components/ArticleList';
 import { SectionTitle } from '@/components/SectionTitle';
 import { useMenu } from '@/hooks/useMenu';
 import { useArticleList } from '@/hooks/useArticleList';
+
 
 /**
  * 用车频道
@@ -14,6 +15,7 @@ const Usage = () => {
 
     // 菜单数据
     const { rawMenuItems } = useMenu('usage_row_menu');
+    const { rawMenuItems: floatMenuItems } = useMenu('usage_float_menu');
 
     // 用车常识列表
     const { articleList } = useArticleList({
@@ -47,6 +49,9 @@ const Usage = () => {
 
             {/* 用车常识 */}
             <ArticleList list={articleList} /> 
+
+            {/* 悬浮导航 */}
+            <MenuFloat menuList={floatMenuItems} />
         </View>
     )
 }

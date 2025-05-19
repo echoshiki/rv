@@ -2,6 +2,8 @@ import { View, Text, Image } from "@tarojs/components";
 import { mapsTo } from "@/utils/common";
 import { MenuItem, MenuList } from '@/types/ui';
 import RightArrowIcon from '@/assets/icons/right-arrow.svg';
+import { FixedNav, FixedNavItem } from '@nutui/nutui-react-taro';
+import { useState } from 'react';
 
 // 处理菜单项的点击
 const handleItemClick = (item: MenuItem) => {
@@ -92,8 +94,49 @@ const MenuPage = ({ menuList }: MenuList) => {
     )
 }
 
+const MenuFloat = ({ menuList }: MenuList) => {
+    
+    const fixedMenu = menuList.map((item, index) => {
+        return {
+            ...item,
+            id: index,
+            text: item.title
+        }
+    })
+
+    // 控制折叠
+    const [visible, setVisible] = useState(false);
+
+    const change = (value: boolean) => {
+        setVisible(value)
+    }
+
+    const selected = (
+        item: FixedNavItem,
+        _event: React.MouseEvent<Element, MouseEvent>
+    ) => {
+        const menuItem = menuList[item.id as number];
+        handleItemClick(menuItem);
+    }
+
+    return (
+        <View>
+            <FixedNav
+                list={fixedMenu}
+                activeText="贴心服务"
+                overlay
+                position={{ bottom: '50px' }}
+                onChange={change}
+                visible={visible}
+                onSelect={selected}
+            />
+        </View>
+    )
+}
+
 export {
     MenuColumn,
     MenuRow,
-    MenuPage
+    MenuPage,
+    MenuFloat
 };

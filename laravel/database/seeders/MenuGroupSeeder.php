@@ -161,6 +161,42 @@ class MenuGroupSeeder extends Seeder
                     'requires_auth' => false,
                 ],
             ]
+        ],
+        [
+            'name' => '用车频道悬浮菜单',
+            'code' => 'usage_float_menu',
+            'description' => '用车频道悬浮菜单',
+            'layout' => 'grid',
+            'items' => [
+                [
+                    'title' => '售后网点',
+                    'icon' =>  'origin/icons/usage/float/network.svg',
+                    'link_type' => 'page',
+                    'link_value' => '/pages/article/detail/index?code=after_sales_network',
+                    'requires_auth' => false,
+                ],
+                [
+                    'title' => '快速救援',
+                    'icon' =>  'origin/icons/usage/float/help.svg',
+                    'link_type' => 'function',
+                    'link_value' => 'onMakePhoneCall',
+                    'requires_auth' => false,
+                ],
+                [
+                    'title' => '管家服务',
+                    'icon' =>  'origin/icons/usage/float/service.svg',
+                    'link_type' => 'function',
+                    'link_value' => 'onOpenCustomerServiceChat',
+                    'requires_auth' => false,
+                ],
+                [
+                    'title' => '用户建议',
+                    'icon' =>  'origin/icons/usage/float/message.svg',
+                    'link_type' => 'page',
+                    'link_value' => '/pages/user/feedback/index',
+                    'requires_auth' => true,
+                ]
+            ]
         ]
     ];
 
