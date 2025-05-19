@@ -34,52 +34,72 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('用户名')
-                    ->maxLength(255)                 
-                    ->unique(ignoreRecord: true)
-                    ->validationMessages([
-                        'unique' => '用户名已存在',
+                Forms\Components\Section::make()
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('用户名')
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true)
+                            ->validationMessages([
+                                'unique' => '用户名已存在',
+                            ])
+                            ->columnSpanFull()
+                            ->required(),
+                        Forms\Components\TextInput::make('phone')
+                            ->tel()
+                            ->label('手机号')
+                            ->unique(ignoreRecord: true)
+                            ->validationMessages([
+                                'unique' => '该手机号已存在',
+                            ])
+                            ->required(),
+                        Forms\Components\TextInput::make('email')
+                            ->email()
+                            ->unique(ignoreRecord: true)
+                            ->validationMessages([
+                                'unique' => '该邮箱已存在',
+                            ])
+                            ->maxLength(255)
+                            ->label('邮箱')
+                            ->required(),
+                        Forms\Components\Select::make('level')
+                            ->label('会员等级')
+                            ->options([
+                                1 => '普通会员',
+                                2 => '银卡会员',
+                                3 => '金卡会员',
+                                4 => '铂金卡会员',
+                                5 => '铂钻卡会员',
+                                6 => '黑钻卡会员',
+                            ])
+                            ->required(),
+                        Forms\Components\TextInput::make('points')
+                            ->numeric()
+                            ->label('会员积分')
+                            ->required(),
+                        Forms\Components\TextInput::make('password')
+                            ->password()
+                            ->minLength(6)
+                            ->required(fn(string $context): bool => $context === 'create')
+                            ->confirmed()
+                            // 仅在输入后更新密码
+                            ->dehydrated(fn($state) => filled($state))
+                            ->label('密码')
+                            ->validationMessages([
+                                'confirmed' => '两次输入的密码不一致',
+                            ]),
+                        Forms\Components\TextInput::make('password_confirmation')
+                            ->password()
+                            ->requiredWith('password')
+                            ->same('password')
+                            ->label('确认密码')
+                            // 不保存到数据库
+                            ->dehydrated(false)
+                            ->validationMessages([
+                                'required_with' => '请确认密码'
+                            ]),
                     ])
-                    ->required(),
-                Forms\Components\TextInput::make('phone')
-                    ->tel()
-                    ->label('手机号')
-                    ->unique(ignoreRecord: true)
-                    ->validationMessages([
-                        'unique' => '该手机号已存在',
-                    ])
-                    ->required(),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->unique(ignoreRecord: true)
-                    ->validationMessages([
-                        'unique' => '该邮箱已存在',
-                    ])
-                    ->maxLength(255)
-                    ->label('邮箱')
-                    ->required(),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->minLength(6)
-                    ->required(fn (string $context): bool => $context === 'create')
-                    ->confirmed()
-                    // 仅在输入后更新密码
-                    ->dehydrated(fn ($state) => filled($state))
-                    ->label('密码')
-                    ->validationMessages([
-                        'confirmed' => '两次输入的密码不一致',
-                    ]),
-                Forms\Components\TextInput::make('password_confirmation')
-                    ->password()
-                    ->requiredWith('password')
-                    ->same('password')
-                    ->label('确认密码')
-                    // 不保存到数据库
-                    ->dehydrated(false)
-                    ->validationMessages([
-                        'required_with' => '请确认密码'
-                    ]),
             ]);
     }
 

@@ -17,32 +17,32 @@ interface MenuList {
     menuList: MenuItem[]
 }
 
-interface ArticleItem {
+interface Category {
     id: string,
     title: string,
-    date: string,
-    cover: string | null,
-    category?: ArticleCategory
+    description: string,
+    code: string,
+    channel?: string
 }
 
 interface ArticleList {
     list: ArticleItem[]
 }
 
-interface ArticleDetail {
+interface ArticleItem {
     id: string,
     title: string,
-    content: string,
-    cover: string | null,
     date: string,
-    category?: ArticleCategory
+    cover: string | null,
+    category?: Category
 }
 
-interface ArticleCategory {
-    id: string,
-    title: string,
-    description: string,
-    code: string
+interface ArticleDetail extends ArticleItem {
+    content: string
+}
+
+interface ActivityList {
+    list: ActivityItem[]
 }
 
 interface ActivityItem {
@@ -50,7 +50,7 @@ interface ActivityItem {
     title: string,
     date: string,
     cover: string | null,
-    category: ActivityCategory,
+    category: Category,
     description: string,
     registration_fee: string,
     max_participants: number,
@@ -62,19 +62,8 @@ interface ActivityItem {
     is_recommend: boolean,
 }
 
-interface ActivityList {
-    list: ActivityItem[]
-}
-
 interface ActivityDetail extends ActivityItem {
     content: string
-}
-
-interface ActivityCategory {
-    id: string,
-    title: string,
-    description: string,
-    code: string
 }
 
 interface SectionTitle {
@@ -98,10 +87,9 @@ export {
     ArticleItem,
     ArticleList,
     ArticleDetail,
-    ArticleCategory,
+    Category,
     ActivityItem,
     ActivityList,
     ActivityDetail,
-    ActivityCategory,
     BannerItem
 }

@@ -35,10 +35,11 @@ class MenuItemsRelationManager extends RelationManager
                         'page' => '页面',
                         'url' => '网址',
                         'function' => '函数调用',
+                        'channel' => '分类传参',
                     ])
                     ->native(false)
                     ->required(),
-                
+                      
                 Forms\Components\TextInput::make('link_value')
                     ->label('链接值')
                     ->required()

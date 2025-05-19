@@ -1,19 +1,23 @@
 import { View, Text, Image } from '@tarojs/components';
 import DefaultCover from '@/assets/images/cover.jpg';
-import { ArticleItem as ArticleItemProps, ArticleList as ArticleListProps } from '@/types/ui';
+import { ArticleItem as ArticleItemProps } from '@/types/ui';
+import { ArticleListQueryParams } from '@/api/article';
 import { mapsTo } from '@/utils/common';
+import { useArticleList } from '@/hooks/useArticleList';
+import Taro from '@tarojs/taro';
+import Loading from '@/components/Loading';
 
 const ArticleItem = ({ id, title, date, cover }: ArticleItemProps) => {
     return (
-        <View 
-            className="flex flex-nowrap items-center space-x-3 py-3 border-b border-gray-300 border-dashed" 
+        <View
+            className="flex flex-nowrap items-center space-x-3 py-3 border-b border-gray-300 border-dashed"
             onClick={() => mapsTo(`/pages/article/detail/index?id=${id}`)}
         >
             <View className="w-24">
                 <View className="relative block h-0 p-0 overflow-hidden pb-[80%] rounded-xl">
                     <Image
                         src={cover ? cover : DefaultCover}
-                        className="absolute object-cover w-full h-full border-none align-middle" 
+                        className="absolute object-cover w-full h-full border-none align-middle"
                         mode={`aspectFill`}
                     />
                 </View>
@@ -34,26 +38,96 @@ const ArticleItem = ({ id, title, date, cover }: ArticleItemProps) => {
     )
 }
 
-const ArticleList = ({ list }: ArticleListProps) => {
+interface ArticleListProps {
+    queryParams: ArticleListQueryParams;
+    isPullDownRefresh: boolean;
+    isReachBottomRefresh: boolean;
+    changePageTitle: boolean;
+}
+
+const ArticleList = ({ 
+    queryParams,
+    isPullDownRefresh = false,
+    isReachBottomRefresh = false,
+    changePageTitle = false
+}: ArticleListProps) => {
+    const {
+        articleList,
+        loading,
+        refresh,
+        loadMore,
+        hasMore,
+    } = useArticleList(queryParams, {
+        // 分类加载完成后的回调，设置页面标题
+        onCategoryLoaded: changePageTitle ? (category) => {
+            if (category?.title) {
+                Taro.setNavigationBarTitle({
+                    title: category.title
+                });
+            }
+        } : undefined
+    });
+
+    // 处理下拉刷新
+    const handlePullDownRefresh = async () => {
+        console.log('下拉刷新');
+        try {
+            await refresh();
+        } finally {
+            Taro.stopPullDownRefresh();
+        }
+    };
+
+    // 处理触底加载
+    const handleReachBottom = async () => {
+        console.log('触底加载');
+        if (hasMore && !loading) {
+            await loadMore();
+        }
+    };
+
+    // 注册下拉刷新与触底加载
+    if (isPullDownRefresh) {
+        Taro.usePullDownRefresh(handlePullDownRefresh);
+    }
+    if (isReachBottomRefresh) {
+        Taro.useReachBottom(handleReachBottom);
+    }
+
     return (
         <View className="px-5">
             <View className="w-full p-3 rounded-xl bg-white pb-5">
                 <View>
-                    {list.map(item => (
-                        <ArticleItem 
+                    {articleList.map(item => (
+                        <ArticleItem
                             id={item.id}
                             title={item.title}
                             cover={item.cover}
                             date={item.date}
                         />
                     ))}
+
+                    {articleList.length === 0 && !loading && (
+                        <View className="flex justify-center items-center h-64">
+                            <Text className="text-gray-500">该分类下还没有文章</Text>
+                        </View>
+                    )}
+
+                    {loading && (
+                        <View className="flex justify-center items-center h-64">
+                            <Loading />
+                        </View>
+                    )}
+
+                    {!hasMore && articleList.length > 0 && (
+                        <View className="text-center text-gray-500 text-sm py-4">
+                            没有更多数据了
+                        </View>
+                    )}
                 </View>
             </View>
         </View>
     )
 }
 
-export {
-    ArticleItem,
-    ArticleList
-}
+export default ArticleList;

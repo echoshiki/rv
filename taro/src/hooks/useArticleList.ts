@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
-import { ArticleItem, ArticleCategory } from "@/types/ui";
+import { ArticleItem, Category } from "@/types/ui";
 import { getArticleList, type ArticleListQueryParams } from "@/api/article";
 
 interface UseArticleListOptions {
     autoLoad?: boolean,
     // 分类加载完成后的回调，比如修改标题
-    onCategoryLoaded?: (category: ArticleCategory) => void,
+    onCategoryLoaded?: (category: Category) => void,
 }
 
 // 默认配置选项
@@ -29,7 +29,7 @@ const useArticleList = (
 
     const [params, setParams] = useState<ArticleListQueryParams>(initialParams);
     const [articleList, setArticleList] = useState<ArticleItem[]>([]);
-    const [articleCategory, setArticleCategory] = useState<ArticleCategory | null>(null);
+    const [articleCategory, setArticleCategory] = useState<Category | null>(null);
     const [total, setTotal] = useState<number>(0);
     const [page, setPage] = useState<number>(1);
     const [hasMore, setHasMore] = useState<boolean>(true);
@@ -145,5 +145,6 @@ const useArticleList = (
 }
 
 export {
-    useArticleList
+    useArticleList,
+    UseArticleListOptions
 }

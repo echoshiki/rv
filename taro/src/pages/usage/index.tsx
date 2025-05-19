@@ -1,10 +1,9 @@
 import { View, Button, Image } from '@tarojs/components';
 import MyCarBg from '@/assets/images/mycar.jpg';
 import { MenuRow, MenuFloat } from '@/components/Menu';
-import { ArticleList } from '@/components/ArticleList';
+import ArticleList from '@/components/ArticleList';
 import { SectionTitle } from '@/components/SectionTitle';
 import { useMenu } from '@/hooks/useMenu';
-import { useArticleList } from '@/hooks/useArticleList';
 
 /**
  * 用车频道
@@ -17,11 +16,11 @@ const Usage = () => {
     const { rawMenuItems: floatMenuItems } = useMenu('usage_float_menu');
 
     // 用车常识列表
-    const { articleList } = useArticleList({
+    const queryParams = {
         filter: {
             category_code: 'common_sense'
         }
-    });
+    };
 
     return (
         <View className="bg-gray-100 min-h-screen pb-5">
@@ -47,7 +46,12 @@ const Usage = () => {
             />
 
             {/* 用车常识 */}
-            <ArticleList list={articleList} /> 
+            <ArticleList 
+                queryParams={queryParams} 
+                isPullDownRefresh
+                isReachBottomRefresh
+                changePageTitle
+            /> 
 
             {/* 悬浮导航 */}
             <MenuFloat menuList={floatMenuItems} />

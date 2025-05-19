@@ -44,12 +44,19 @@ interface MenuItem {
     requires_auth: boolean
 }
 
+interface Category {
+    id: string,
+    title: string,
+    description: string,
+    code: string
+}
+
 interface ArticleItem {
     id: string,
     title: string,
     cover: string | null,
     is_recommend: boolean,
-    category: ArticleCategory,
+    category: Category,
     published_at: string
 }
 
@@ -68,14 +75,7 @@ interface ArticleDetail {
     cover: string | null,
     is_recommend: boolean,
     published_at: string,
-    category: ArticleCategory | null
-}
-
-interface ArticleCategory {
-    id: string,
-    title: string,
-    description: string,
-    code: string
+    category: Category | null
 }
 
 interface ActivityItem {
@@ -91,7 +91,7 @@ interface ActivityItem {
     started_at: string,
     ended_at: string,
     is_recommend: boolean,
-    category: ActivityCategory,
+    category: Category,
     published_at: string
 }
 
@@ -107,13 +107,6 @@ interface ActivityDetail extends ActivityItem {
     content: string
 }
 
-interface ActivityCategory {
-    id: string,
-    title: string,
-    description: string,
-    code: string
-}
-
 export {
     ApiResponse,
     BannerItem,
@@ -121,6 +114,5 @@ export {
     ArticleList,
     ArticleDetail,
     ActivityList,
-    ActivityDetail,
-    ActivityCategory
+    ActivityDetail
 }

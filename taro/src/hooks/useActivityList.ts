@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
-import { ActivityItem, ActivityCategory } from "@/types/ui";
+import { ActivityItem, Category } from "@/types/ui";
 import { getActivityList, type ActivityListQueryParams } from "@/api/activity";
 
 interface UseActivityListOptions {
     autoLoad?: boolean,
     // 分类加载完成后的回调，比如修改标题
-    onCategoryLoaded?: (category: ActivityCategory) => void,
+    onCategoryLoaded?: (category: Category) => void,
 }
 
 // 默认配置选项
@@ -29,7 +29,7 @@ const useActivityList = (
 
     const [params, setParams] = useState<ActivityListQueryParams>(initialParams);
     const [activityList, setActivityList] = useState<ActivityItem[]>([]);
-    const [activityCategory, setActivityCategory] = useState<ActivityCategory | null>(null);
+    const [activityCategory, setActivityCategory] = useState<Category | null>(null);
     const [total, setTotal] = useState<number>(0);
     const [page, setPage] = useState<number>(1);
     const [hasMore, setHasMore] = useState<boolean>(true);

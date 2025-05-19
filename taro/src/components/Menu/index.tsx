@@ -191,49 +191,10 @@ const MenuMatrix = ({ menuList }: MenuList) => {
     )
 }
 
-/**
- * 首页标签栏菜单
- * @param menuList 菜单数据
- */
-const MenuTab = ({ menuList }: MenuList) => {
-
-    // 格式化菜单数据
-    console.log(menuList);
-
-
-    return (
-        <View className="flex flex-col space-y-3">
-            {menuList.map((item, index) => (
-                <View 
-                    key={index}
-                    className="flex flex-row items-center justify-between bg-white rounded-xl px-3 py-4" 
-                    onClick={() => handleItemClick(item)}
-                >
-                    <View className="flex flex-row items-center">
-                        <View className="flex flex-row items-center mr-5">
-                            <Image src={item.icon} className="w-12 h-12" />
-                        </View>
-                        <View className="leading-none">
-                            <Text className="text-base font-bold block">{item.title}</Text>
-                            <Text className="text-xs text-gray-500">{item.description}</Text>
-                        </View>
-                    </View>
-                    <View className="flex flex-row items-center">
-                        <Image src={RightArrowIcon} className="w-5 h-5" />
-                    </View>
-                </View>                    
-            ))}
-        </View>
-    )
-}
-
-
-
 export {
     MenuColumn,
     MenuRow,
     MenuPage,
     MenuFloat,
-    MenuMatrix,
-    MenuTab
+    MenuMatrix
 };

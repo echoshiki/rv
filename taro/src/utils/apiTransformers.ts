@@ -57,6 +57,9 @@ function transformApiMenuItem(apiItem: ApiMenuItem): MenuItem {
             console.warn(`没有能为这个菜单找到对应的映射函数: ${apiItem.link_value}`);
             displayProps.onClick = () => alert(`没有能为这个菜单找到对应的映射函数: ${apiItem.link_value}`);
         }
+    } else if (apiItem.link_type === "channel" && apiItem.link_value) {
+        // 给标签栏传参
+        displayProps.link = apiItem.link_value;
     } else {
         displayProps.link = "#";
         console.warn(`不支持的链接类型: ${apiItem.link_type}`);

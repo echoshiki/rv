@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { ActivityCategory } from "@/types/ui";
+import { Category } from "@/types/ui";
 import { getActivityCategoryList } from "@/api/activity";
 
 const useActivityCategoryList = () => {
-    const [categories, setCategories] =  useState<ActivityCategory[]>([]);
+    const [categories, setCategories] =  useState<Category[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 

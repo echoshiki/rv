@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('phone')->nullable()->unique()->after('email_verified_at');
             $table->timestamp('phone_verified_at')->nullable()->after('phone');
+            $table->integer('level')->default(1)->comment('会员等级');
+            $table->integer('points')->default(0)->comment('会员积分');
         });
     }
 
