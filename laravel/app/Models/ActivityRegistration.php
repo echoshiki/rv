@@ -78,4 +78,17 @@ class ActivityRegistration extends Model
 
         return $no;
     }
+    
+    /**
+     * 获取报名状态列表
+     */
+    public static function getStatuses(): array
+    {
+        return [
+            'pending' => '待支付',
+            'approved' => '已报名',
+            'rejected' => '已拒绝',
+            'cancelled' => '已取消'
+        ];
+    }
 }

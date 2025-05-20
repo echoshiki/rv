@@ -107,6 +107,63 @@ interface ActivityDetail extends ActivityItem {
     content: string
 }
 
+interface RegionItem {
+    code: string,
+    name: string
+}
+
+/**
+ * 返回的报名记录
+ */
+interface RegistrationItem {
+    id: string,
+    activity_id: string,
+    registration_no: string,
+    name: string,
+    phone: string,
+    province: string,
+    city: string,
+    status: string,
+    paid_amount: string,
+    payment_method: string,
+    payment_time: string,
+    payment_no: string,
+    created_at: string,
+    updated_at: string,
+    activity: RegistrationActivity
+}
+
+interface RegistrationActivity {
+    id: string,
+    title: string,
+    cover: string | null,
+    started_at: string,
+    ended_at: string,
+}
+
+/**
+ * 返回的报名列表
+ */
+interface RegistrationList {
+    list: RegistrationItem[],
+    total: number,
+    per_page: number,
+    current_page: number,
+    has_more_pages: boolean
+}
+
+/**
+ * 报名提交数据
+ */
+interface RegistrationSubmission {
+    activity_id: string,
+    name: string,
+    phone: string,
+    province: string,
+    city: string,
+    remarks?: string
+}
+
 export {
     ApiResponse,
     BannerItem,
@@ -115,5 +172,9 @@ export {
     ArticleDetail,
     ActivityList,
     ActivityDetail,
-    Category
+    Category,
+    RegionItem,
+    RegistrationItem,
+    RegistrationList,
+    RegistrationSubmission
 }

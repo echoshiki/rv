@@ -79,6 +79,36 @@ interface BannerItem {
     link?: string
 }
 
+interface RegistrationList {
+    list: RegistrationItem[]
+}
+
+interface RegistrationItem {
+    id: string,
+    activity_id: string,
+    registration_no: string,
+    name: string,
+    phone: string,
+    province: string,
+    city: string,
+    status: string,
+    paid_amount: string,
+    payment_method: string,
+    payment_time: string,
+    payment_no: string,
+    created_at: string,
+    updated_at: string,
+    activity: RegistrationActivity,
+}
+
+interface RegistrationActivity {
+    id: string,
+    title: string,
+    cover: string | null,
+    started_at: string,
+    ended_at: string,
+}
+
 export {
     SectionTitle,
     MenuItem,
@@ -91,5 +121,8 @@ export {
     ActivityItem,
     ActivityList,
     ActivityDetail,
-    BannerItem
+    BannerItem,
+    RegistrationItem,
+    RegistrationList,
+    RegistrationActivity
 }

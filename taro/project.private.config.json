@@ -24,6 +24,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/registration/index",
+          "pathName": "pages/registration/index",
+          "query": "",
+          "scene": null,
+          "launchMode": "default"
+        },
+        {
           "name": "pages/activity/index",
           "pathName": "pages/activity/index",
           "query": "",

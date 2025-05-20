@@ -44,7 +44,7 @@ use App\Models\Article;
         });
 
         // 区域相关API
-        Route::prefix('regions')->group(function () {
+        Route::middleware('auth:sanctum')->prefix('regions')->group(function () {
             Route::get('/provinces', [RegionController::class, 'provinces']);
             Route::get('/cities/{provinceCode}', [RegionController::class, 'cities']);
             Route::get('/districts/{cityCode}', [RegionController::class, 'districts']);
@@ -61,7 +61,7 @@ use App\Models\Article;
         // 报名相关API
         Route::middleware('auth:sanctum')->prefix('registrations')->group(function () {
             Route::post('/', [ActivityRegistrationController::class, 'store']);
-            Route::post('/{id}/cancel', [ActivityRegistrationController::class, 'cancel']);
+            // Route::post('/{id}/cancel', [ActivityRegistrationController::class, 'cancel']);
             Route::get('/my', [ActivityRegistrationController::class, 'index']);
             Route::get('/{id}', [ActivityRegistrationController::class, 'show']);
         });

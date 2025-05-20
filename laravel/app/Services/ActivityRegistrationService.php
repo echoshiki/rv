@@ -152,8 +152,9 @@ class ActivityRegistrationService
 
         // 调用应用筛选的函数
         $this->applyCommonFilters($query, $filter);
-
+        
         $query->orderBy($orderBy, $sort);
+
         return $query->paginate($limit, ['*'], 'page', $page)->withQueryString();
     }
 
@@ -227,12 +228,6 @@ class ActivityRegistrationService
     {
         if (!empty($filter['status'])) {
             $query->where('status', $filter['status']);
-        }
-
-        if (!empty($filter['is_active'])) {
-            $query->where('is_active', $filter['is_active']);
-        } else {
-            $query->active();
         }
 
         if (!empty($filter['registration_no'])) {
@@ -369,6 +364,12 @@ class ActivityRegistrationService
         }
 
         return $this->updateRegistrationStatus($registrationId, 'cancelled', $remarks);
+    }
+
+    // 获取状态名称
+    public function getStatusName(string $status): string
+    {
+        return ActivityRegistration::getStatuses()[$status] ?? '未知状态';
     }
     
 }

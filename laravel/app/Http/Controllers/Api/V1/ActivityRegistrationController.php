@@ -8,6 +8,8 @@ use App\Services\ActivityService;
 use App\Services\ActivityRegistrationService;
 use App\Http\Requests\Api\V1\ActivityRegistrationRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\RegistrationResource;
+use App\Http\Resources\RegistrationResourceCollection;
 
 class ActivityRegistrationController extends Controller
 {
@@ -21,7 +23,6 @@ class ActivityRegistrationController extends Controller
         $this->activityService = $activityService;
         $this->activityRegistrationService = $activityRegistrationService;
     }
-
 
     /**
      * 获取当前用户报名列表
@@ -39,17 +40,26 @@ class ActivityRegistrationController extends Controller
                 'name', 
                 'phone'
             ]);
-            $page = $request->input('page', 1);
-            $limit = $request->input('limit', 10);
+
+            // 获取排序字段
+            $orderBy = $request->get('orderBy', 'created_at');
+            // 获取排序方式
+            $sort = $request->get('sort', 'desc');
+            // 获取当前页码
+            $page = $request->get('page', 1);
+            // 获取每页数据量
+            $limit = $request->get('limit', 10);
 
             $registrations = $this->activityRegistrationService->getUserRegistrations(
                 $user->id,
                 $filters,
+                $orderBy,
+                $sort,
                 $page,
                 $limit
             );
 
-            return $this->successResponse($registrations);
+            return $this->successResponse(new RegistrationResourceCollection($registrations));
         } catch (\Throwable $e) {
             return $this->errorResponse('报名列表获取失败：' . $e->getMessage(), 500);
         }
@@ -67,7 +77,7 @@ class ActivityRegistrationController extends Controller
 
             $registration = $this->activityRegistrationService->createRegistration($validatedData);
 
-            return $this->successResponse($registration, '报名成功！您的报名正在处理中。');
+            return $this->successResponse(new RegistrationResource($registration), '报名成功！您的报名正在处理中。');
         } catch (\Throwable $e) {
             return $this->errorResponse('报名失败：' . $e->getMessage(), 500);
         }

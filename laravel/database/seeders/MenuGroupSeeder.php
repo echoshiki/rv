@@ -22,7 +22,7 @@ class MenuGroupSeeder extends Seeder
                     'title' => '我的报名',
                     'icon' =>  'origin/icons/form.svg',
                     'link_type' => 'page',
-                    'link_value' => '/pages/activity/form/index',
+                    'link_value' => '/pages/registration/index',
                     'requires_auth' => true,
                 ],
                 [
