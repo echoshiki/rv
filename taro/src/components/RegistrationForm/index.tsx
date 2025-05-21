@@ -8,7 +8,7 @@ interface RegistrationFormProps {
 }
 
 const RegistrationForm = ({ onSubmit }: RegistrationFormProps) => {
-    const formRef = useRef<FormInstance>(null)
+    const formRef = useRef<FormInstance>(null);
     const [pickerState, setPickerState] = useState({
         visible: false,
         area: [] as string[]
