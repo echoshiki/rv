@@ -2,19 +2,26 @@
 
 namespace App\Services;
 
-use App\Models\Rv; // 引入 Banner 模型
+use App\Models\Rv;
 
-class RvService 
+class RvService
 {
     // 获取房车列表
-    public function getRvList()
+    public function getRvList(
+        string $orderBy = 'created_at',
+        string $sort = 'desc',
+        int $page = 1,
+        int $limit = 10
+    )
     {
-        return Rv::all();
+        $query = Rv::where('is_active', true);
+        $query->orderBy($orderBy, $sort);
+        return $query->paginate($limit, ['*'], 'page', $page)->withQueryString();
     }
 
     // 获取房车详情
     public function getRvDetail($id)
     {
-        return Rv::find($id);
+        return Rv::where('is_active', true)->find($id);
     }
 }

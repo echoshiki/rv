@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\UsedRv;
 
 class UsedRvSeeder extends Seeder
 {
@@ -12,6 +12,11 @@ class UsedRvSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        // 清空二手车表
+        UsedRv::truncate();
+        
+        $this->command->info('开始生成测试用的普通二手车...');
+        UsedRv::factory(20)->create();
+        $this->command->info('生成测试用的二手车完毕');
     }
 }

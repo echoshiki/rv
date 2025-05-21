@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // 生成一个测试用的普通用户
+        $this->command->info('开始生成测试用的微信账户...');
         $wechatUser = User::updateOrCreate(
             [
                 'email' => 'quo.maxime@example.net'
@@ -50,10 +51,12 @@ class UserSeeder extends Seeder
                     'deleted_at' => null
                 ]
             );
-            $this->command->info('成功生成测试用的微信账户。');
+            $this->command->info('生成测试用的微信账户完毕');
         }
 
         // 生成 10 个用户
+        $this->command->info('开始生成测试用的普通账户...');
         User::factory()->count(20)->create();
+        $this->command->info('生成测试用的普通账户完毕');
     }
 }

@@ -58,6 +58,13 @@ class AdminPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->navigationGroups([
+                '用户管理',
+                '房车管理',
+                '活动管理',
+                '内容管理',
+                '系统设置',
             ]);
     }
 }

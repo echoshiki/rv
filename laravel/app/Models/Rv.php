@@ -22,7 +22,8 @@ class Rv extends Model
         'is_active' => 'boolean',
         'sort' => 'integer',
         'price' => 'decimal:2',
-        'order_price' => 'decimal:2'
+        'order_price' => 'decimal:2',
+        'photos' => 'array' 
     ];
 
     // 获取相册

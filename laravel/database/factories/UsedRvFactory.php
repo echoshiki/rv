@@ -17,7 +17,12 @@ class UsedRvFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->word(),
+            'cover' => 'origin/default_cover.jpg',
+            'price' => fake()->randomFloat(2, 10, 500),
+            'content' => fake()->paragraph(),
+            'is_active' => fake()->boolean(90),
+            'sort' => fake()->numberBetween(0, 100)
         ];
     }
 }
