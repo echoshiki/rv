@@ -1,10 +1,12 @@
-import { View, Text, Image, RichText } from "@tarojs/components";
+import { View, Text, RichText } from "@tarojs/components";
 import DefaultCover from '@/assets/images/cover.jpg';
 import { useArticleDetail } from "@/hooks/useArticleDetail";
 import Taro from "@tarojs/taro";
 import { type ArticleDetailQueryParams } from "@/api/article";
 import Loading from "@/components/Loading";
 import { cleanHTML } from '@/utils/common';
+import Card from '@/components/Card';
+import AspectRatioImage from "@/components/AspectRatioImage";
 
 const Detail = () => {
 
@@ -27,17 +29,13 @@ const Detail = () => {
     return (
         <View className="bg-gray-100 min-h-screen pb-5">
             <View className="w-full">
-                <View className="relative block h-0 p-0 overflow-hidden pb-[50%]">
-                    {/* 封面图片 */}
-                    <Image
-                        src={articleDetail?.cover || DefaultCover}
-                        className="absolute object-cover w-full h-full border-none align-middle"
-                        mode={`aspectFill`}
-                    />
-                </View>
+                <AspectRatioImage
+                    src={articleDetail?.cover || DefaultCover}
+                    ratio={.5}
+                />
             </View>
             <View className="px-5 relative mt-[-3rem]">
-                <View className="bg-white rounded-xl p-5 pb-10">
+                <Card>
                     <View className="mb-5">
                         <Text className="text-xl font-bold text-justify leading-relaxed">
                             {articleDetail?.title}
@@ -53,7 +51,7 @@ const Detail = () => {
                             nodes={cleanHTML(articleDetail?.content || '')}
                         />
                     </View>
-                </View>
+                </Card>
             </View>
 
             {/* 加载状态展示 */}

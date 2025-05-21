@@ -1,4 +1,4 @@
-import { View, Text, Image } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import DefaultCover from '@/assets/images/cover.jpg';
 import { RegistrationItem as RegistrationItemProps } from '@/types/ui';
 import { useRegistrationList } from '@/hooks/useRegistrationList';
@@ -7,6 +7,8 @@ import Loading from '@/components/Loading';
 import StatusBadge from '@/components/StatusBadge';
 import { Dialog } from '@nutui/nutui-react-taro'
 import { useState } from 'react';
+import Card from '@/components/Card';
+import AspectRatioImage from '@/components/AspectRatioImage';
 
 const RegistrationDialog = ({
     item,
@@ -63,13 +65,11 @@ const RegistrationItem = ({
             onClick={() => onClickItem(item)}
         >
             <View className="w-14">
-                <View className="relative block h-0 p-0 overflow-hidden pb-[100%] rounded-full">
-                    <Image
-                        src={item.activity.cover ? item.activity.cover : DefaultCover}
-                        className="absolute object-cover w-full h-full border-none align-middle"
-                        mode={`aspectFill`}
-                    />
-                </View>
+                <AspectRatioImage
+                    src={item.activity.cover ? item.activity.cover : DefaultCover}
+                    ratio={1}
+                    rounded="full"
+                />
             </View>
             <View className="h-12 flex-1 flex flex-col space-y-2">
                 <View className="text-sm text-ellipsis overflow-hidden line-clamp-2">
@@ -155,7 +155,7 @@ const RegistrationList = ({
     };
 
     return (
-        <View className="w-full p-3 rounded-xl bg-white pb-5">
+        <Card>
             <View>
                 {registrationList.map(item => (
                     <RegistrationItem
@@ -188,7 +188,7 @@ const RegistrationList = ({
                 onConfirm={handleDialogConfirm}
                 onCancel={() => setIsDialogVisible(false)}
             />
-        </View>
+        </Card>
     )
 }
 

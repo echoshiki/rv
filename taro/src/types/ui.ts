@@ -114,6 +114,11 @@ interface RegistrationActivity {
     ended_at: string,
 }
 
+interface RegionItem {
+    code: string,
+    name: string
+}
+
 export {
     SectionTitle,
     MenuItem,
@@ -129,5 +134,6 @@ export {
     BannerItem,
     RegistrationItem,
     RegistrationList,
-    RegistrationActivity
+    RegistrationActivity,
+    RegionItem
 }

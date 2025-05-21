@@ -1,4 +1,4 @@
-import { View, Text, Image } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import DefaultCover from '@/assets/images/cover.jpg';
 import { ArticleItem as ArticleItemProps } from '@/types/ui';
 import { ArticleListQueryParams } from '@/api/article';
@@ -6,6 +6,8 @@ import { mapsTo } from '@/utils/common';
 import { useArticleList } from '@/hooks/useArticleList';
 import Taro from '@tarojs/taro';
 import Loading from '@/components/Loading';
+import Card from '@/components/Card';
+import AspectRatioImage from '@/components/AspectRatioImage';
 
 const ArticleItem = ({ id, title, date, cover }: ArticleItemProps) => {
     return (
@@ -14,13 +16,11 @@ const ArticleItem = ({ id, title, date, cover }: ArticleItemProps) => {
             onClick={() => mapsTo(`/pages/article/detail/index?id=${id}`)}
         >
             <View className="w-24">
-                <View className="relative block h-0 p-0 overflow-hidden pb-[80%] rounded-xl">
-                    <Image
-                        src={cover ? cover : DefaultCover}
-                        className="absolute object-cover w-full h-full border-none align-middle"
-                        mode={`aspectFill`}
-                    />
-                </View>
+                <AspectRatioImage
+                    src={cover ? cover : DefaultCover}
+                    ratio={.8}
+                    rounded="xl"
+                />
             </View>
             <View className="flex-1 flex flex-col space-y-2">
                 <View className="text-sm text-ellipsis overflow-hidden line-clamp-2">
@@ -95,7 +95,7 @@ const ArticleList = ({
     }
 
     return (
-        <View className="w-full p-3 rounded-xl bg-white pb-5">
+        <Card>
             <View>
                 {articleList.map(item => (
                     <ArticleItem
@@ -124,7 +124,7 @@ const ArticleList = ({
                     </View>
                 )}
             </View>
-        </View>
+        </Card>
     )
 }
 

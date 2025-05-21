@@ -1,4 +1,4 @@
-import { View, Text, Image } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import DefaultCover from '@/assets/images/cover.jpg';
 import { ActivityItem as ActivityItemProps } from '@/types/ui';
 import { type ActivityListQueryParams } from '@/api/activity';
@@ -7,6 +7,8 @@ import { Tag } from '@nutui/nutui-react-taro';
 import { useActivityList } from '@/hooks/useActivityList';
 import Taro from '@tarojs/taro';
 import Loading from '@/components/Loading';
+import Card from '@/components/Card';
+import AspectRatioImage from '@/components/AspectRatioImage';
 
 const ActivityItem = ({ item }: { item: ActivityItemProps }) => {
     return (
@@ -15,13 +17,11 @@ const ActivityItem = ({ item }: { item: ActivityItemProps }) => {
             onClick={() => mapsTo(`/pages/activity/detail/index?id=${item.id}`)}
         >
             <View className="w-24">
-                <View className="relative block h-0 p-0 overflow-hidden pb-[80%] rounded-xl">
-                    <Image
-                        src={item.cover ? item.cover : DefaultCover}
-                        className="absolute object-cover w-full h-full border-none align-middle"
-                        mode={`aspectFill`}
-                    />
-                </View>
+                <AspectRatioImage
+                    src={item.cover ? item.cover : DefaultCover}
+                    ratio={.8}
+                    rounded="xl"
+                />
             </View>
             <View className="flex-1 flex flex-col space-y-2">
                 <View className="text-sm text-ellipsis overflow-hidden line-clamp-2 h-10">
@@ -101,7 +101,7 @@ const ActivityList = ({
     }
 
     return (
-        <View className="w-full p-3 rounded-xl bg-white pb-5">
+        <Card>
             <View>
                 {activityList.map(item => (
                     <ActivityItem item={item} />
@@ -125,7 +125,7 @@ const ActivityList = ({
                     </View>
                 )}
             </View>
-        </View>
+        </Card>
     )
 }
 
