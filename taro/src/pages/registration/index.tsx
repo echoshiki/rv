@@ -4,7 +4,7 @@ import RegistrationList from "@/components/RegistrationList";
 const Registration = () => {
 
     return (
-        <View>
+        <View className="w-full min-h-screen bg-gray-100 p-5">
             <RegistrationList
                 isPullDownRefresh={true}
                 isReachBottomRefresh={true} 

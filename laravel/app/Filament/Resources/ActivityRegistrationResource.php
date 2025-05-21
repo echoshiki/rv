@@ -104,13 +104,11 @@ class ActivityRegistrationResource extends Resource
                     ->schema([
                         Forms\Components\Select::make('status')
                             ->label('状态')
-                            ->options([
-                                'pending' => '待支付',
-                                'approved' => '已报名',
-                                'rejected' => '未通过',
-                                'cancelled' => '已取消',
-                            ])
+                            ->options(function () {
+                                return ActivityRegistration::getStatuses();
+                            })
                             ->default('pending')
+                            ->native(false)
                             ->required(),
                         Forms\Components\TextInput::make('paid_amount')
                             ->label('支付金额')

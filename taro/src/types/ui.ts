@@ -91,7 +91,7 @@ interface RegistrationItem {
     phone: string,
     province: string,
     city: string,
-    status: string,
+    status: RegistrationStatus,
     paid_amount: string,
     payment_method: string,
     payment_time: string,
@@ -99,6 +99,11 @@ interface RegistrationItem {
     created_at: string,
     updated_at: string,
     activity: RegistrationActivity,
+}
+
+interface RegistrationStatus {
+    label: string,
+    value: string
 }
 
 interface RegistrationActivity {

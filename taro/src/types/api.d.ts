@@ -123,11 +123,12 @@ interface RegistrationItem {
     phone: string,
     province: string,
     city: string,
-    status: string,
+    status: RegistrationStatus,
     paid_amount: string,
     payment_method: string,
     payment_time: string,
     payment_no: string,
+    remarks: string,
     created_at: string,
     updated_at: string,
     activity: RegistrationActivity
@@ -139,6 +140,11 @@ interface RegistrationActivity {
     cover: string | null,
     started_at: string,
     ended_at: string,
+}
+
+interface RegistrationStatus {
+    label: string,
+    value: string
 }
 
 /**

@@ -1,17 +1,66 @@
 import { View, Text, Image } from '@tarojs/components';
 import DefaultCover from '@/assets/images/cover.jpg';
 import { RegistrationItem as RegistrationItemProps } from '@/types/ui';
-import { mapsTo } from '@/utils/common';
 import { useRegistrationList } from '@/hooks/useRegistrationList';
 import Taro from '@tarojs/taro';
 import Loading from '@/components/Loading';
-import { Tag } from '@nutui/nutui-react-taro';
+import StatusBadge from '@/components/StatusBadge';
+import { Dialog } from '@nutui/nutui-react-taro'
+import { useState } from 'react';
 
-const RegistrationItem = ({ item }: { item: RegistrationItemProps }) => {
+const RegistrationDialog = ({
+    item,
+    visible,
+    onConfirm,
+    onCancel
+}: {
+    item: RegistrationItemProps | null;
+    visible: boolean;
+    onConfirm: () => void;
+    onCancel: () => void;
+}) => {
+    return (
+        <Dialog
+            title="报名详情"
+            visible={visible}
+            confirmText={item?.status.value === 'pending' ? '立即支付' : '确认'}
+            onConfirm={onConfirm}
+            onCancel={onCancel}
+        >
+            {item && (
+                <View className="flex flex-col space-y-2 py-5">
+                    <View>
+                        <Text>报名人：{item.name}</Text>
+                    </View>
+                    <View>
+                        <Text>手机号：{item.phone}</Text>
+                    </View>
+                    <View>
+                        <Text>报名时间：{item.created_at}</Text>
+                    </View>
+                    <View>
+                        <Text>报名编号：{item.registration_no}</Text>
+                    </View>
+                    <View>
+                        <Text>报名状态：{item.status.label}</Text>
+                    </View>
+                </View>
+            )}
+        </Dialog>
+    )
+}
+
+const RegistrationItem = ({ 
+    item,
+    onClickItem
+}: {
+    item: RegistrationItemProps;
+    onClickItem: (item: RegistrationItemProps) => void;
+}) => {
     return (
         <View
             className="flex flex-nowrap items-center space-x-3 py-3 border-b border-gray-300 border-dashed"
-            onClick={() => mapsTo(`/pages/activity/detail/index?id=${item.activity_id}`)}
+            onClick={() => onClickItem(item)}
         >
             <View className="w-14">
                 <View className="relative block h-0 p-0 overflow-hidden pb-[100%] rounded-full">
@@ -26,9 +75,9 @@ const RegistrationItem = ({ item }: { item: RegistrationItemProps }) => {
                 <View className="text-sm text-ellipsis overflow-hidden line-clamp-2">
                     <Text>{item.activity.title}</Text>
                 </View>
-                <View className="flex flex-row justify-between items-center">
+                <View className="flex flex-row items-center space-x-2">
                     <View>
-                        <Tag type="success">{item.status}</Tag>
+                        <StatusBadge status={item.status} />
                     </View>
                     <View>
                         <Text className="text-gray-400 text-xs">
@@ -50,6 +99,10 @@ const RegistrationList = ({
     isPullDownRefresh = false,
     isReachBottomRefresh = false,
 }: ArticleListProps) => {
+
+    const [isDialogVisible, setIsDialogVisible] = useState(false);
+    const [dialogItem, setDialogItem] = useState<RegistrationItemProps | null>(null);
+
     const {
         registrationList,
         loading,
@@ -84,12 +137,30 @@ const RegistrationList = ({
         Taro.useReachBottom(handleReachBottom);
     }
 
+    const handleClickItem = (item: RegistrationItemProps) => {
+        setIsDialogVisible(true);
+        setDialogItem(item);
+    };
+
+    // 处理弹窗按钮函数
+    const handleDialogConfirm = () => {
+        if (dialogItem?.status.value === 'pending') {
+            Taro.showToast({
+                icon: 'success',
+                title: '模拟支付成功'
+            });
+            return;
+        }
+        setIsDialogVisible(false);
+    };
+
     return (
         <View className="w-full p-3 rounded-xl bg-white pb-5">
             <View>
                 {registrationList.map(item => (
                     <RegistrationItem
                         item={item}
+                        onClickItem={handleClickItem}
                     />
                 ))}
 
@@ -111,6 +182,12 @@ const RegistrationList = ({
                     </View>
                 )}
             </View>
+            <RegistrationDialog
+                item={dialogItem}
+                visible={isDialogVisible}
+                onConfirm={handleDialogConfirm}
+                onCancel={() => setIsDialogVisible(false)}
+            />
         </View>
     )
 }
