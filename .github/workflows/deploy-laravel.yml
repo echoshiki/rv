@@ -1,0 +1,124 @@
+name: Deploy Laravel to Production
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'laravel/**'  # 只在laravel目录有更改时触发
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          
+      - name: Add server to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+      
+      # 创建必要的目录结构（首次部署时需要）
+      - name: Prepare directory structure on first deployment
+        run: |
+          ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
+            # 检查目录是否存在，不存在则创建
+            if [ ! -d ${{ secrets.DEPLOY_PATH }} ]; then
+              mkdir -p ${{ secrets.DEPLOY_PATH }}
+            fi
+            
+            # 创建必要的存储目录
+            mkdir -p ${{ secrets.DEPLOY_PATH }}/storage/app
+            mkdir -p ${{ secrets.DEPLOY_PATH }}/storage/framework/cache
+            mkdir -p ${{ secrets.DEPLOY_PATH }}/storage/framework/sessions
+            mkdir -p ${{ secrets.DEPLOY_PATH }}/storage/framework/views
+            mkdir -p ${{ secrets.DEPLOY_PATH }}/storage/logs
+            mkdir -p ${{ secrets.DEPLOY_PATH }}/bootstrap/cache
+            
+            # 设置适当的权限
+            chmod -R 775 ${{ secrets.DEPLOY_PATH }}/storage
+            chmod -R 775 ${{ secrets.DEPLOY_PATH }}/bootstrap/cache
+          "
+      
+      # 同步Laravel目录，但排除某些不应覆盖的文件/目录
+      - name: Sync Laravel directory to server
+        run: |
+          rsync -avz --delete \
+            --exclude='.env' \
+            --exclude='storage/app/*' \
+            --exclude='storage/framework/sessions/*' \
+            --exclude='storage/framework/views/*' \
+            --exclude='storage/logs/*' \
+            --exclude='bootstrap/cache/*' \
+            -e "ssh -p ${{ secrets.SERVER_PORT }}" \
+            ./laravel/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}/
+      
+      # 检查并创建.env文件（如果不存在）
+      - name: Create .env file if not exists
+        run: |
+          ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
+            if [ ! -f ${{ secrets.DEPLOY_PATH }}/.env ]; then
+              echo '创建.env文件...'
+              cp ${{ secrets.DEPLOY_PATH }}/.env.example ${{ secrets.DEPLOY_PATH }}/.env
+              # 生成app key
+              cd ${{ secrets.DEPLOY_PATH }}
+              php artisan key:generate
+              # 此时需要手动编辑.env文件配置数据库等信息
+              echo '.env文件已创建，请手动配置数据库连接信息！'
+            else
+              echo '.env文件已存在，跳过创建'
+            fi
+          "
+      
+      # 运行Laravel部署命令
+      - name: Run Laravel deployment commands
+        run: |
+          ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
+            # 进入项目目录
+            cd ${{ secrets.DEPLOY_PATH }}
+            
+            # 检查是否有composer.lock文件
+            if [ -f 'composer.lock' ]; then
+              echo '安装Composer依赖...'
+              composer install --no-interaction --prefer-dist --optimize-autoloader
+            else
+              echo '首次安装Composer依赖...'
+              composer install --no-interaction --prefer-dist
+            fi
+            
+            # 数据库迁移（根据需要启用）
+            echo '运行数据库迁移...'
+            php artisan migrate --force
+            
+            # 清除并重建缓存
+            echo '清除并重建缓存...'
+            php artisan config:clear
+            php artisan cache:clear
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+            
+            # 创建storage软链接（如果需要）
+            if [ ! -L 'public/storage' ]; then
+              echo '创建storage软链接...'
+              php artisan storage:link
+            fi
+            
+            # 确保权限正确
+            echo '设置权限...'
+            find . -type f -exec chmod 644 {} \;
+            find . -type d -exec chmod 755 {} \;
+            chmod -R 775 storage bootstrap/cache
+            
+            # 设置所有者为www用户（宝塔默认网站用户）
+            echo '设置文件所有者...'
+            chown -R www:www .
+            
+            echo '部署完成：'$(date)
+          "
