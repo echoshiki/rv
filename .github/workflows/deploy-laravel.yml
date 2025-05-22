@@ -81,7 +81,7 @@ jobs:
             --exclude='bootstrap/cache/*' \
             --exclude='node_modules/' \
             --exclude='vendor/' \
-            --include='storage/origin/**' \
+            --include='storage/public/origin/**' \
             --include='public/build/**' \
             -e "ssh -p ${{ secrets.SERVER_PORT }}" \
             ./laravel/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}/
@@ -108,24 +108,21 @@ jobs:
             
             # 安装Composer依赖 (服务器环境)
             echo '安装Composer依赖...'
-            composer install --no-interaction --prefer-dist --optimize-autoloader
+            composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
             
             # 生成APP_KEY
             php artisan key:generate
-            
-            # 创建storage软链接
+
             if [ ! -L 'public/storage' ]; then
               echo '创建storage软链接...'
               php artisan storage:link
             fi
-            
-            # 确保权限正确
+
             echo '设置权限...'
             find . -type f -exec chmod 644 {} \;
             find . -type d -exec chmod 755 {} \;
             chmod -R 775 storage bootstrap/cache
-            
-            # 设置所有者为www用户
+
             echo '设置文件所有者...'
             chown -R www:www .
             
