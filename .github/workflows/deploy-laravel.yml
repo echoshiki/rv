@@ -81,7 +81,7 @@ jobs:
             --exclude='bootstrap/cache/*' \
             --exclude='node_modules/' \
             --exclude='vendor/' \
-            --include='storage/public/origin/**' \
+            --include='storage/app/public/origin/**' \
             --include='public/build/**' \
             -e "ssh -p ${{ secrets.SERVER_PORT }}" \
             ./laravel/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}/

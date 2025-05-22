@@ -72,7 +72,6 @@ class RvSeeder extends Seeder
     {
         // 清空房车表
         Rv::truncate();
-        
         $this->command->info('开始生成测试用的房车数据...');
         Rv::insert(self::Rvs);
         $this->command->info('生成测试用的房车数据完毕');

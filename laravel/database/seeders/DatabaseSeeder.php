@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            UserSeeder::class,
             ArticleCategorySeeder::class,
             ArticleSeeder::class, 
             MenuGroupSeeder::class,
@@ -23,6 +22,7 @@ class DatabaseSeeder extends Seeder
 
         if (app()->environment('local')) {
             $this->call([
+                UserSeeder::class,
                 ActivityCategorySeeder::class,
                 ActivitySeeder::class,
                 ActivityRegistrationSeeder::class,
