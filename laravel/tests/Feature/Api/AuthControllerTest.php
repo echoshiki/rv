@@ -33,7 +33,7 @@ class AuthControllerTest extends TestCase
         $this->sessionData = [
             "errcode" => 0,
             "errmsg" => "ok",
-            'open_id' => 'test_open_id',
+            'openid' => 'test_open_id',
             'session_key' => 'test_session_key'  
         ];
         $this->phoneData = [
@@ -107,9 +107,6 @@ class AuthControllerTest extends TestCase
         // 创建测试用户
         $user = $this->user->create([
             'name' => '微信测试用户',
-            'email' => 'test@example.com',
-            'email_verified_at' => now(),
-            'password' => '123123',
             'phone' => '13218900000'
         ]);
 
@@ -145,9 +142,6 @@ class AuthControllerTest extends TestCase
     {
         $user = $this->user->create([
             'name' => '微信测试用户',
-            'email' => 'test@example.com',
-            'email_verified_at' => now(),
-            'password' => '123123',
             'phone' => null
         ]);
 
@@ -176,9 +170,6 @@ class AuthControllerTest extends TestCase
         // 创建绑定了手机号的用户
         $user = $this->user->create([
             'name' => '微信测试用户',
-            'email' => 'test@example.com',
-            'email_verified_at' => now(),
-            'password' => '123123',
             'phone' => '13800138000'
         ]);
 

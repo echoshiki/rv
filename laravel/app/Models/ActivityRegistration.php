@@ -91,4 +91,9 @@ class ActivityRegistration extends Model
             'cancelled' => '已取消'
         ];
     }
+
+    public function getStatusLabelAttribute()
+    {
+        return self::getStatuses()[$this->status] ?? '未知';
+    }
 }

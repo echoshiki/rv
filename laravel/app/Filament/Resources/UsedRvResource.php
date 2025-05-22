@@ -17,7 +17,7 @@ class UsedRvResource extends Resource
 {
     protected static ?string $model = UsedRv::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-truck';
     protected static ?string $navigationGroup = '房车管理';
     protected static ?string $navigationLabel = '二手车管理';
     protected static ?string $label = '二手车列表';

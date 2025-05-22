@@ -104,26 +104,8 @@ class UserAuthService
     private function buildNewUserAttributes() 
     {
         return [
-            'name' => self::generateWechatName(),
-            'password' => self::generateWechatPassword(),
-            'email' => self::generateWechatEmail(),
-            'email_verified_at' => now(),
+            'name' => '微信用户'. md5(time())
         ];
-    }
-
-    private function generateWechatName() 
-    {
-        return '微信用户'. md5(time());
-    }
-
-    private function generateWechatPassword() 
-    {
-        return Hash::make(md5(time()));
-    }
-
-    private function generateWechatEmail() 
-    {
-        return fake()->unique()->safeEmail();
     }
 
     /**

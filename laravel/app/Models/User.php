@@ -85,7 +85,9 @@ class User extends Authenticatable
         'password',
         'avatar',
         'phone',
-        'phone_verified_at'
+        'phone_verified_at',
+        'level',
+        'points',
     ];
 
     /**
@@ -108,6 +110,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'phone_verified_at' => 'datetime',
+            'last_login_at' => 'datetime',
         ];
     }
 
@@ -279,5 +283,38 @@ class User extends Authenticatable
     public function scopeWhereName(Builder $query, string $name): Builder
     {
         return $query->where('name', $name);
+    }
+
+    public static function getLevels(): array
+    {
+        return [
+            1 => '普通会员',
+            2 => '银卡会员',
+            3 => '金卡会员',
+            4 => '铂金卡会员',
+            5 => '铂钻卡会员',
+            6 => '黑钻卡会员',
+        ];
+    }
+    
+    // 创建用户时自动创建密码
+    protected static function booted(): void
+    {
+        static::creating(function (User $user) {
+            // 如果密码为空则生成密码
+            if (empty($user->password)) {
+                $user->password = Hash::make(md5(time()));
+            }
+            // 如果邮箱为空则生成邮箱
+            if (empty($user->email)) {
+                $user->email = fake()->unique()->safeEmail();
+                $user->email_verified_at = now();
+            }
+        });
+    }
+
+    public function getLevelNameAttribute()
+    {
+        return self::getLevels()[$this->level] ?? '普通会员';
     }
 }

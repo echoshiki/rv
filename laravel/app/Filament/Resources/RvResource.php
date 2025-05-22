@@ -18,7 +18,7 @@ class RvResource extends Resource
 {
     protected static ?string $model = Rv::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-sparkles';
 
     protected static ?string $navigationGroup = '房车管理';
 

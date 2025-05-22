@@ -16,7 +16,7 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => substr($this->name, 0, 16),
+            'name' => mb_substr($this->name, 0, 16),
             'phone' => $this->maskPhoneNumber($this->phone)
         ];
     }

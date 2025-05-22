@@ -53,52 +53,26 @@ class UserResource extends Resource
                             ->validationMessages([
                                 'unique' => '该手机号已存在',
                             ])
-                            ->required(),
-                        Forms\Components\TextInput::make('email')
-                            ->email()
-                            ->unique(ignoreRecord: true)
-                            ->validationMessages([
-                                'unique' => '该邮箱已存在',
-                            ])
-                            ->maxLength(255)
-                            ->label('邮箱')
+                            ->columnSpanFull()
                             ->required(),
                         Forms\Components\Select::make('level')
                             ->label('会员等级')
-                            ->options([
-                                1 => '普通会员',
-                                2 => '银卡会员',
-                                3 => '金卡会员',
-                                4 => '铂金卡会员',
-                                5 => '铂钻卡会员',
-                                6 => '黑钻卡会员',
-                            ])
+                            ->options(User::getLevels())
+                            ->columnSpanFull()
                             ->required(),
                         Forms\Components\TextInput::make('points')
                             ->numeric()
                             ->label('会员积分')
+                            ->columnSpanFull()
                             ->required(),
-                        Forms\Components\TextInput::make('password')
-                            ->password()
-                            ->minLength(6)
-                            ->required(fn(string $context): bool => $context === 'create')
-                            ->confirmed()
-                            // 仅在输入后更新密码
-                            ->dehydrated(fn($state) => filled($state))
-                            ->label('密码')
-                            ->validationMessages([
-                                'confirmed' => '两次输入的密码不一致',
-                            ]),
-                        Forms\Components\TextInput::make('password_confirmation')
-                            ->password()
-                            ->requiredWith('password')
-                            ->same('password')
-                            ->label('确认密码')
-                            // 不保存到数据库
-                            ->dehydrated(false)
-                            ->validationMessages([
-                                'required_with' => '请确认密码'
-                            ]),
+                        // 创建日期 创建时不显示
+                        Forms\Components\DatePicker::make('created_at')
+                            ->label('创建时间')
+                            ->columnSpanFull()
+                            // 创建页面时不显示
+                            ->hidden(fn (string $context): bool => $context === 'create')
+                            ->disabled()
+                            ->required(),
                     ])
             ]);
     }
@@ -109,19 +83,27 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
+                    // 显示长度
+                    ->limit(20)
                     ->label('用户名'),
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable()
                     ->label('手机号'),
-                Tables\Columns\TextColumn::make('email')
-                    ->label('邮箱'),
+                Tables\Columns\TextColumn::make('level_name')
+                    ->badge()
+                    ->label('会员等级'),
+                Tables\Columns\TextColumn::make('points')
+                    ->sortable()
+                    ->label('会员积分'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
                     ->label('创建时间')
                     ->date('Y-m-d'),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('level')
+                    ->options(User::getLevels())
+                    ->label('会员等级')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
