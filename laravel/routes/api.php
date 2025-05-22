@@ -4,14 +4,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\UserResource;
 use App\Http\Controllers\Api\V1\AuthController;
-use App\Http\Controllers\api\V1\BannerController;
-use App\Http\Controllers\api\V1\MenuController;
-use App\Http\Controllers\api\V1\ArticleController;
-use App\Http\Controllers\api\V1\RegionController;
-use App\Http\Controllers\api\V1\ArtivityController;
-use App\Http\Controllers\api\V1\ActivityRegistrationController;
-use App\Http\Controllers\api\V1\RvController;
-use App\Http\Controllers\api\V1\UsedRvController;
+use App\Http\Controllers\Api\V1\BannerController;
+use App\Http\Controllers\Api\V1\MenuController;
+use App\Http\Controllers\Api\V1\ArticleController;
+use App\Http\Controllers\Api\V1\RegionController;
+use App\Http\Controllers\Api\V1\ArtivityController;
+use App\Http\Controllers\Api\V1\ActivityRegistrationController;
+use App\Http\Controllers\Api\V1\RvController;
+use App\Http\Controllers\Api\V1\UsedRvController;
 
 // v1
 Route::prefix('v1')->group(function () {
