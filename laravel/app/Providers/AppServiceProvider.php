@@ -16,13 +16,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(RegionService::class, function ($app) {
             return new RegionService();
         });
-
-        if ($this->app->environment('local')) {
-            if (class_exists(\Laravel\Telescope\TelescopeServiceProvider::class)) {
-                $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
-                $this->app->register(\App\Providers\TelescopeServiceProvider::class);
-            }
-        }
     }
 
     /**

@@ -134,7 +134,7 @@ jobs:
             
             # 安装Composer依赖 (服务器环境)
             echo '安装Composer依赖...'
-            composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+            composer install --no-interaction --prefer-dist --optimize-autoloader
             
             # 数据库迁移
             echo '运行数据库迁移...'
