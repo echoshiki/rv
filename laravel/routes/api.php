@@ -15,7 +15,7 @@ use App\Http\Controllers\api\V1\UsedRvController;
 
 // v1
 Route::prefix('v1')->group(function () {
-    // 小程序静默登录、未绑定手机号、绑定手机号
+    // 小程序静默登录、未绑定手机号
     Route::post('/login-silence', [AuthController::class, 'miniLoginInSilence'])->name('api.v1.mini.mini-login-silence');
     Route::post('/login-bound', [AuthController::class, 'miniLoginOnBound'])->name('api.v1.mini.mini-login-bound');
     Route::post('/login', [AuthController::class, 'miniLogin'])->name('api.v1.mini.mini-login');
