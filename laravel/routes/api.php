@@ -31,7 +31,7 @@ Route::prefix('v1')->group(function () {
     // 轮播图API
     Route::get('/banners/{channel}', [BannerController::class, 'index']);
 
-    // 菜单相关API
+    // 菜单API
     Route::prefix('menus')->group(function () {
         Route::get('/groups', [MenuController::class, 'getAllMenuGroups']);
         Route::get('/group/{code}', [MenuController::class, 'getMenuGroup']);

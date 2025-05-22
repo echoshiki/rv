@@ -109,9 +109,9 @@ jobs:
             # 进入项目目录
             cd ${{ secrets.DEPLOY_PATH }}
             
-            # 安装Composer依赖 (服务器环境)
+            # 安装Composer依赖 (服务器环境) 生产环境加上 --no-dev
             echo '安装Composer依赖...'
-            composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+            composer install --no-interaction --prefer-dist --optimize-autoloader
             
             # 生成APP_KEY
             php artisan key:generate
