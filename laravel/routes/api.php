@@ -28,7 +28,7 @@ Route::prefix('v1')->group(function () {
         return new UserResource($request->user());
     })->middleware('auth:sanctum');
 
-    // 轮播图API 
+    // 轮播图API
     Route::get('/banners/{channel}', [BannerController::class, 'index']);
 
     // 菜单相关API
