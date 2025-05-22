@@ -23,7 +23,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/login', [AuthController::class, 'miniLogin'])->name('api.v1.mini.mini-login');
     Route::post('/logout', [AuthController::class, 'logout'])->name('api.v1.mini.logout')->middleware('auth:sanctum');
 
-    // 用户资料接口
+    // 用户资料API
     Route::post('/user', function (Request $request) {
         return new UserResource($request->user());
     })->middleware('auth:sanctum');
