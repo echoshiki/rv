@@ -15,13 +15,6 @@ use App\Http\Controllers\api\V1\UsedRvController;
 
 // v1
 Route::prefix('v1')->group(function () {
-<<<<<<< HEAD
-    // 小程序静默登录、未绑定手机号
-    Route::post('/login-silence', [AuthController::class, 'miniLoginInSilence'])->name('api.v1.mini.mini-login-silence');
-    Route::post('/login-bound', [AuthController::class, 'miniLoginOnBound'])->name('api.v1.mini.mini-login-bound');
-    Route::post('/login', [AuthController::class, 'miniLogin'])->name('api.v1.mini.mini-login');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('api.v1.mini.logout')->middleware('auth:sanctum');
-=======
     // 小程序静默登录
     Route::post('/login-silence', [AuthController::class, 'miniLoginInSilence']);
     // 小程序登录（未绑定手机号）
@@ -29,20 +22,14 @@ Route::prefix('v1')->group(function () {
     // 小程序登录（绑定手机号）
     Route::post('/login', [AuthController::class, 'miniLogin']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
->>>>>>> 073627b (完善接口)
 
     // 用户资料API
     Route::post('/user', function (Request $request) {
         return new UserResource($request->user());
     })->middleware('auth:sanctum');
 
-<<<<<<< HEAD
-    // 轮播图API
-    Route::get('/banners/{channel}', [BannerController::class, 'index'])->name('api.v1.banners');
-=======
     // 轮播图
     Route::get('/banners/{channel}', [BannerController::class, 'index']);
->>>>>>> 073627b (完善接口)
 
     // 菜单相关API
     Route::prefix('menus')->group(function () {
