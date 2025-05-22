@@ -140,6 +140,9 @@ jobs:
             echo '运行数据库迁移...'
             php artisan migrate --force
             
+            # 生成APP_KEY
+            php artisan key:generate
+
             # 清除并重建缓存
             echo '清除并重建缓存...'
             php artisan config:clear
