@@ -18,7 +18,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'  # 使用与您项目兼容的PHP版本
+          php-version: '8.2'  # 使用与您项目兼容的PHP版本
           extensions: mbstring, dom, fileinfo, curl
           coverage: none
       
