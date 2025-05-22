@@ -13,52 +13,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
-      # 1. 设置PHP (GitHub Actions环境)
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'  # 使用与您项目兼容的PHP版本
-          extensions: mbstring, dom, fileinfo, curl
-          coverage: none
-      
-      # 2. 缓存Composer依赖
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-        working-directory: ./laravel
-      
-      - name: Cache Composer dependencies
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('laravel/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-      
-      # 3. 安装Composer依赖 (GitHub Actions环境)
-      - name: Install Composer dependencies
-        run: composer install --no-interaction --prefer-dist
-        working-directory: ./laravel
-      
-      # 4. 设置Node.js (GitHub Actions环境)
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: 'laravel/package-lock.json'
-      
-      # 5. 安装NPM依赖 (GitHub Actions环境)
-      - name: Install Node dependencies
-        run: npm ci
-        working-directory: ./laravel
-      
-      # 6. 构建前端资源 (GitHub Actions环境)
-      - name: Build frontend assets
-        run: npm run build
-        working-directory: ./laravel
-      
-      # 7. 设置SSH连接
+        
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.7.0
         with:
@@ -69,7 +24,7 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
       
-      # 8. 准备服务器目录结构
+      # 创建必要的目录结构（首次部署时需要）
       - name: Prepare directory structure on first deployment
         run: |
           ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
@@ -90,8 +45,8 @@ jobs:
             chmod -R 775 ${{ secrets.DEPLOY_PATH }}/storage
             chmod -R 775 ${{ secrets.DEPLOY_PATH }}/bootstrap/cache
           "
-
-      # 9. 同步代码和构建好的前端资产
+      
+      # 同步Laravel目录，但排除某些不应覆盖的文件/目录
       - name: Sync Laravel directory to server
         run: |
           rsync -avz --delete \
@@ -101,14 +56,10 @@ jobs:
             --exclude='storage/framework/views/*' \
             --exclude='storage/logs/*' \
             --exclude='bootstrap/cache/*' \
-            --exclude='node_modules/' \
-            --exclude='vendor/' \
-            --include='storage/origin/**' \
-            --include='public/build/**' \
             -e "ssh -p ${{ secrets.SERVER_PORT }}" \
             ./laravel/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}/
       
-      # 10. 检查并创建.env文件（如果不存在）
+      # 检查并创建.env文件（如果不存在）
       - name: Create .env file if not exists
         run: |
           ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
@@ -125,24 +76,26 @@ jobs:
             fi
           "
       
-      # 11. 在服务器上安装Composer依赖并执行部署命令
+      # 运行Laravel部署命令
       - name: Run Laravel deployment commands
         run: |
           ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
             # 进入项目目录
             cd ${{ secrets.DEPLOY_PATH }}
             
-            # 安装Composer依赖 (服务器环境)
-            echo '安装Composer依赖...'
-            composer install --no-interaction --prefer-dist --optimize-autoloader
+            # 检查是否有composer.lock文件
+            if [ -f 'composer.lock' ]; then
+              echo '安装Composer依赖...'
+              composer install --no-interaction --prefer-dist --optimize-autoloader
+            else
+              echo '首次安装Composer依赖...'
+              composer install --no-interaction --prefer-dist
+            fi
             
-            # 数据库迁移
+            # 数据库迁移（根据需要启用）
             echo '运行数据库迁移...'
             php artisan migrate --force
             
-            # 生成APP_KEY
-            php artisan key:generate
-
             # 清除并重建缓存
             echo '清除并重建缓存...'
             php artisan config:clear
@@ -151,7 +104,7 @@ jobs:
             php artisan route:cache
             php artisan view:cache
             
-            # 创建storage软链接
+            # 创建storage软链接（如果需要）
             if [ ! -L 'public/storage' ]; then
               echo '创建storage软链接...'
               php artisan storage:link
@@ -163,7 +116,7 @@ jobs:
             find . -type d -exec chmod 755 {} \;
             chmod -R 775 storage bootstrap/cache
             
-            # 设置所有者为www用户
+            # 设置所有者为www用户（宝塔默认网站用户）
             echo '设置文件所有者...'
             chown -R www:www .
             
