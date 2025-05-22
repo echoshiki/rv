@@ -74,14 +74,17 @@ jobs:
         run: |
           rsync -avz --delete \
             --exclude='.env' \
-            --exclude='storage/app/*' \
             --exclude='storage/framework/sessions/*' \
             --exclude='storage/framework/views/*' \
             --exclude='storage/logs/*' \
             --exclude='bootstrap/cache/*' \
             --exclude='node_modules/' \
             --exclude='vendor/' \
-            --include='storage/app/public/origin/**' \
+            --include='storage/app/public/origin/***' \
+            --include='storage/app/public/origin/' \
+            --include='storage/app/public/' \
+            --include='storage/app/' \
+            --exclude='storage/app/**' \
             --include='public/build/**' \
             -e "ssh -p ${{ secrets.SERVER_PORT }}" \
             ./laravel/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}/
