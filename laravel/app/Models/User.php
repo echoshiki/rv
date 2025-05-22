@@ -17,6 +17,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+// 生产环境必须实现方法
+use Filament\Models\Contracts\FilamentUser;
+
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -69,7 +72,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static Builder<static>|User withoutRole($roles, $guard = null)
  * @mixin \Eloquent
  */
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles, HasApiTokens;
@@ -114,6 +117,17 @@ class User extends Authenticatable
             'last_login_at' => 'datetime',
         ];
     }
+
+    /**
+     * 确定用户是否可以访问Filament面板
+     * 生产环境必须要实现的方法
+     */
+    public function canAccessPanel($panel): bool
+    {
+        // 基于角色、权限或其他逻辑决定
+        return $this->isAdmin(); // 或其他条件
+    }
+
 
     /**
      * 关联微信用户
@@ -203,7 +217,7 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        return $this->hasRole('admin');
+        return $this->hasRole('超级管理员') || $this->hasRole('管理员');
     }
 
     /**
