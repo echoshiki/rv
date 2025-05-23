@@ -5,6 +5,7 @@ const AspectRatioImage = ({ src, ratio, rounded }: { src: string, ratio: number,
         <View className={`relative block h-0 p-0 overflow-hidden`} style={{ paddingBottom: `${ratio * 100}%` }}>
             <Image
                 src={src}
+                lazyLoad
                 className={`absolute object-cover w-full h-full border-none align-middle ${rounded ? `rounded-${rounded}` : ''}`}
                 mode={`aspectFill`}
             />

@@ -119,6 +119,27 @@ interface RegionItem {
     name: string
 }
 
+interface RvItem {
+    id: string,
+    name: string,
+    cover: string,
+    price: string,
+    order_price: string
+}
+
+interface RvList {
+    list: RvItem[],
+    total?: number,
+    per_page?: number,
+    current_page?: number,
+    has_more_pages?: boolean
+}
+
+interface RvDetail extends RvItem {
+    photos: string[],
+    content: string
+} 
+
 export {
     SectionTitle,
     MenuItem,
@@ -135,5 +156,8 @@ export {
     RegistrationItem,
     RegistrationList,
     RegistrationActivity,
-    RegionItem
+    RegionItem,
+    RvItem,
+    RvList,
+    RvDetail
 }

@@ -1,3 +1,5 @@
+import { extend } from "@tarojs/runtime";
+
 /**
  * API 响应泛用类型
  */
@@ -170,6 +172,30 @@ interface RegistrationSubmission {
     remarks?: string
 }
 
+/**
+ * 返回的房车数据
+ */
+interface RvItem {
+    id: string,
+    name: string,
+    cover: string,
+    price: string,
+    order_price: string
+}
+
+interface RvList {
+    list: RvItem[],
+    total: number,
+    per_page: number,
+    current_page: number,
+    has_more_pages: boolean
+}
+
+interface RvDetail extends RvItem {
+    photos: string[],
+    content: string
+}   
+
 export {
     ApiResponse,
     BannerItem,
@@ -182,5 +208,8 @@ export {
     RegionItem,
     RegistrationItem,
     RegistrationList,
-    RegistrationSubmission
+    RegistrationSubmission,
+    RvItem,
+    RvList,
+    RvDetail
 }
