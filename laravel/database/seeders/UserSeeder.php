@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
                 ],
                 [
                     'user_id' => $wechatUser->id, 
-                    'session_key' => 'eyJpdiI6IjlpbFpDOEFxSkI4MGtGZ2hKY3hsVVE9PSIsInZhbHVlIjoiRlkzeUxDOEZJT0RxQks2dzN0dU9FOXNlYmJ5SkNNanN0Q0IxUGpDY3BUdz0iLCJtYWMiOiI4NWU0N2U5NDJlMDUyMWE1ODY4NGJiM2U1M2Q0MDQ3ZjZlODY5YzlmMmI4YjkxY2ZkYTVhMjRiNWQ2ZTU3Y2U1IiwidGFnIjoiIn0',
+                    'session_key' => 'dummy_session_key_for_testing',
                     'raw_data' => null,
                     'nickname' => null,
                     'avatar_url' => null,
