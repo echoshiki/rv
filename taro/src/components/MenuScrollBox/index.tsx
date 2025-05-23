@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { RvItem } from '@/types/ui';
-import { View, Text, Image, ScrollView } from '@tarojs/components';
+import { View, Text, ScrollView } from '@tarojs/components';
 import AspectRatioImage from '@/components/AspectRatioImage';
 
 const MenuScrollBox = ({ data }: { data: RvItem[] }) => {
