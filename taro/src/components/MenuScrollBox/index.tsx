@@ -94,7 +94,7 @@ const MenuScrollBox = ({ data }: { data: RvItem[] }) => {
                             >
                                 <AspectRatioImage
                                     src={item.cover}
-                                    ratio={1.36}
+                                    ratio={1.5}
                                     rounded="lg"
                                 />
 
