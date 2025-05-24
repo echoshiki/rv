@@ -3,16 +3,51 @@ import DefaultCover from '@/assets/images/cover.jpg';
 import { useActivityDetail } from "@/hooks/useActivityDetail";
 import Taro from "@tarojs/taro";
 import { cleanHTML } from '@/utils/common';
-import { Tag, Price } from '@nutui/nutui-react-taro';
+import { Tag, Price, Button } from '@nutui/nutui-react-taro';
 import Card from '@/components/Card';
 import AspectRatioImage from '@/components/AspectRatioImage';
 import RegistrationForm from '@/components/RegistrationForm';
 import Loading from "@/components/Loading";
+import { useState } from "react";
+import { checkLogin } from '@/utils/auth';
+import { checkRegistrationStatus } from '@/api/registration';
+
+// 立即登录按钮
+const RegistrationButton = ({ disabled, visible, onClick }: {
+    disabled: boolean,
+    visible: boolean,
+    onClick: () => void
+}) => {
+
+    return (
+        <>
+        {visible && (
+            <View className="text-center">
+                <Button
+                    type="primary"
+                    disabled={disabled}
+                    onClick={onClick}
+                >
+                    立即报名
+                </Button>
+            </View>
+        )}  
+        </>
+    )
+}
 
 const Detail = () => {
 
     const { router } = Taro.getCurrentInstance();
     const id = router?.params?.id;
+
+    // 表单可视状态
+    const [isFormVisible, setIsFormVisible] = useState(false);
+
+    // 立即报名按钮状态
+    const [buttonDisabled, setButtonDisabled] = useState(false);
+    const [buttonVisible, setButtonVisible] = useState(true);
+    const [buttonLoading, setButtonLoading] = useState(false);
 
     const {
         activityDetail,
@@ -26,6 +61,42 @@ const Detail = () => {
             });
         }
     });
+
+    const handleRegistrationButton = async (id: string | undefined) => {
+        // 检查登录
+        console.log('检测是否登录', checkLogin());
+
+        if (!id) return;
+
+        const { data: status } = await checkRegistrationStatus(id);  
+        
+        if (status?.value === 'approved') {
+            setButtonDisabled(true);
+            Taro.showToast({
+                icon: 'none',
+                title: '您已报名，无需重复报名'
+            });
+            return;
+        }
+
+        if (status?.value === 'pending') {
+            setButtonDisabled(true);
+            Taro.showToast({
+                icon: 'none',
+                title: '您似乎有尚未付款的报名信息，请去个人中心查看'
+            });
+            return;
+        }
+
+        setButtonVisible(false);
+        setButtonLoading(true);
+
+        // 虚拟延迟效果
+        setTimeout(() => {
+            setIsFormVisible(true);
+            setButtonLoading(false);
+        }, 500);
+    }
 
     return (
         <View className="bg-gray-100 min-h-screen pb-5">
@@ -98,12 +169,29 @@ const Detail = () => {
 
                 {/* 底部报名表单 */}
                 <Card className="mt-5">
-                    <RegistrationForm onSubmit={(data) => {
-                        console.log('表单数据', data);
-                    }} />
+                    <View>
+                        <RegistrationButton
+                            disabled={buttonDisabled}
+                            visible={buttonVisible}
+                            onClick={() => handleRegistrationButton(id)}
+                        />
+                    </View>
+                    {buttonLoading && (
+                        <View className="flex justify-center">
+                            <Loading />
+                        </View>
+                    )}
+                    <RegistrationForm
+                        onSubmit={(data) => {
+                            console.log('表单数据', data);
+                            setIsFormVisible(false);
+                        }}
+                        isVisible={isFormVisible}
+                    />
 
                     <View className="mt-2">
-                        <Text className="text-xs font-light">* 活动最终解释权归主办方所有</Text>
+                        <Text className="text-xs font-light block">* 请务必填写真实信息，以便我们与您取得联系</Text>
+                        <Text className="text-xs font-light block">* 活动最终解释权归主办方所有</Text>
                     </View>
                 </Card>
             </View>

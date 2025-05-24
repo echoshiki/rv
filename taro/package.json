@@ -1,8 +1,8 @@
 {
-  "name": "wxauth",
+  "name": "weihang_weapp",
   "version": "1.0.0",
   "private": true,
-  "description": "会员中心",
+  "description": "卫航房车小程序",
   "templateInfo": {
     "name": "default",
     "typescript": true,

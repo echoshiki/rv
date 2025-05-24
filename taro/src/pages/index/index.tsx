@@ -49,7 +49,7 @@ const Index = () => {
 	}
 	
 	return (
-		<View className='bg-gray-100 min-h-screen'>
+		<View className='bg-gray-100 min-h-screen pb-10'>
 			{/* 首页轮播图 */}
 			<View>
 				<CustomSwiper 
@@ -73,7 +73,6 @@ const Index = () => {
 					isLoading={tabLoading}
                 />
             </View>
-
 		</View>
 	)
 }

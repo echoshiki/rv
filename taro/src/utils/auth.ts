@@ -18,13 +18,14 @@ function isLoggedIn(): boolean {
  * @returns 是否已登录
  */
 function checkLogin(targetUrl?: string): boolean {
-    if (!isLoggedIn) {
+    if (!isLoggedIn()) {
         // 跳转到登录页，并传递目标页面参数
         const redirectUrl = targetUrl || getCurrentPageUrl();
+        console.log(redirectUrl);
         // 这里实则在目标页面内，所以使用 redirectTo 方法替换成登陆页
         // 解决了路径栈重复问题
         Taro.redirectTo({ 
-            url: `/pages/login/index?redirect=${redirectUrl}` 
+            url: `/pages/login/index?redirect=${encodeURIComponent(redirectUrl)}` 
         });
         return false;
     }

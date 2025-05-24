@@ -1,9 +1,8 @@
 import Taro from "@tarojs/taro";
 import { useRvDetail } from "@/hooks/useRvDetail";
-import { View, Text, RichText } from "@tarojs/components";
+import { View, RichText } from "@tarojs/components";
 import Loading from "@/components/Loading";
 import { cleanHTML } from '@/utils/common';
-import Card from '@/components/Card';
 
 const RvDetail = () => {
 
@@ -17,20 +16,13 @@ const RvDetail = () => {
 
     return (
         <View>
-            <View className="px-5 relative mt-[-3rem]">
-                <Card>
-                    <View className="mb-5">
-                        <Text className="text-xl font-bold text-justify leading-relaxed">
-                            {rvDetail?.name}
-                        </Text>
-                    </View>
-                    <View>
-                        <RichText
-                            className="font-light text-left leading-loose"
-                            nodes={cleanHTML(rvDetail?.content || '')}
-                        />
-                    </View>
-                </Card>
+            <View className="relative">
+                <View>
+                    <RichText
+                        className="font-light text-left leading-loose"
+                        nodes={cleanHTML(rvDetail?.content || '', true)}
+                    />
+                </View>
             </View>
 
             {/* 加载状态展示 */}

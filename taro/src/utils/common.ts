@@ -70,7 +70,7 @@ const mapsTo = (url: string, isLoginPage = false) => {
  * @param html 
  * @returns 
  */
-const cleanHTML = (html: string) => {
+const cleanHTML = (html: string, noMargin: boolean = false) => {
     return html
         // 移除 figure 标签但保留内部内容
         .replace(/<figure[^>]*>/g, '').replace(/<\/figure>/g, '')
@@ -84,7 +84,7 @@ const cleanHTML = (html: string) => {
             const cleanAttrs = attrs
                 .replace(/(width|height)\s*=\s*["']\d+["']/gi, '')
                 .replace(/style\s*=\s*["'][^"']*["']/gi, '');
-            return `<img style="margin-top:10px;margin-bottom:10px;max-width:100%;height:auto;${cleanAttrs.match(/style\s*=\s*["']([^"']*)["']/)?.[1] || ''}" ${cleanAttrs}>`;
+            return `<img style="margin-top:${noMargin ? '0' : '10px'};margin-bottom:${noMargin ? '0' : '10px'};max-width:100%;height:auto;${cleanAttrs.match(/style\s*=\s*["']([^"']*)["']/)?.[1] || ''}" ${cleanAttrs}>`;
         });
 };
 

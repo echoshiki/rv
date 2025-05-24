@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { RvItem } from '@/types/ui';
 import { View, Text, ScrollView } from '@tarojs/components';
 import AspectRatioImage from '@/components/AspectRatioImage';
+import { mapsTo } from '@/utils/common';
 
 const MenuScrollBox = ({ data }: { data: RvItem[] }) => {
     // 存储当前高亮菜单项 ID
@@ -90,6 +91,7 @@ const MenuScrollBox = ({ data }: { data: RvItem[] }) => {
                             <View
                                 key={item.id}
                                 id={`item-${item.id}`}
+                                onClick={() => mapsTo(`/pages/sale/detail/index?id=${item.id}`)}
                                 className="bg-white rounded-lg shadow-md h-[22.5rem] relative overflow-hidden"
                             >
                                 <AspectRatioImage

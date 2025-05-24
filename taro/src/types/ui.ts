@@ -155,6 +155,7 @@ export {
     BannerItem,
     RegistrationItem,
     RegistrationList,
+    RegistrationStatus,
     RegistrationActivity,
     RegionItem,
     RvItem,

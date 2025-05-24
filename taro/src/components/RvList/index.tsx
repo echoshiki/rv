@@ -11,7 +11,7 @@ const RvItem = ({ id, name, price, cover }: RvItemProps) => {
     return (
         <View
             className="flex flex-nowrap items-center space-x-3 py-3 border-b border-gray-300 border-dashed"
-            onClick={() => mapsTo(`/pages/article/detail/index?id=${id}`)}
+            onClick={() => mapsTo(`/pages/sale/detail/index?id=${id}`)}
         >
             <View className="w-24">
                 <AspectRatioImage

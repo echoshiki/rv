@@ -10,6 +10,7 @@ use App\Http\Requests\Api\V1\ActivityRegistrationRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\RegistrationResource;
 use App\Http\Resources\RegistrationResourceCollection;
+use App\Http\Resources\RegistrationStatusResource;
 
 class ActivityRegistrationController extends Controller
 {
@@ -130,6 +131,30 @@ class ActivityRegistrationController extends Controller
             return $this->successResponse($registration, '报名已成功取消。');
         } catch (\Throwable $e) {
             return $this->errorResponse('报名取消失败：' . $e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * 检查用户指定活动的报名状态
+     */
+    public function checkRegistrationStatus(Request $request, $activityId)
+    {
+        try {
+            $user = $request->user();
+
+            $registration = $this->activityRegistrationService->getUserRegistrations(
+                $user->id,
+                ['activity_id' => $activityId],
+                'created_at',
+                'desc',
+                1,
+                1,
+                ['id', 'status']
+            );
+
+            return $this->successResponse($registration->first() ? new RegistrationStatusResource($registration->first()) : null);
+        } catch (\Throwable $e) {
+            return $this->errorResponse('报名状态检测失败：' . $e->getMessage(), 500);
         }
     }
 

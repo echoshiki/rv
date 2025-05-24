@@ -65,6 +65,7 @@ Route::prefix('v1')->group(function () {
         // Route::post('/{id}/cancel', [ActivityRegistrationController::class, 'cancel']);
         Route::get('/my', [ActivityRegistrationController::class, 'index']);
         Route::get('/{id}', [ActivityRegistrationController::class, 'show']);
+        Route::get('/check/{activityId}', [ActivityRegistrationController::class, 'checkRegistrationStatus']);
     });
 
     // 房车相关API

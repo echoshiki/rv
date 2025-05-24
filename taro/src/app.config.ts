@@ -7,6 +7,7 @@ export default defineAppConfig({
     'pages/article/index',
     'pages/article/detail/index',
     'pages/sale/index',
+    'pages/sale/detail/index',
     'pages/activity/index',
     'pages/activity/detail/index',
     'pages/registration/index',

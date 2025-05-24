@@ -4,10 +4,16 @@ import AreaPicker from '@/components/AreaPicker'
 import { useState, useRef } from 'react';
 
 interface RegistrationFormProps {
-    onSubmit: (data: { name: string, phone: string, address: string }) => void
+    onSubmit: (data: { name: string, phone: string, address: string }) => void,
+    isVisible: boolean
 }
 
-const RegistrationForm = ({ onSubmit }: RegistrationFormProps) => {
+const RegistrationForm = ({ onSubmit, isVisible = false }: RegistrationFormProps) => {
+
+    if (!isVisible) {
+        return null;
+    }
+
     const formRef = useRef<FormInstance>(null);
     const [pickerState, setPickerState] = useState({
         visible: false,
@@ -62,7 +68,7 @@ const RegistrationForm = ({ onSubmit }: RegistrationFormProps) => {
                 </Form.Item>
 
                 <View className="mt-5">
-                    <Button nativeType="submit" block type="default">立即报名</Button>
+                    <Button nativeType="submit" block type="default">提交报名信息</Button>
                 </View>
             </Form>
 

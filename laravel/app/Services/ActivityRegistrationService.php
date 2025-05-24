@@ -143,7 +143,8 @@ class ActivityRegistrationService
         string $orderBy = 'created_at',
         string $sort = 'desc',
         int $page = 1,
-        int $limit = 10
+        int $limit = 10,
+        array $fields = ['*']
     ) {
         $query = ActivityRegistration::with(['activity' => function($q){
              // 选择活动需要的字段
@@ -155,7 +156,7 @@ class ActivityRegistrationService
         
         $query->orderBy($orderBy, $sort);
 
-        return $query->paginate($limit, ['*'], 'page', $page)->withQueryString();
+        return $query->paginate($limit, $fields, 'page', $page)->withQueryString();
     }
 
     /**
@@ -240,6 +241,10 @@ class ActivityRegistrationService
 
         if (!empty($filter['phone'])) {
             $query->where('phone', $filter['phone']);
+        }
+
+        if (!empty($filter['activity_id'])) {
+            $query->where('activity_id', $filter['activity_id']);
         }
 
         // 根据创建时间筛选

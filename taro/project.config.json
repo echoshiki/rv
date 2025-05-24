@@ -1,7 +1,7 @@
 {
   "miniprogramRoot": "dist/",
-  "projectname": "user_center",
-  "description": "会员中心",
+  "projectname": "weihang_weapp",
+  "description": "卫航房车小程序",
   "appid": "wxaf540566d50d27c7",
   "setting": {
     "urlCheck": true,
