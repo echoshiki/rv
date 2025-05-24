@@ -14,7 +14,7 @@ class RvSeeder extends Seeder
             'cover' => 'origin/rv_cover_01.jpeg',
             'price' => 200000.00,
             'order_price' => 10.00,
-            'content' => '福特T8四驱详情',
+            'content' => 'origin/rv_detail_image.jpeg',
             'is_active' => true,
             'sort' => 0
         ],
@@ -23,7 +23,7 @@ class RvSeeder extends Seeder
             'cover' => 'origin/rv_cover_02.jpeg',
             'price' => 100000.00,
             'order_price' => 100.00,
-            'content' => '福特T8详情',
+            'content' => 'origin/rv_detail_image.jpeg',
             'is_active' => true,
             'sort' => 0
         ],
@@ -32,7 +32,7 @@ class RvSeeder extends Seeder
             'cover' => 'origin/rv_cover_01.jpeg',
             'price' => 300000.00,
             'order_price' => 150.00,
-            'content' => '福特T6详情',
+            'content' => 'origin/rv_detail_image.jpeg',
             'is_active' => true,
             'sort' => 0
         ],
@@ -41,7 +41,7 @@ class RvSeeder extends Seeder
             'cover' => 'origin/rv_cover_02.jpeg',
             'price' => 450000.00,
             'order_price' => 150.00,
-            'content' => '福特JMC详情',
+            'content' => 'origin/rv_detail_image.jpeg',
             'is_active' => true,
             'sort' => 0
         ],
@@ -50,7 +50,7 @@ class RvSeeder extends Seeder
             'cover' => 'origin/rv_cover_01.jpeg',
             'price' => 300000.00,
             'order_price' => 150.00,
-            'content' => '大通V90详情',
+            'content' => 'origin/rv_detail_image.jpeg',
             'is_active' => true,
             'sort' => 0
         ],
@@ -59,7 +59,7 @@ class RvSeeder extends Seeder
             'cover' => 'origin/rv_cover_02.jpeg',
             'price' => 150000.00,
             'order_price' => 150.00,
-            'content' => '依维柯欧胜详情',
+            'content' => 'origin/rv_detail_image.jpeg',
             'is_active' => true,
             'sort' => 0
         ]
