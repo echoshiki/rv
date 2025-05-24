@@ -20,12 +20,12 @@ const submitRegistration = (data: RegistrationSubmission): Promise<ApiResponse<R
 };
 
 // 检查当前用户报名状态
-const checkRegistrationStatus = (activityId: string): Promise<ApiResponse<RegistrationStatus | null>> => {
+const getRegistrationStatus = (activityId: string): Promise<ApiResponse<RegistrationStatus | null>> => {
     return http.get(`${REGISTRATION_API}check/${activityId}`);
 };
 
 export {
     getRegistrations,
     submitRegistration,
-    checkRegistrationStatus
+    getRegistrationStatus
 };

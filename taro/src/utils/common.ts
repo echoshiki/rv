@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro';
+import { getRegistrationStatus } from '@/api/registration';
 
 /**
  * 判断当前页面是否在 tabBar 中
@@ -88,9 +89,50 @@ const cleanHTML = (html: string, noMargin: boolean = false) => {
         });
 };
 
+/**
+ * 检查用户报名状况
+ */
+const checkRegistrationStatus = async (activityId: string) => {
+    try {
+        const { data } = await getRegistrationStatus(activityId);
+
+        if (
+            !data || 
+            data.value === 'cancelled' || 
+            data.value === 'rejected'
+        ) return {
+            isRegistration: true,
+            message: ""
+        }
+
+        if (data.value === 'approved') {
+            return {
+                isRegistration: false,
+                message: "您已报名，无需重复报名"
+            }
+        }
+
+        if (data.value === 'pending') {
+            return {
+                isRegistration: false,
+                message: "您似乎有尚未付款的报名信息，请去个人中心查看"
+            }
+        }
+
+    } catch (e) {
+        console.log('获取报名状态失败', e.message);
+    }
+
+    return {
+        isRegistration: false,
+        message: "网络请求出现了问题，请稍后再试"
+    };
+}
+
 export {
     isTabBarPage,
     getCurrentPageUrl,
     mapsTo,
-    cleanHTML
+    cleanHTML,
+    checkRegistrationStatus
 };

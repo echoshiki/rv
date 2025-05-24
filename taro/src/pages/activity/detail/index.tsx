@@ -10,7 +10,7 @@ import RegistrationForm from '@/components/RegistrationForm';
 import Loading from "@/components/Loading";
 import { useState } from "react";
 import { checkLogin } from '@/utils/auth';
-import { checkRegistrationStatus } from '@/api/registration';
+import { checkRegistrationStatus } from '@/utils/common';
 
 // 立即登录按钮
 const RegistrationButton = ({ disabled, visible, onClick }: {
@@ -68,22 +68,13 @@ const Detail = () => {
 
         if (!id) return;
 
-        const { data: status } = await checkRegistrationStatus(id);  
-        
-        if (status?.value === 'approved') {
+        const status = await checkRegistrationStatus(id);
+  
+        if (status.isRegistration === false) {
             setButtonDisabled(true);
             Taro.showToast({
                 icon: 'none',
-                title: '您已报名，无需重复报名'
-            });
-            return;
-        }
-
-        if (status?.value === 'pending') {
-            setButtonDisabled(true);
-            Taro.showToast({
-                icon: 'none',
-                title: '您似乎有尚未付款的报名信息，请去个人中心查看'
+                title: status.message
             });
             return;
         }
