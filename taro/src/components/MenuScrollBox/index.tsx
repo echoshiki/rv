@@ -51,18 +51,18 @@ const MenuScrollBox = ({ data }: { data: RvItem[] }) => {
     return (
         <View className="flex h-96 bg-black">
             {/* 左侧菜单 */}
-            <View className="w-24">
+            <View className="w-[7.5rem]">
                 <ScrollView
                     scrollY
                     className="h-full"
                 >
-                    <View className="py-4 px-2">
+                    <View className="px-2">
                         <View className="space-y-2">
                             {data.map((item) => (
                                 <View key={item.id} className="mb-2">
                                     <View
                                         onClick={() => handleMenuClick(item.id)}
-                                        className={`w-full py-2 px-4 rounded-lg transition-colors duration-200 ${activeId === item.id
+                                        className={`w-full py-3 px-4 rounded-lg transition-colors duration-200 ${activeId === item.id
                                                 ? 'bg-[#3c3c3c] text-white'
                                                 : 'text-[#6c6c6c] hover:bg-gray-100'
                                             }`}

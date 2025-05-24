@@ -2,11 +2,11 @@ import { View } from '@tarojs/components';
 import MenuScrollBox from '@/components/MenuScrollBox';
 import { useRvList } from '@/hooks/useRvList';
 import { SectionTitle } from '@/components/SectionTitle';
+import RvList from '@/components/RvList';
 
 const Sale = () => {
 
     const { rvList } = useRvList();
-
     return (
         <View className="bg-black min-h-screen py-5">
             <View>
@@ -16,7 +16,9 @@ const Sale = () => {
 
             <View>
                 <SectionTitle title="二手车选购" subtitle="为您推荐最适合的二手房车" theme='dark' />
-
+                <View className="px-5">
+                    <RvList used />  
+                </View>
             </View>
         </View>
     )

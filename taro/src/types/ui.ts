@@ -124,7 +124,7 @@ interface RvItem {
     name: string,
     cover: string,
     price: string,
-    order_price: string
+    order_price?: string
 }
 
 interface RvList {

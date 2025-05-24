@@ -4,8 +4,9 @@ import { getRvList } from "@/api/rv";
 
 /**
  * 房车列表数据管理 Hook
+ * @param used 是否为二手车
  */
-const useRvList = () => {
+const useRvList = (used?: boolean) => {
     const [rvList, setRvList] = useState<RvItem[]>([]);
     const [total, setTotal] = useState<number>(0);
     const [page, setPage] = useState<number>(1);
@@ -23,8 +24,7 @@ const useRvList = () => {
         setError(null);
 
         try {
-            const { data: responseData } = await getRvList();
-
+            const { data: responseData } = await getRvList(used ?? false);
             if (isLoadMore) {
                 // 格式化列表并累加数据
                 setRvList(pre => [
