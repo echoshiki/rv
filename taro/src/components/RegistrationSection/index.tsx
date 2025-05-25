@@ -31,8 +31,10 @@ const RegistrationSection = ({ activityId }) => {
         if (!id) return;
 
         const status = await checkRegistrationStatus(id);
+
+        if (status === undefined) return;
   
-        if (status.isRegistration === false) {
+        if (status?.isRegistration === false) {
             setButtonDisabled(true);
             Taro.showToast({
                 icon: 'none',

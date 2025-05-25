@@ -34,22 +34,6 @@ class HttpRequest {
         })
     }
 
-    // 封装了错误信息
-    private handleError(error: any) {
-        // 输出所有的错误
-        Taro.showToast({
-            title: error.errMsg || '网络连接异常',
-            icon: 'none'
-        });
-
-        const err = new Error() as any
-        err.name = 'RequestError'
-        err.message = error.errMsg || '网络连接异常'
-        err.code = error.statusCode || 'NETWORK_ERROR'
-        err.data = error.data
-        return err
-    }
-
     public async request<T = any>(config: RequestConfig): Promise<T> {
         // 请求拦截
         const authStore = useAuthStore.getState()
@@ -93,25 +77,45 @@ class HttpRequest {
 
             return response
         } catch (error) {
-            this.handleAuthError(error)
-            throw error
+            if (error.code === 401) this.handleAuthError();
+            this.handleError(error);
+            throw error;
         }
     }
 
-    // 过期或者授权失败重新登录
-    private handleAuthError(error: any) {
-        if (error.code === 401) {
-            // 判断是否由登出操作触发的 401 错误，如果是则跳过
-            const { logout, isLoggingOut } = useAuthStore();
-            if (isLoggingOut) return;
+    // 封装了错误信息
+    private handleError(error: any) {
 
-            // 其他触发 401 的错误继续逻辑
-            const redirectUrl = getCurrentPageUrl();
-            logout();
-            Taro.navigateTo({ 
-                url: `/pages/login/index?redirect=${redirectUrl}` 
+        // 直接显示原始错误信息
+        // Taro.showModal({
+        //     title: '错误信息',
+        //     content: JSON.stringify(error),
+        //     showCancel: false
+        // });
+
+        const err = new Error() as any;
+        err.name = 'RequestError';
+        err.message = error.errMsg || '网络连接异常';
+        err.code = error.statusCode || 'NETWORK_ERROR';
+        err.data = error.data;
+        return err;
+    }
+
+    // 过期或者授权失败重新登录
+    private handleAuthError() {
+        const redirectUrl = getCurrentPageUrl();
+        useAuthStore.setState({
+            token: null,
+            userInfo: null
+        });
+        //提示消息
+        Taro.showToast({ title: '认证过期需登陆授权', icon: 'none' });
+
+        setTimeout(() => {
+            Taro.redirectTo({ 
+                url: `/pages/login/index?redirect=${encodeURIComponent(redirectUrl)}` 
             });
-        }
+        }, 1000);
     }
 
     // 再次将上面的方法进行快捷方法封装

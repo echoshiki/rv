@@ -1,6 +1,6 @@
 
 import { View, Text, Image, Button } from "@tarojs/components"
-import Taro, { useRouter } from "@tarojs/taro"
+import { useRouter, useDidShow, navigateBack } from "@tarojs/taro"
 import { useEffect, useState } from "react";
 import useAuthStore from "@/stores/auth";
 
@@ -10,9 +10,24 @@ import logo from '@/assets/images/logo.jpg'
 const Login = () => {
     const router = useRouter();
     const [redirectUrl, setRedirectUrl] = useState('');
+    const [silenceLoading, setSilenceLoading] = useState(false);
 
     // 从 store 里解构出登录方法、openid、是否绑定手机号
-    const { loginOnBound, login, openid, isBound } = useAuthStore();
+    const { loginInSilence, loginOnBound, login, openid, isBound } = useAuthStore();
+
+    // 静默执行获取 openid
+    useDidShow( async () => {
+        if (openid || silenceLoading) return;
+        try {
+            setSilenceLoading(true);
+            await loginInSilence();
+        } catch (error) {
+            console.error("静默登录失败:", error);
+            setSilenceLoading(false); // 只在错误时设置为 false
+        } finally {
+            setSilenceLoading(false);
+        }
+    });
 
     useEffect(() => {
         if (router.params.redirect) {
@@ -52,7 +67,7 @@ const Login = () => {
                     >
                         同意并继续
                     </Button>
-                    <a href="" onClick={() => Taro.navigateBack()} className="mt-5 text-sm">不同意，仅浏览</a>
+                    <a href="" onClick={() => navigateBack()} className="mt-5 text-sm">不同意，仅浏览</a>
                 </View>
             </View>
         </View>

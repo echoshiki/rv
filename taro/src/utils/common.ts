@@ -121,6 +121,7 @@ const checkRegistrationStatus = async (activityId: string) => {
 
     } catch (e) {
         console.log('获取报名状态失败', e.message);
+        return;
     }
 
     return {

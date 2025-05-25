@@ -112,9 +112,6 @@ jobs:
             # 安装Composer依赖 (服务器环境) 生产环境加上 --no-dev
             echo '安装Composer依赖...'
             composer install --no-interaction --prefer-dist --optimize-autoloader
-            
-            # 生成APP_KEY
-            php artisan key:generate
 
             if [ ! -L 'public/storage' ]; then
               echo '创建storage软链接...'
