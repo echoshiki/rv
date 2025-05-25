@@ -90,7 +90,11 @@ const useAuthStore = create<AuthStoreProps>()(
 
                     // 获取后存入本地
                     if (response?.token) {
-                        set({ token: response.token, userInfo: response.user });
+                        set({ 
+                            isBound: response.isBound,
+                            token: response.token, 
+                            userInfo: response.user 
+                        });
                         Taro.showToast({ title: '登录成功', icon: 'success' });
 
                         setTimeout(() => {

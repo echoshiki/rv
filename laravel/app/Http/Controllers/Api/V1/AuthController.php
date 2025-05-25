@@ -64,7 +64,8 @@ class AuthController extends Controller
 
             return response()->json([
                 'user' => new UserResource($user),
-                'token' => $token
+                'token' => $token,
+                'isBound' => $user->phone !== null ? true : false
             ]);
 
         } catch (\Exception $e) {
