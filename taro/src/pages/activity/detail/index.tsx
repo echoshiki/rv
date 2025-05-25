@@ -64,7 +64,9 @@ const Detail = () => {
 
     const handleRegistrationButton = async (id: string | undefined) => {
         // 检查登录
-        console.log('检测是否登录', checkLogin());
+        if (!checkLogin()) {
+            return;
+        };
 
         if (!id) return;
 
