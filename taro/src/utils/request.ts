@@ -36,6 +36,12 @@ class HttpRequest {
 
     // 封装了错误信息
     private handleError(error: any) {
+        // 输出所有的错误
+        Taro.showToast({
+            title: error.errMsg || '网络连接异常',
+            icon: 'none'
+        });
+
         const err = new Error() as any
         err.name = 'RequestError'
         err.message = error.errMsg || '网络连接异常'

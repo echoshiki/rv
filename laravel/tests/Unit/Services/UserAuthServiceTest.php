@@ -48,8 +48,7 @@ class UserAuthServiceTest extends TestCase
         $this->sessionData = [
             "errcode" => 0,
             "errmsg" => "ok",
-            'open_id' => 'test_open_id',
-            'session_key' => 'test_session_key'  
+            'open_id' => 'test_open_id'
         ];
         $this->phoneData = [
             "errcode" => 0,
@@ -111,8 +110,7 @@ class UserAuthServiceTest extends TestCase
         // 创建一个微信用户
         $this->wechatUser->create([
             'user_id' => null,
-            'openid' => $this->sessionData['openid'],
-            'session_key' => $this->sessionData['session_key']
+            'openid' => $this->sessionData['openid']
         ]);
 
         // 执行方法
@@ -150,8 +148,7 @@ class UserAuthServiceTest extends TestCase
         // 创建一个微信用户并关联上面的用户
         $wechatUser = $this->wechatUser->create([
             'user_id' => $user->id,
-            'openid' => $this->sessionData['openid'],
-            'session_key' => $this->sessionData['session_key']
+            'openid' => $this->sessionData['openid']
         ]);
 
         // 执行方法

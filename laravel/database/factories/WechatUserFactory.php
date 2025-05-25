@@ -19,7 +19,6 @@ class WechatUserFactory extends Factory
     {
         return [
             'openid' => 'TEST_OPENID_'.Str::random(16),
-            'session_key' => 'TEST_SESSION_KEY_'.Str::random(5),
             'nickname' => $this->faker->name,
             'avatar_url' => $this->faker->imageUrl(200, 200),
         ];

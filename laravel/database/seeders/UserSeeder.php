@@ -39,8 +39,7 @@ class UserSeeder extends Seeder
                     'openid' => 'oP0aB4uOgwqioYapbZSI_a42Yo74',     
                 ],
                 [
-                    'user_id' => $wechatUser->id, 
-                    'session_key' => 'dummy_session_key_for_testing',
+                    'user_id' => $wechatUser->id,
                     'raw_data' => null,
                     'nickname' => null,
                     'avatar_url' => null,

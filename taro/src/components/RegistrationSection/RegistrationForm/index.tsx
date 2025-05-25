@@ -1,5 +1,5 @@
-import { View } from "@tarojs/components";
-import { Form, Input, Button, FormInstance } from '@nutui/nutui-react-taro';
+import { View, Button } from "@tarojs/components";
+import { Form, Input, FormInstance } from '@nutui/nutui-react-taro';
 import AreaPicker from '@/components/AreaPicker'
 import { useState, useRef } from 'react';
 
@@ -68,7 +68,13 @@ const RegistrationForm = ({ onSubmit, isVisible = false }: RegistrationFormProps
                 </Form.Item>
 
                 <View className="mt-5">
-                    <Button nativeType="submit" block type="default">提交报名信息</Button>
+                    <Button 
+                        type="primary" 
+                        formType="submit" 
+                        className="!border border-solid !border-black !bg-transparent !text-black"
+                    >
+                        提交报名信息
+                    </Button>
                 </View>
             </Form>
 

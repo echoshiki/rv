@@ -33,8 +33,7 @@ class AuthControllerTest extends TestCase
         $this->sessionData = [
             "errcode" => 0,
             "errmsg" => "ok",
-            'openid' => 'test_open_id',
-            'session_key' => 'test_session_key'  
+            'openid' => 'test_open_id', 
         ];
         $this->phoneData = [
             "errcode" => 0,
@@ -112,8 +111,7 @@ class AuthControllerTest extends TestCase
 
         $wechatUser = $this->wechatUser->create([
             'user_id' => $user->id,
-            'openid' => 'test_open_id',
-            'session_key' => 'test_session_key'
+            'openid' => 'test_open_id'
         ]);
 
         $response = $this->postJson('api/v1/login-silence', [
@@ -147,8 +145,7 @@ class AuthControllerTest extends TestCase
 
         $wechatUser = $this->wechatUser->create([
             'user_id' => $user->id,
-            'openid' => 'test_open_id',
-            'session_key' => 'test_session_key'
+            'openid' => 'test_open_id'
         ]);
 
         $response = $this->postJson('api/v1/login-bound', [
@@ -175,8 +172,7 @@ class AuthControllerTest extends TestCase
 
         $wechatUser = $this->wechatUser->create([
             'user_id' => $user->id,
-            'openid' => 'test_open_id',
-            'session_key' => 'test_session_key'
+            'openid' => 'test_open_id'
         ]);
 
         // 传入 openid

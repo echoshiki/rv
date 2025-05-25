@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int|null $user_id
  * @property string $openid
  * @property string|null $unionid
- * @property mixed|null $session_key
  * @property array<array-key, mixed>|null $raw_data 原始微信数据
  * @property string|null $nickname
  * @property string|null $avatar_url
@@ -56,13 +55,12 @@ class WechatUser extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'openid', 'unionid', 'session_key', 
-        'nickname', 'avatar', 'raw_data', 'user_id'
+        'openid', 'unionid', 
+        'nickname', 'avatar', 'user_id'
     ];
 
     protected $casts = [
-        'raw_data' => 'array',
-        'session_key' => 'encrypted'
+        'raw_data' => 'array'
     ];
 
     public function user() {

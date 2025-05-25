@@ -64,8 +64,7 @@ class UserAuthService
                 $user = $this->userModel->create(self::buildNewUserAttributes());
                 $wechatUser = $this->wechatUserModel->create([
                     'user_id' => $user->id,
-                    'openid' => $session['openid'],
-                    'session_key' => $session['session_key']
+                    'openid' => $session['openid']
                 ]);
                 $wechatUser->load('user');
                 return $wechatUser;
