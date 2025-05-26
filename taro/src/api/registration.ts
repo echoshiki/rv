@@ -3,8 +3,7 @@ import {
     ApiResponse, 
     RegistrationList, 
     RegistrationItem, 
-    RegistrationSubmission,
-    RegistrationStatus
+    RegistrationSubmission
 } from "@/types/api";
 
 const REGISTRATION_API = `/api/v1/registrations/`;
@@ -15,17 +14,11 @@ const getRegistrations = (): Promise<ApiResponse<RegistrationList>> => {
 };
 
 // 提交报名信息
-const submitRegistration = (data: RegistrationSubmission): Promise<ApiResponse<RegistrationItem>> => {
+const storeRegistration = (data: RegistrationSubmission): Promise<ApiResponse<RegistrationItem>> => {
     return http.post(`${REGISTRATION_API}`, data);
-};
-
-// 检查当前用户报名状态
-const getRegistrationStatus = (activityId: string): Promise<ApiResponse<RegistrationStatus | null>> => {
-    return http.get(`${REGISTRATION_API}check/${activityId}`);
 };
 
 export {
     getRegistrations,
-    submitRegistration,
-    getRegistrationStatus
+    storeRegistration
 };

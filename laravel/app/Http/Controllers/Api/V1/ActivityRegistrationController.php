@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Services\ActivityService;
-use App\Services\ActivityRegistrationService;
 use App\Http\Requests\Api\V1\ActivityRegistrationRequest;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\RegistrationResource;
 use App\Http\Resources\RegistrationResourceCollection;
 use App\Http\Resources\RegistrationStatusResource;
+use App\Services\ActivityService;
+use App\Services\ActivityRegistrationService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityRegistrationController extends Controller
 {
@@ -101,9 +101,9 @@ class ActivityRegistrationController extends Controller
             // 只能查看自己的信息
             $user = $request->user();
             
-            // if ($registration->user_id !== $user->id) {
-            //     return $this->errorResponse('无权查看此报名记录。', 404);
-            // }
+            if ($registration->user_id !== $user->id) {
+                return $this->errorResponse('无权查看此报名记录。', 404);
+            }
 
             return $this->successResponse($registration);
         } catch (\Throwable $e) {
@@ -131,30 +131,6 @@ class ActivityRegistrationController extends Controller
             return $this->successResponse($registration, '报名已成功取消。');
         } catch (\Throwable $e) {
             return $this->errorResponse('报名取消失败：' . $e->getMessage(), 500);
-        }
-    }
-
-    /**
-     * 检查用户指定活动的报名状态
-     */
-    public function checkRegistrationStatus(Request $request, $activityId)
-    {
-        try {
-            $user = $request->user();
-
-            $registration = $this->activityRegistrationService->getUserRegistrations(
-                $user->id,
-                ['activity_id' => $activityId],
-                'created_at',
-                'desc',
-                1,
-                1,
-                ['id', 'status']
-            );
-
-            return $this->successResponse($registration->first() ? new RegistrationStatusResource($registration->first()) : null);
-        } catch (\Throwable $e) {
-            return $this->errorResponse('报名状态检测失败：' . $e->getMessage(), 500);
         }
     }
 

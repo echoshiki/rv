@@ -55,8 +55,9 @@ Route::prefix('v1')->group(function () {
     // 活动相关API
     Route::prefix('activities')->group(function () {
         Route::get('/categories', [ArtivityController::class, 'categories']);
-        Route::get('/', [ArtivityController::class, 'index']);
+        Route::get('/{id}/status', [ArtivityController::class, 'status'])->middleware('auth:sanctum');
         Route::get('/{id}', [ArtivityController::class, 'show']);
+        Route::get('/', [ArtivityController::class, 'index']);
     });
 
     // 报名相关API
@@ -65,7 +66,6 @@ Route::prefix('v1')->group(function () {
         // Route::post('/{id}/cancel', [ActivityRegistrationController::class, 'cancel']);
         Route::get('/my', [ActivityRegistrationController::class, 'index']);
         Route::get('/{id}', [ActivityRegistrationController::class, 'show']);
-        Route::get('/check/{activityId}', [ActivityRegistrationController::class, 'checkRegistrationStatus']);
     });
 
     // 房车相关API

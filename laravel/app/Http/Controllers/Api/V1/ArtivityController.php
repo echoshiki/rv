@@ -5,16 +5,23 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\ActivityService;
+use App\Services\ActivityRegistrationService;
 use App\Http\Resources\ActivityResourceCollection;
 use App\Http\Resources\ActivityDetailResource;
+use App\Http\Resources\RegistrationStatusResource;
 
 class ArtivityController extends Controller
 {
     protected $activityService;
+    protected $registrationService;
 
-    public function __construct(ActivityService $activityService)
+    public function __construct(
+        ActivityService $activityService,
+        ActivityRegistrationService $registrationService
+    )
     {
         $this->activityService = $activityService;
+        $this->registrationService = $registrationService;
     }
 
     /**
@@ -78,6 +85,28 @@ class ArtivityController extends Controller
             return $this->successResponse($categories);
         } catch (\Throwable $e) {
             return $this->errorResponse('活动分类列表获取失败：' . $e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * 检查用户指定活动的报名状态
+     */
+    public function status(Request $request, int $id)
+    {
+        try {
+            $user = $request->user();
+            $registration = $this->registrationService->getUserRegistrations(
+                $user->id,
+                ['activity_id' => $id],
+                'created_at',
+                'desc',
+                1,
+                1,
+                ['id', 'status']
+            );
+            return $this->successResponse($registration->first() ? new RegistrationStatusResource($registration->first()) : null);
+        } catch (\Throwable $e) {
+            return $this->errorResponse('活动报名状态获取失败：' . $e->getMessage(), 500);
         }
     }
 }
