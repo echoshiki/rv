@@ -2,6 +2,18 @@ import { useState, useCallback } from "react";
 import { useRegistration } from "./useRegistration";
 import { RegistrationFormData } from "@/types/ui";
 
+type RegistrationFlowStep = 
+    | 'initial'                // 任何检查之前的初始状态
+    | 'checkingStatus'         // 正在积极检查报名状态
+    | 'statusCheckError'       // 状态检查过程中发生错误
+    | 'form'                   // 用户可以填写报名表单的阶段
+    | 'submittingForm'         // 表单提交中 (可选，可由 useRegistration 的 `submitting` 状态覆盖)
+    | 'payment'                // 支付阶段 (如果需要)
+    | 'processingPayment'      // 支付处理中 (可选，可由 useRegistration 的 `paying` 状态覆盖)
+    | 'success'                // 报名 (及支付，如有) 成功
+    | 'alreadyRegistered'      // 用户已报名该活动
+    | 'pendingExistingPayment';// 用户已有报名信息待支付
+    
 interface UseRegistrationFlowOptions {
     activityId: string,
     // 是否需要支付
@@ -21,9 +33,11 @@ const useRegistrationFlow = ({
     paymentAmount = 0
 }: UseRegistrationFlowOptions) => {
     // 当前阶段，默认值表单阶段
-    const [currentStep, setCurrentStep] = useState<'form' | 'payment' | 'success'>('form');
+    const [currentStep, setCurrentStep] = useState<'initial' | 'form' | 'payment' | 'success'>('initial');
     // 完成阶段，追踪已完成的阶段，注册、支付、成功等
     const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set());
+    // 用于向用户显示的状态消息 (例如错误提示、成功提示等)
+    const [statusMessage, setStatusMessage] = useState<string>("");
 
     // 调用基础操作 hook，传入活动ID、各阶段回调函数
     const {
