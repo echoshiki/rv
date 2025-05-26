@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro';
-import { getActivityStatus } from '@/api/activity';
+import registrationApi from '@/api/registration';
 
 /**
  * 判断当前页面是否在 tabBar 中
@@ -94,7 +94,7 @@ const cleanHTML = (html: string, noMargin: boolean = false) => {
  */
 const checkRegistrationStatus = async (activityId: string) => {
     try {
-        const { data } = await getActivityStatus(activityId);
+        const { data } = await registrationApi.status(activityId);
 
         if (
             !data || 

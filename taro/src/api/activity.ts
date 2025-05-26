@@ -1,5 +1,5 @@
 import { http } from "@/utils/request";
-import { ApiResponse, ActivityList, ActivityDetail, Category, RegistrationStatus } from "@/types/api";
+import { ApiResponse, ActivityList, ActivityDetail, Category } from "@/types/api";
 
 const ACTIVITY_API = `/api/v1/activities/`;
 
@@ -60,19 +60,9 @@ const getActivityCategoryList = (): Promise<ApiResponse<Category[]>> => {
     return http.get(`${ACTIVITY_API}categories`);
 };
 
-/**
- * 获取当前用户的活动报名状态
- * @param id - 活动ID
- * @returns 
- */
-const getActivityStatus = (id: string): Promise<ApiResponse<RegistrationStatus | null>> => {
-    return http.get(`${ACTIVITY_API}${id}/status`);
-};
-
 export {
     getActivityList,
     type ActivityListQueryParams,
     getActivityDetail,
-    getActivityCategoryList,
-    getActivityStatus,
+    getActivityCategoryList
 };

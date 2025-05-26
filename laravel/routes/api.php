@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\V1\MenuController;
 use App\Http\Controllers\Api\V1\ArticleController;
 use App\Http\Controllers\Api\V1\RegionController;
 use App\Http\Controllers\Api\V1\ArtivityController;
-use App\Http\Controllers\Api\V1\ActivityRegistrationController;
+use App\Http\Controllers\Api\V1\RegistrationController;
 use App\Http\Controllers\Api\V1\RvController;
 use App\Http\Controllers\Api\V1\UsedRvController;
 
@@ -55,17 +55,17 @@ Route::prefix('v1')->group(function () {
     // 活动相关API
     Route::prefix('activities')->group(function () {
         Route::get('/categories', [ArtivityController::class, 'categories']);
-        Route::get('/{id}/status', [ArtivityController::class, 'status'])->middleware('auth:sanctum');
         Route::get('/{id}', [ArtivityController::class, 'show']);
         Route::get('/', [ArtivityController::class, 'index']);
     });
 
     // 报名相关API
     Route::middleware('auth:sanctum')->prefix('registrations')->group(function () {
-        Route::post('/', [ActivityRegistrationController::class, 'store']);
-        // Route::post('/{id}/cancel', [ActivityRegistrationController::class, 'cancel']);
-        Route::get('/my', [ActivityRegistrationController::class, 'index']);
-        Route::get('/{id}', [ActivityRegistrationController::class, 'show']);
+        Route::post('/', [RegistrationController::class, 'store']);
+        // Route::post('/{id}/cancel', [RegistrationController::class, 'cancel']);
+        Route::get('/my', [RegistrationController::class, 'index']);
+        Route::get('/{activityId}/status', [RegistrationController::class, 'status']);
+        Route::get('/{id}', [RegistrationController::class, 'show']);
     });
 
     // 房车相关API

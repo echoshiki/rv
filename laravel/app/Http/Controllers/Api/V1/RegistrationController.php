@@ -12,17 +12,17 @@ use App\Services\ActivityRegistrationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ActivityRegistrationController extends Controller
+class RegistrationController extends Controller
 {
     protected $activityService;
-    protected $activityRegistrationService;
+    protected $registrationService;
 
     public function __construct(
         ActivityService $activityService,
-        ActivityRegistrationService $activityRegistrationService
+        ActivityRegistrationService $registrationService
     ) {
         $this->activityService = $activityService;
-        $this->activityRegistrationService = $activityRegistrationService;
+        $this->registrationService = $registrationService;
     }
 
     /**
@@ -51,7 +51,7 @@ class ActivityRegistrationController extends Controller
             // 获取每页数据量
             $limit = $request->get('limit', 10);
 
-            $registrations = $this->activityRegistrationService->getUserRegistrations(
+            $registrations = $this->registrationService->getUserRegistrations(
                 $user->id,
                 $filters,
                 $orderBy,
@@ -76,7 +76,7 @@ class ActivityRegistrationController extends Controller
             $validatedData = $request->validated();
             $validatedData['user_id'] = Auth::id();
 
-            $registration = $this->activityRegistrationService->createRegistration($validatedData);
+            $registration = $this->registrationService->createRegistration($validatedData);
 
             return $this->successResponse(new RegistrationResource($registration), '报名成功！您的报名正在处理中。');
         } catch (\Throwable $e) {
@@ -91,7 +91,7 @@ class ActivityRegistrationController extends Controller
     {
         try {
 
-            $registration = $this->activityRegistrationService->getRegistrationById($id);
+            $registration = $this->registrationService->getRegistrationById($id);
 
             // 检索信息是否存在
             if (!$registration) {
@@ -122,7 +122,7 @@ class ActivityRegistrationController extends Controller
                 return $this->errorResponse('未经授权。', 401);
             }
 
-            $registration = $this->activityRegistrationService->userCancelRegistration(
+            $registration = $this->registrationService->userCancelRegistration(
                 (int)$id,
                 $user->id,
                 $request->input('remarks')
@@ -131,6 +131,28 @@ class ActivityRegistrationController extends Controller
             return $this->successResponse($registration, '报名已成功取消。');
         } catch (\Throwable $e) {
             return $this->errorResponse('报名取消失败：' . $e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * 检查指定活动的报名状态
+     */
+    public function status(Request $request, int $activityId)
+    {
+        try {
+            $user = $request->user();
+            $registration = $this->registrationService->getUserRegistrations(
+                $user->id,
+                ['activity_id' => $activityId],
+                'created_at',
+                'desc',
+                1,
+                1,
+                ['id', 'status']
+            );
+            return $this->successResponse($registration->first() ? new RegistrationStatusResource($registration->first()) : null);
+        } catch (\Throwable $e) {
+            return $this->errorResponse('活动报名状态获取失败：' . $e->getMessage(), 500);
         }
     }
 

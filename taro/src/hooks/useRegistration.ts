@@ -33,6 +33,8 @@ const useRegistration = ({
     const [paying, setPaying] = useState(false);
     const [registration, setRegistration] = useState<RegistrationItem | null>(null);
 
+    // 检测报名状态 Todo
+
     // 解析地址工具函数
     const parseAddress = useCallback((address: string) => {
         const parts = address.split(' ').filter(Boolean);

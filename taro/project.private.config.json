@@ -26,7 +26,7 @@
         {
           "name": "pages/activity/detail/index",
           "pathName": "pages/activity/detail/index",
-          "query": "id=33",
+          "query": "id=10",
           "scene": null,
           "launchMode": "default"
         },

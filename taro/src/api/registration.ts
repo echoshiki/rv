@@ -4,8 +4,9 @@ import {
     RegistrationList, 
     RegistrationItem, 
     RegistrationSubmission,
+    RegistrationStatus,
     PaymentData,
-    PaymentResult
+    PaymentResult,
 } from "@/types/api";
 
 const REGISTRATION_API = `/api/v1/registrations/`;
@@ -36,6 +37,15 @@ const registrationApi = {
      */
     get: (id: string): Promise<ApiResponse<RegistrationItem>> => {
         return http.get(`${REGISTRATION_API}${id}`);
+    },
+
+    /**
+     * 获取当前用户的活动报名状态
+     * @param activityId - 活动ID
+     * @returns 
+     */
+    status: (activityId: string): Promise<ApiResponse<RegistrationStatus | null>> => {
+        return http.get(`${REGISTRATION_API}${activityId}/status`);
     },
 
     // 取消报名
