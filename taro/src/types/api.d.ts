@@ -161,7 +161,7 @@ interface RegistrationList {
 }
 
 /**
- * 报名提交数据
+ * 报名表单数据
  */
 interface RegistrationSubmission {
     activity_id: string,
@@ -169,7 +169,25 @@ interface RegistrationSubmission {
     phone: string,
     province: string,
     city: string,
+    form_data?: Record<string, any>;
     remarks?: string
+}
+
+/**
+ * 发起支付的数据？
+ */
+interface PaymentData {
+    registration_id: string,
+    amount: number
+}
+
+/**
+ * 支付结果？
+ */
+interface PaymentResult {
+    payment_id: string;
+    status: 'success' | 'failed' | 'pending';
+    transaction_id?: string;
 }
 
 /**
@@ -210,6 +228,8 @@ export {
     RegistrationList,
     RegistrationSubmission,
     RegistrationStatus,
+    PaymentData,
+    PaymentResult,
     RvItem,
     RvList,
     RvDetail

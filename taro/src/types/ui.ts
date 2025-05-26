@@ -114,6 +114,12 @@ interface RegistrationActivity {
     ended_at: string,
 }
 
+interface RegistrationFormData {
+    name: string,
+    phone: string,
+    address: string
+}
+
 interface RegionItem {
     code: string,
     name: string
@@ -157,6 +163,7 @@ export {
     RegistrationList,
     RegistrationStatus,
     RegistrationActivity,
+    RegistrationFormData,
     RegionItem,
     RvItem,
     RvList,

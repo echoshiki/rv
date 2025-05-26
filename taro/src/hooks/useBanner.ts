@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { BannerItem } from "@/types/ui";
-import { getBannerList } from "@/api/banner";
+import bannerApi from "@/api/banner";
 
 const useBanner = (channel: string) => {
     const [banners, setBanners] =  useState<BannerItem[]>([]);
@@ -11,7 +11,7 @@ const useBanner = (channel: string) => {
         setLoading(true);
         setError(null);
         try {
-            const { data } = await getBannerList(channel);
+            const { data } = await bannerApi.get(channel);
             setBanners(data || []);
         } catch (e) {
             setError(e.message || 'Failed to fetch banners.');

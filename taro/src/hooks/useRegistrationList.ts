@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
+import registrationApi from "@/api/registration";
 import { RegistrationItem } from "@/types/ui";
-import { getRegistrations } from "@/api/registration";
 
 /**
  * 报名列表数据管理 Hook
@@ -23,7 +23,8 @@ const useRegistrationList = () => {
         setError(null);
 
         try {
-            const { data: responseData } = await getRegistrations();
+            // 获取报名列表
+            const { data: responseData } = await registrationApi.list();
             if (isLoadMore) {
                 // 格式化列表并累加数据
                 setRegistrationList(pre => [
@@ -40,7 +41,7 @@ const useRegistrationList = () => {
             setHasMore(responseData.has_more_pages);
 
         } catch (e) {
-            setError(e.message || 'Failed to fetch articles.');
+            setError(e.message || 'Failed to fetch registrations.');
         } finally {
             setLoading(false);
         }
