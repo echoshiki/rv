@@ -147,7 +147,7 @@ const MenuMatrix = ({ menuList }: MenuList) => {
     // 渲染左侧矩形图片菜单
     const renderLeftMenu = (item: MenuItem) => {
         return (
-            <View className="relative block h-0 p-0 overflow-hidden pb-[100%] rounded-xl" onClick={() => handleItemClick(item)}>
+            <View className="relative block h-0 p-0 overflow-hidden pb-[100%] rounded-lg" onClick={() => handleItemClick(item)}>
                 <Image
                     src={item.icon}
                     className="absolute object-cover w-full h-full border-none align-middle" 
@@ -163,7 +163,7 @@ const MenuMatrix = ({ menuList }: MenuList) => {
     // 渲染右侧长方形菜单
     const renderRightMenu = (item: MenuItem) => {
         return (
-            <View className="relative block h-0 p-0 overflow-hidden pb-[48%] rounded-xl" onClick={() => handleItemClick(item)}>
+            <View className="relative block h-0 p-0 overflow-hidden pb-[48%] rounded-lg" onClick={() => handleItemClick(item)}>
                 <Image
                     src={item.icon}
                     className="absolute object-cover w-full h-full border-none align-middle" 
