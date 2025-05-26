@@ -43,13 +43,16 @@ class UserAuthServiceTest extends TestCase
             $this->wechatUser
         );
 
-        // 公共测试数据
+        // 模拟返回的 code
         $this->code = 'test_code';
+        // 模拟返回的 openid
         $this->sessionData = [
             "errcode" => 0,
             "errmsg" => "ok",
-            'open_id' => 'test_open_id'
+            'openid' => 'test_open_id',
+            'session_key' => 'test_session_key'
         ];
+        // 模拟返回的手机号信息
         $this->phoneData = [
             "errcode" => 0,
             "errmsg" => "ok",
