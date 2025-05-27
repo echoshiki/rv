@@ -4,6 +4,9 @@ import { View, RichText } from "@tarojs/components";
 import Loading from "@/components/Loading";
 import { cleanHTML } from '@/utils/common';
 
+
+import Skeleton from '@/components/Skeleton';
+
 const RvDetail = () => {
 
     const { router } = Taro.getCurrentInstance();
@@ -16,14 +19,15 @@ const RvDetail = () => {
 
     return (
         <View>
-            <View className="relative">
+            <Skeleton width={500} height={200} className="m-10" />
+            {/* <View className="relative">
                 <View>
                     <RichText
                         className="font-light text-left leading-loose"
                         nodes={cleanHTML(rvDetail?.content || '', true)}
                     />
                 </View>
-            </View>
+            </View> */}
 
             {/* 加载状态展示 */}
             {loading && (
