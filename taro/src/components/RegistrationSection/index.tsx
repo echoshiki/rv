@@ -15,8 +15,7 @@ interface RegistrationSectionProps {
 
 /**
  * 页面报名区域组件
- * @param param activityId 活动 ID
- * @returns 
+ * @param activityDetail - 活动详情
  */
 const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
     // 按钮禁用状态（用于处理不可报名的情况）
@@ -24,7 +23,7 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
     // 虚拟加载状态（用于 UI 过渡效果）
     const [showTransitionLoading, setShowTransitionLoading] = useState(false);
 
-    // 使用报名流程 Hook
+    // 使用报名流程 Hook 注入活动详情
     const {
         currentStep,
         checking,
@@ -40,8 +39,8 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
 
     // 处理检测
     const handleRegistrationButton = async () => {
+        // 登录检测
         if (!checkLogin()) return;
-
         try {
             const statusCode = await handleCheckStatus();
             switch (statusCode) {
@@ -116,8 +115,8 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
             });
 
             // 根据是否需要支付自动跳转
+            // ...
         } catch (error) {
-
             Taro.showToast({
                 icon: 'none',
                 title: '报名遇到一些问题，请稍后再试',
@@ -137,7 +136,6 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
             });
         } catch (error) {
             console.error('支付失败:', error);
-
             // 支付取消不显示错误提示
             if (!error.errMsg?.includes('cancel')) {
                 Taro.showToast({
@@ -233,6 +231,7 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
 
     return (
         <Card className="mt-5">
+            {/* 渲染内容 */}
             {renderStepContent()}
 
             {/* 底部说明文字 */}
