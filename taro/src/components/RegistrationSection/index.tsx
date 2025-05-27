@@ -1,4 +1,4 @@
-import { View, Text } from "@tarojs/components";
+import { View, Text, Button } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import Card from '@/components/Card';
 import Loading from "@/components/Loading";
@@ -10,7 +10,7 @@ import { useRegistrationFlow, RegistrationStatusCode, RegistrationStep } from '@
 import { ActivityDetail, RegistrationFormData } from "@/types/ui";
 
 interface RegistrationSectionProps {
-    activityDetail: ActivityDetail; 
+    activityDetail: ActivityDetail;
 }
 
 /**
@@ -117,19 +117,18 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
 
             // 根据是否需要支付自动跳转
         } catch (error) {
-            
+
             Taro.showToast({
                 icon: 'none',
                 title: '报名遇到一些问题，请稍后再试',
                 duration: 3000
             });
             console.error('提交报名失败:', error);
-            console.error('提交报名失败:');
         }
     }
 
     // 处理支付
-    const handlePaymentWithFeedback  = async() => {
+    const handlePaymentWithFeedback = async () => {
         try {
             await handlePayment();
             Taro.showToast({
@@ -180,50 +179,62 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
                 );
             case RegistrationStep.PAYMENT:
                 return (
-                    <View className="mt-4">
-                        <View className="bg-gray-50 p-4 rounded-lg mb-4">
-                            <Text className="text-sm text-gray-600">报名信息已提交成功</Text>
-                            <Text className="text-sm text-gray-600">请完成支付以确认报名</Text>
-                            <Text className="text-lg font-bold text-orange-500 mt-2">
-                                ¥{activityDetail.registration_fee}
+                    <View className="text-center py-5 flex flex-col space-y-5">
+                        <View className="flex flex-col">
+                            <Text className="text-lg font-bold text-green-600">
+                                只差一步！
+                            </Text>
+                            <Text className="text-xs text-gray-600">
+                                报名信息提交成功，请完成支付以确认报名
                             </Text>
                         </View>
-                        <View className="flex justify-center">
-                            <button
-                                className="bg-green-500 text-white px-8 py-3 rounded-lg"
-                                onClick={handlePaymentWithFeedback}
-                                disabled={paying}
-                            >
-                                {paying ? '支付中...' : '立即支付'}
-                            </button>
-                        </View>
+                        <View className="bg-gray-50 p-5 rounded-lg flex flex-col space-y-2">
+                            <Text className="text-xl font-bold text-orange-500">
+                                ¥{activityDetail.registration_fee}
+                            </Text>
+                            <View className="flex justify-center">
+                                <Button
+                                    type="primary"
+                                    className="text-[.8rem] w-full"
+                                    loading={paying}
+                                    onClick={handlePaymentWithFeedback}
+                                >
+                                    立即支付
+                                </Button>
+                            </View>
+                        </View>  
                     </View>
                 );
             case RegistrationStep.SUCCESS:
                 return (
-                    <View className="text-center py-8">
-                        <Text className="text-lg font-bold text-green-600 mb-2">
-                            {activityDetail.registration_fee > 0 ? '支付成功！' : '报名成功！'}
-                        </Text>
-                        <Text className="text-sm text-gray-600">
-                            我们会尽快与您联系，请保持手机畅通
-                        </Text>
+                    <View className="text-center py-5">
+                        <View className="flex flex-col">
+                            <Text className="text-lg font-bold text-green-600">
+                                {activityDetail.registration_fee > 0 ? '支付成功！' : '报名成功！'}
+                            </Text>
+                            <Text className="text-xs text-gray-600">
+                                我们会尽快与您联系，请保持手机畅通
+                            </Text>
+                        </View>
                         {registration && (
-                            <View className="mt-4 p-4 bg-gray-50 rounded-lg">
-                                <Text className="text-sm text-gray-600">报名编号：{registration.registration_no}</Text>
+                            <View className="text-left mt-4 p-4 bg-gray-50 rounded-lg text-xs flex flex-col space-y-1">
+                                <Text>姓名：{registration.name}</Text>
+                                <Text>联系方式：{registration.phone}</Text>
+                                <Text>报名编号：{registration.registration_no}</Text>
+                                <Text>报名时间：{registration.created_at}</Text>
                             </View>
                         )}
                     </View>
                 );
             default:
-                return null;   
+                return null;
         }
     }
 
     return (
         <Card className="mt-5">
             {renderStepContent()}
-            
+
             {/* 底部说明文字 */}
             <View className="mt-4">
                 <Text className="text-xs font-light block">* 请务必填写真实信息，以便我们与您取得联系</Text>

@@ -16,7 +16,7 @@ const RegistrationButton = ({ disabled, visible, loading, onClick }: {
         <View className="text-center">
             <Button
                 type="primary"
-                className="!bg-black"
+                className="!bg-black text-[.8rem] w-full"
                 disabled={disabled}
                 loading={loading}
                 onClick={onClick}
