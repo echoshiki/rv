@@ -1,9 +1,10 @@
 import { View, Button } from "@tarojs/components";
 
 // 立即登录按钮
-const RegistrationButton = ({ disabled, visible, onClick }: {
+const RegistrationButton = ({ disabled, visible, loading, onClick }: {
     disabled: boolean,
     visible: boolean,
+    loading: boolean,
     onClick: () => void
 }) => {
     // 隐藏按钮
@@ -17,6 +18,7 @@ const RegistrationButton = ({ disabled, visible, onClick }: {
                 type="primary"
                 className="!bg-black"
                 disabled={disabled}
+                loading={loading}
                 onClick={onClick}
             >
                 立即报名

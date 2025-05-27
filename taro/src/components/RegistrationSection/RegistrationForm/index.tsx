@@ -2,13 +2,15 @@ import { View, Button } from "@tarojs/components";
 import { Form, Input, FormInstance } from '@nutui/nutui-react-taro';
 import AreaPicker from '@/components/AreaPicker'
 import { useState, useRef } from 'react';
+import { RegistrationFormData } from '@/types/ui';
 
 interface RegistrationFormProps {
-    onSubmit: (data: { name: string, phone: string, address: string }) => void,
+    onSubmit: (data: RegistrationFormData) => void,
+    loading: boolean,
     isVisible: boolean
 }
 
-const RegistrationForm = ({ onSubmit, isVisible = false }: RegistrationFormProps) => {
+const RegistrationForm = ({ onSubmit, loading = false, isVisible = false }: RegistrationFormProps) => {
 
     if (!isVisible) {
         return null;
@@ -72,6 +74,7 @@ const RegistrationForm = ({ onSubmit, isVisible = false }: RegistrationFormProps
                         type="primary" 
                         formType="submit" 
                         className="!border border-solid !border-black !bg-transparent !text-black"
+                        loading={loading}
                     >
                         提交报名信息
                     </Button>

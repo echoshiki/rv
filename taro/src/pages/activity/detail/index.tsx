@@ -28,11 +28,30 @@ const Detail = () => {
         }
     });
 
+    // 如果正在加载，显示加载状态
+    if (loading) {
+        return (
+            <View className="bg-gray-100 min-h-screen flex justify-center items-center">
+                <Loading />
+            </View>
+        );
+    }
+
+    if (!activityDetail) {
+        return (
+            <View className="bg-gray-100 min-h-screen flex justify-center items-center">
+                <View className="text-center text-gray-500 text-sm py-4">
+                    活动未找到或者已被删除
+                </View>
+            </View>
+        );
+    }
+
     return (
         <View className="bg-gray-100 min-h-screen pb-5">
             <View className="w-full">
                 <AspectRatioImage
-                    src={activityDetail?.cover || DefaultCover}
+                    src={activityDetail.cover || DefaultCover}
                     ratio={.5}
                 />
             </View>
@@ -41,11 +60,11 @@ const Detail = () => {
                     {/* 标题 */}
                     <View className="mb-5">
                         <Text className="text-xl font-bold text-justify leading-relaxed">
-                            {activityDetail?.title}
+                            {activityDetail.title}
                         </Text>
                         <View className="flex flex-nowrap items-center space-x-3 mt-3 text-xs font-light">
-                            <Text className="text-gray-500">{activityDetail?.date}</Text>
-                            <Tag type='info'>{activityDetail?.category?.title}</Tag>
+                            <Text className="text-gray-500">{activityDetail.date}</Text>
+                            <Tag type='info'>{activityDetail.category.title}</Tag>
                         </View>
                     </View>
 
@@ -58,29 +77,18 @@ const Detail = () => {
                     <View>
                         <RichText
                             className="font-light text-left leading-loose"
-                            nodes={cleanHTML(activityDetail?.content || '')}
+                            nodes={cleanHTML(activityDetail.content || '')}
                         />
                     </View>
                 </Card>
 
                 {/* 活动报名区域 */}
-                <RegistrationSection activityId={id} />
+                {id && (
+                    <RegistrationSection
+                        activityDetail={activityDetail}
+                    />
+                )}
             </View>
-
-            {/* 加载状态展示 */}
-            {loading && (
-                <View className="flex justify-center py-4">
-                    <Loading />
-                </View>
-            )}
-
-            {/* 加载完成提示 */}
-            {!activityDetail && (
-                <View className="text-center text-gray-500 text-sm py-4">
-                    活动未找到或者已被删除
-                </View>
-            )}
-
         </View>
     );
 }

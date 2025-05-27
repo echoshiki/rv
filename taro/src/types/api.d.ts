@@ -85,7 +85,7 @@ interface ActivityItem {
     title: string,
     cover: string | null,
     description: string,
-    registration_fee: string,
+    registration_fee: number,
     max_participants: number,
     current_participants: number,
     registration_start_at: string,
