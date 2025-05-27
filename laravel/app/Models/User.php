@@ -22,6 +22,9 @@ use Filament\Models\Contracts\FilamentUser;
 
 use Laravel\Sanctum\HasApiTokens;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 /**
  * 
  *
@@ -132,8 +135,17 @@ class User extends Authenticatable implements FilamentUser
     /**
      * 关联微信用户
      */
-    public function wechat_users() {
+    public function wechat(): HasOne
+    {
         return $this->hasOne(WechatUser::class);
+    }
+
+    /**
+     * 用户添加的所有爱车
+     */
+    public function my_cars(): HasMany
+    {
+        return $this->hasMany(MyCar::class);
     }
 
     /**

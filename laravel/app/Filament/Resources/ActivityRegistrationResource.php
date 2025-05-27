@@ -205,6 +205,7 @@ class ActivityRegistrationResource extends Resource
                     ->label('对应活动')
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
