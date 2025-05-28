@@ -136,6 +136,16 @@ class HttpRequest {
         return this.request<T>({ ...config, url, data, method: 'POST' })
     }
 
+    // 新增 PUT 方法
+    public put<T = any>(url: string, data?: any, config?: RequestConfig) {
+        return this.request<T>({ ...config, url, data, method: 'PUT' })
+    }
+
+    // 新增 DELETE 方法
+    public delete<T = any>(url: string, config?: RequestConfig) {
+        return this.request<T>({ ...config, url, method: 'DELETE' })
+    }
+
     // 支持取消请求（需要 Taro v3.4+）
     public cancelableRequest(config: RequestConfig) {
         const controller = new AbortController()

@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
                 ActivityRegistrationSeeder::class,
                 BannerSeeder::class,
                 UsedRvSeeder::class,
+                MyCarSeeder::class
             ]);
         }
     }

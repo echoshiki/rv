@@ -55,4 +55,10 @@ class MyCar extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    // 自动处理车架号转换成大写
+    public function setVinAttribute($value): void
+    {
+        $this->attributes['vin'] = strtoupper($value);
+    }
 }

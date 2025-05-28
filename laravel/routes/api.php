@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\V1\ArtivityController;
 use App\Http\Controllers\Api\V1\RegistrationController;
 use App\Http\Controllers\Api\V1\RvController;
 use App\Http\Controllers\Api\V1\UsedRvController;
+use App\Http\Controllers\Api\V1\MyCarController;
 
 // v1
 Route::prefix('v1')->group(function () {
@@ -79,6 +80,17 @@ Route::prefix('v1')->group(function () {
         Route::get('/', [UsedRvController::class, 'index']);
         Route::get('/{id}', [UsedRvController::class, 'show']);
     });
+
+    // 我的爱车相关API
+    // GET	/my-cars	my-cars.index	index	获取所有资源
+    // POST	/my-cars	my-cars.store	store	创建新资源
+    // GET	/my-cars/{my_car}	my-cars.show	show	获取指定资源
+    // PUT/PATCH	/my-cars/{my_car}	my-cars.update	update	更新指定资源
+    // DELETE	/my-cars/{my_car}	my-cars.destroy	destroy	删除指定资源
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::apiResource('my-cars', MyCarController::class);
+    });
+    
 });
 
 // 测试API
