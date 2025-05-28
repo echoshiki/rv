@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Services\MyCarService;
-use Illuminate\Http\JsonResponse;
 use App\Models\MyCar;
 use App\Http\Requests\Api\V1\MyCarRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\MyCarResource;
+use App\Http\Resources\MyCarResourceCollection;
 
 class MyCarController extends Controller
 {
@@ -24,7 +24,7 @@ class MyCarController extends Controller
     {
         try {
             $cars = $this->myCarService->getUserCars();
-            return $this->successResponse($cars);
+            return $this->successResponse(new MyCarResourceCollection($cars));
         } catch (\Throwable $e) {
             return $this->errorResponse('列表获取失败：' . $e->getMessage(), 500);
         }
@@ -49,7 +49,7 @@ class MyCarController extends Controller
                 return $this->errorResponse('没有权限', 403);
             }
 
-            return $this->successResponse($myCar);
+            return $this->successResponse(new MyCarResource($myCar));
         } catch (\Throwable $e) {
             return $this->errorResponse('详情获取失败：' . $e->getMessage(), 500);
         }    
