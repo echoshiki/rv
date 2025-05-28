@@ -212,7 +212,38 @@ interface RvList {
 interface RvDetail extends RvItem {
     photos: string[],
     content: string
-}   
+} 
+
+interface MyCarSubmission {
+    name: string,
+    phone: string,
+    province?: string,
+    city?: string,
+    brand: string,
+    vin: string,
+    licence_plate: string,
+    listing_at?: string | null,
+    birthday?: string | null,
+    address?: string
+}
+
+interface MyCarItem {
+    id: string,
+    name: string,
+    phone: string,
+    province?: string,
+    city?: string,
+    brand: string,
+    vin: string,
+    licence_plate: string,
+    listing_at?: string | null,
+    birthday?: string | null,
+    address?: string
+}
+
+interface MyCarList {
+    list: MyCarItem[]
+}
 
 export {
     ApiResponse,
@@ -232,5 +263,8 @@ export {
     PaymentResult,
     RvItem,
     RvList,
-    RvDetail
+    RvDetail,
+    MyCarSubmission,
+    MyCarItem,
+    MyCarList
 }

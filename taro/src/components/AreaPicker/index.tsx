@@ -24,6 +24,7 @@ const AreaPicker = ({
     const { options, setSelected } = useRegionPicker();
     return (
         <Picker
+            className="z-[2000]"
             visible={visible}
             options={options}
             value={value}

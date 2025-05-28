@@ -24,51 +24,23 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/sale/detail/index",
-          "pathName": "pages/sale/detail/index",
-          "query": "id=2",
+          "name": "pages/usage/car/add/index",
+          "pathName": "pages/usage/car/add/index",
+          "query": "",
           "scene": null,
           "launchMode": "default"
         },
         {
-          "name": "pages/activity/detail/index",
-          "pathName": "pages/activity/detail/index",
-          "query": "id=33",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "pages/sale/index",
-          "pathName": "pages/sale/index",
+          "name": "pages/usage/index",
+          "pathName": "pages/usage/index",
           "query": "",
           "launchMode": "default",
           "scene": null
         },
         {
-          "name": "pages/activity/detail/index",
-          "pathName": "pages/activity/detail/index",
-          "query": "id=169",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "pages/registration/index",
-          "pathName": "pages/registration/index",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "pages/activity/index",
-          "pathName": "pages/activity/index",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "pages/article/detail/index",
-          "pathName": "pages/article/detail/index",
-          "query": "id=7",
+          "name": "pages/sale/detail/index",
+          "pathName": "pages/sale/detail/index",
+          "query": "id=2",
           "launchMode": "default",
           "scene": null
         }

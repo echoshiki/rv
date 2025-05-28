@@ -4,6 +4,8 @@ export default defineAppConfig({
     'pages/user/index',
     'pages/login/index',
     'pages/usage/index',
+    'pages/usage/car/index',
+    'pages/usage/car/add/index',
     'pages/article/index',
     'pages/article/detail/index',
     'pages/sale/index',

@@ -3,6 +3,7 @@ import { ActivityDetail, RegistrationItem, RegistrationFormData } from "@/types/
 import { PaymentResult } from "@/types/api";
 import registrationApi from "@/api/registration";
 import { requestPayment } from "@tarojs/taro";
+import { parseAddress } from "@/utils/common";
 
 /**
  * 报名状态码
@@ -86,16 +87,6 @@ const useRegistration = ({
     // 更新单个加载状态的工具函数
     const updateLoadingState = useCallback((key: keyof LoadingState, value: boolean) => {
         setLoadingState(prev => ({ ...prev, [key]: value }));
-    }, []);
-
-    // 解析地址工具函数
-    const parseAddress = useCallback((address: string) => {
-        const parts = address.split(' ').filter(Boolean);
-        return {
-            province: parts[0] || '',
-            city: parts[1] || '',
-            full_address: address
-        };
     }, []);
 
     // 基于活动信息检查状态，返回状态码

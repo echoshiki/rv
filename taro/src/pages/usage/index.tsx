@@ -4,6 +4,7 @@ import { MenuRow, MenuFloat } from '@/components/Menu';
 import ArticleList from '@/components/ArticleList';
 import { SectionTitle } from '@/components/SectionTitle';
 import { useMenu } from '@/hooks/useMenu';
+import { navigateTo } from '@tarojs/taro';
 
 /**
  * 用车频道
@@ -22,6 +23,12 @@ const Usage = () => {
         }
     };
 
+    const handleAddMyCar = () => {
+        navigateTo({
+            url: '/pages/usage/car/add/index'
+        });
+    }
+
     return (
         <View className="bg-gray-100 min-h-screen pb-5">
             {/* 添加爱车 */}
@@ -29,9 +36,12 @@ const Usage = () => {
                 <Image
                     src={MyCarBg}
                     mode={'widthFix'}
-                    className="w-full" 
+                    className="w-full"
                 />
-                <Button className="w-52 absolute bottom-16 border border-solid border-white text-white bg-transparent">
+                <Button
+                    className="w-52 absolute bottom-16 border border-solid border-white text-white bg-transparent"
+                    onClick={handleAddMyCar}
+                >
                     添加爱车
                 </Button>
             </View>
@@ -47,9 +57,9 @@ const Usage = () => {
 
             {/* 用车常识 */}
             <View className="px-5">
-                <ArticleList 
+                <ArticleList
                     queryParams={queryParams}
-                /> 
+                />
             </View>
 
             {/* 悬浮导航 */}

@@ -88,9 +88,20 @@ const cleanHTML = (html: string, noMargin: boolean = false) => {
         });
 };
 
+// 地址拆分方法
+const parseAddress = (address: string) => {
+    const parts = address.split(' ').filter(Boolean);
+    return {
+        province: parts[0] || '',
+        city: parts[1] || '',
+        full_address: address
+    };
+}
+
 export {
     isTabBarPage,
     getCurrentPageUrl,
     mapsTo,
-    cleanHTML
+    cleanHTML,
+    parseAddress
 };
