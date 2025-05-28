@@ -12,7 +12,6 @@ const AddMyCar = () => {
 
     // 我的爱车
     const [loading, setLoading] = useState<boolean>(false);
-    
     const formRef = useRef<FormInstance>(null);
 
     // 日期组件
@@ -44,22 +43,25 @@ const AddMyCar = () => {
     const onSubmit = async (formData) => {
         setLoading(true);
         try {
-            const { province, city } = parseAddress(formData.address);
+            // 处理省份城市为空的情况
+            const { province, city } = formData.address ? parseAddress(formData.address) : {
+                province: '',
+                city: ''
+            };
 
+            // 构造提交数据
             const submissionData = {
                 name: formData.name.trim(),
                 phone: formData.phone.trim(),
                 brand: formData.brand.trim(),
                 vin: formData.vin.trim(),
-                licence_plate: formData.licence_plate.trim(),
+                licence_plate: formData.licence_plate?.trim(),
                 listing_at: formData.listing_at,
                 province,
                 city,
-                address: formData.address_info.trim(),
+                address: formData.address_info?.trim(),
             };
-
             const response = await myCarApi.create(submissionData);
-            console.log('response', response);
 
             if (response.success) {
                 showToast({
@@ -69,17 +71,14 @@ const AddMyCar = () => {
                 setTimeout(() => {
                     navigateBack();
                 }, 1000);
-            } else {         
-                showToast({
-                    icon: 'none',
-                    title: response.message
-                });
+            } else {    
+                throw new Error(response.message);
             }
         } catch (error) {
             console.error('添加失败:', error);
             showToast({
                 icon: 'none',
-                title: error.message
+                title: error.data.message
             });
         } finally {
             setLoading(false);

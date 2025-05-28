@@ -55,6 +55,7 @@ function checkLoginBeforeNavigate(targetUrl?: string): void {
 
 
 export {
+    isLoggedIn,
     checkLogin,
     checkLoginBeforeNavigate
 }

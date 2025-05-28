@@ -1,10 +1,9 @@
-import { View, Button, Image } from '@tarojs/components';
-import MyCarBg from '@/assets/images/mycar.jpg';
+import { View } from '@tarojs/components';
+import MyCarSection from '@/components/MyCarSection';
 import { MenuRow, MenuFloat } from '@/components/Menu';
 import ArticleList from '@/components/ArticleList';
 import { SectionTitle } from '@/components/SectionTitle';
 import { useMenu } from '@/hooks/useMenu';
-import { navigateTo } from '@tarojs/taro';
 
 /**
  * 用车频道
@@ -23,28 +22,10 @@ const Usage = () => {
         }
     };
 
-    const handleAddMyCar = () => {
-        navigateTo({
-            url: '/pages/usage/car/add/index'
-        });
-    }
-
     return (
         <View className="bg-gray-100 min-h-screen pb-5">
             {/* 添加爱车 */}
-            <View className="w-full relative flex justify-center">
-                <Image
-                    src={MyCarBg}
-                    mode={'widthFix'}
-                    className="w-full"
-                />
-                <Button
-                    className="w-52 absolute bottom-16 border border-solid border-white text-white bg-transparent"
-                    onClick={handleAddMyCar}
-                >
-                    添加爱车
-                </Button>
-            </View>
+            <MyCarSection />
 
             {/* 宫格菜单 */}
             <MenuRow menuList={rawMenuItems} />
