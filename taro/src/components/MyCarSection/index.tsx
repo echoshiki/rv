@@ -1,6 +1,6 @@
 import { View, Image, Button } from '@tarojs/components';
 import MyCarBg from '@/assets/images/mycar.jpg';
-import { navigateTo, useDidShow } from '@tarojs/taro';
+import { useDidShow } from '@tarojs/taro';
 import myCarApi from '@/api/car';
 import { useState } from 'react';
 import { MyCarItem } from '@/types/api';
