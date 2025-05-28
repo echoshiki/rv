@@ -135,7 +135,7 @@ class User extends Authenticatable implements FilamentUser
     /**
      * 关联微信用户
      */
-    public function wechat(): HasOne
+    public function wechat_users(): HasOne
     {
         return $this->hasOne(WechatUser::class);
     }
