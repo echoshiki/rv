@@ -1,8 +1,8 @@
-import { View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import ArticleList from '@/components/ArticleList';
 import { useMemo } from "react";
 import { type ArticleListQueryParams } from "@/api/article";
+import PageCard from "@/components/PageCard";
 
 const Articles = () => {
     const { router } = Taro.getCurrentInstance();
@@ -41,14 +41,14 @@ const Articles = () => {
     });
 
     return (
-        <View className="bg-gray-100 min-h-screen p-5">
+        <PageCard>
             <ArticleList 
                 queryParams={queryParams} 
                 isPullDownRefresh
                 isReachBottomRefresh
                 changePageTitle
             />
-        </View>
+        </PageCard>
     );
 }
 

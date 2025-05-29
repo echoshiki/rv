@@ -92,6 +92,11 @@ class User extends Authenticatable implements FilamentUser
         'avatar',
         'phone',
         'phone_verified_at',
+        'birthday',
+        'sex',
+        'province',
+        'city',
+        'address',
         'level',
         'points',
     ];
@@ -118,6 +123,7 @@ class User extends Authenticatable implements FilamentUser
             'password' => 'hashed',
             'phone_verified_at' => 'datetime',
             'last_login_at' => 'datetime',
+            'birthday' => 'datetime',
         ];
     }
 
@@ -310,19 +316,7 @@ class User extends Authenticatable implements FilamentUser
     {
         return $query->where('name', $name);
     }
-
-    public static function getLevels(): array
-    {
-        return [
-            1 => '普通会员',
-            2 => '银卡会员',
-            3 => '金卡会员',
-            4 => '铂金卡会员',
-            5 => '铂钻卡会员',
-            6 => '黑钻卡会员',
-        ];
-    }
-    
+   
     // 创建用户时自动创建密码
     protected static function booted(): void
     {
@@ -339,6 +333,24 @@ class User extends Authenticatable implements FilamentUser
         });
     }
 
+    /**
+     * 获取用户等级列表
+     */
+    public static function getLevels(): array
+    {
+        return [
+            1 => '普通会员',
+            2 => '银卡会员',
+            3 => '金卡会员',
+            4 => '铂金卡会员',
+            5 => '铂钻卡会员',
+            6 => '黑钻卡会员',
+        ];
+    }
+
+    /**
+     * 获取用户等级名称
+     */
     public function getLevelNameAttribute()
     {
         return self::getLevels()[$this->level] ?? '普通会员';

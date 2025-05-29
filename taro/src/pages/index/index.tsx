@@ -9,6 +9,7 @@ import { Category } from '@/types/ui';
 import CustomTabs from '@/components/CustomTabs';
 import ArticleList from '@/components/ArticleList';
 import ActivityList from '@/components/ActivityList';
+import Card from '@/components/Card';
 
 const Index = () => {
 	const { banners, loading: bannerLoading } = useBanner('home');
@@ -34,17 +35,27 @@ const Index = () => {
 		};
 
 		if (channel === 'article') {
-			return <ArticleList queryParams={queryParams} />
+			return (
+				<Card>
+					<ArticleList queryParams={queryParams} />
+				</Card>
+			)
 		}
 
 		if (channel === 'activity') {
-			return <ActivityList queryParams={queryParams} />
+			return (
+				<Card>
+					<ActivityList queryParams={queryParams} />
+				</Card>
+			)
 		}
 
 		return (
-			<View className="flex justify-center items-center h-64">
-				<Text>暂无数据</Text>
-			</View>
+			<Card>
+				<View className="flex justify-center items-center h-64">
+					<Text>暂无数据</Text>
+				</View>
+			</Card>
 		);
 	}
 	

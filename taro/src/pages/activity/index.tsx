@@ -7,6 +7,7 @@ import CustomTabs from '@/components/CustomTabs';
 import { useMemo } from 'react';
 import { useActivityCategoryList } from '@/hooks/useActivityCategoryList';
 import ActivityList from '@/components/ActivityList';
+import Card from '@/components/Card';
 
 /**
  * 活动频道轮播图
@@ -64,20 +65,21 @@ const Activity = () => {
 
             {/* 活动频道标签页 */}
             <View className="w-full px-5 mt-2">
-                <CustomTabs 
+                <CustomTabs
                     items={categories}
                     renderTabContent={(item) => (
-                        // 渲染活动列表
-                        <ActivityList 
-                            queryParams={{
-                                filter: {
-                                    category_id: item.id
-                                },
-                                limit: 5
-                            }} 
-                            isPullDownRefresh={true} 
-                            isReachBottomRefresh={true} 
-                        />
+                        <Card>
+                            <ActivityList
+                                queryParams={{
+                                    filter: {
+                                        category_id: item.id
+                                    },
+                                    limit: 5
+                                }}
+                                isPullDownRefresh={true}
+                                isReachBottomRefresh={true}
+                            />
+                        </Card>
                     )}
                     isLoading={loading}
                 />

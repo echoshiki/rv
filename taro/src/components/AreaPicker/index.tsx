@@ -28,6 +28,7 @@ const AreaPicker = ({
             visible={visible}
             options={options}
             value={value}
+            defaultValue={value}
             onClose={onClose}
             // 确认时触发
             onConfirm={(options) => {

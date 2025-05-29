@@ -24,11 +24,25 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/usage/index",
-          "pathName": "pages/usage/index",
+          "name": "pages/user/index",
+          "pathName": "pages/user/index",
           "query": "",
           "scene": null,
           "launchMode": "default"
+        },
+        {
+          "name": "pages/user/profile/index",
+          "pathName": "pages/user/profile/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/usage/index",
+          "pathName": "pages/usage/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         },
         {
           "name": "pages/usage/car/add/index",

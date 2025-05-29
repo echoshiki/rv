@@ -11,6 +11,47 @@ interface ApiResponse<T> {
 }
 
 /**
+ * 用户信息
+ * @param id 用户ID
+ * @param name 用户昵称
+ * @param phone 用户手机号
+ * @param avatar 用户头像
+ * @param birthday 用户生日
+ * @param sex 用户性别
+ * @param province 用户省份
+ * @param city 用户城市
+ * @param address 用户详细地址
+ * @param level 用户等级
+ * @param points 用户积分
+ */
+interface UserInfo {
+    id: string,
+    name: string,
+    phone: string,
+    avatar: string | null,
+    birthday: string | null,
+    sex: string | null,
+    province: string | null,
+    city: string | null,
+    address: string | null,
+    level: {
+        id: number,
+        name: string
+    },
+    points: number,
+}
+
+interface UserInfoSubmission {
+    name: string,
+    avatar?: string,
+    birthday?: string,
+    sex?: string,
+    province?: string,
+    city?: string,
+    address?: string
+}
+
+/**
  * 轮播图
  * @param id 轮播图ID
  * @param image 图片路径
@@ -85,7 +126,7 @@ interface ActivityItem {
     title: string,
     cover: string | null,
     description: string,
-    registration_fee: number,
+    registration_fee: string,
     max_participants: number,
     current_participants: number,
     registration_start_at: string,
@@ -247,6 +288,8 @@ interface MyCarList {
 
 export {
     ApiResponse,
+    UserInfo,
+    UserInfoSubmission,
     BannerItem,
     MenuItem,
     ArticleList,

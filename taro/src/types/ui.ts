@@ -2,7 +2,17 @@ interface UserInfo {
     id: string,
     name: string,
     phone: string,
-    avatar: string
+    avatar: string | null,
+    birthday: string | null,
+    sex: string | null,
+    province: string | null,
+    city: string | null,
+    address: string | null,
+    level: {
+        id: number,
+        name: string
+    },
+    points: number,
 }
 
 interface MenuItem {
@@ -52,7 +62,7 @@ interface ActivityItem {
     cover: string | null,
     category: Category,
     description: string,
-    registration_fee: number,
+    registration_fee: string,
     max_participants: number,
     current_participants: number,
     registration_start_at: string,

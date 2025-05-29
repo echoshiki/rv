@@ -208,7 +208,7 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
                     <View className="text-center py-5">
                         <View className="flex flex-col">
                             <Text className="text-lg font-bold text-green-600">
-                                {activityDetail.registration_fee > 0 ? '支付成功！' : '报名成功！'}
+                                {parseFloat(activityDetail.registration_fee) > 0  ? '支付成功！' : '报名成功！'}
                             </Text>
                             <Text className="text-xs text-gray-600">
                                 我们会尽快与您联系，请保持手机畅通

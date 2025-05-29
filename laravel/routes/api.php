@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Resources\UserResource;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BannerController;
 use App\Http\Controllers\Api\V1\MenuController;
@@ -13,6 +12,7 @@ use App\Http\Controllers\Api\V1\RegistrationController;
 use App\Http\Controllers\Api\V1\RvController;
 use App\Http\Controllers\Api\V1\UsedRvController;
 use App\Http\Controllers\Api\V1\MyCarController;
+use App\Http\Controllers\Api\V1\UserController;
 
 // v1
 Route::prefix('v1')->group(function () {
@@ -25,9 +25,10 @@ Route::prefix('v1')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
     // 用户相关API
-    Route::post('/user', function (Request $request) {
-        return new UserResource($request->user());
-    })->middleware('auth:sanctum');
+    Route::middleware('auth:sanctum')->prefix('user')->group(function () {
+        Route::get('/', [UserController::class, 'index']);
+        Route::put('/', [UserController::class, 'update']);
+    });
 
     // 轮播图API
     Route::get('/banners/{channel}', [BannerController::class, 'index']);

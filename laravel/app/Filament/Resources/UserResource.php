@@ -12,6 +12,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Services\RegionService;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 
 class UserResource extends Resource
 {
@@ -44,7 +47,6 @@ class UserResource extends Resource
                             ->validationMessages([
                                 'unique' => '用户名已存在',
                             ])
-                            ->columnSpanFull()
                             ->required(),
                         Forms\Components\TextInput::make('phone')
                             ->tel()
@@ -53,8 +55,46 @@ class UserResource extends Resource
                             ->validationMessages([
                                 'unique' => '该手机号已存在',
                             ])
-                            ->columnSpanFull()
                             ->required(),
+                        Forms\Components\Select::make('sex')
+                            ->label('性别')
+                            ->options([
+                                1 => '男',
+                                2 => '女',
+                            ])
+                            ->default(1)
+                            ->native(false),
+                        Forms\Components\DatePicker::make('birthday')
+                            ->label('生日'),
+                        Forms\Components\Select::make('province')
+                            ->label('省')
+                            ->options(function () {
+                                $regionService = app(RegionService::class);
+                                $provinces = $regionService->getProvinces();
+                                return array_column($provinces, 'name', 'code');
+                            })
+                            ->searchable()
+                            ->reactive()
+                            ->afterStateUpdated(function (Set $set) {
+                                $set('city', null);
+                            })
+                            ->native(false),
+                        Forms\Components\Select::make('city')
+                            ->label('市')
+                            ->options(function (Get $get) {
+                                $regionService = app(RegionService::class);
+                                $provinceCode = $get('province');
+                                if (!$provinceCode) {
+                                    return [];
+                                }
+                                $cities = $regionService->getCities($provinceCode);
+                                return array_column($cities, 'name', 'code');
+                            })
+                            ->native(false),
+                        Forms\Components\Textarea::make('address')
+                            ->label('详细地址')
+                            ->columnSpanFull()
+                            ->maxLength(65535),
                         Forms\Components\Select::make('level')
                             ->label('会员等级')
                             ->options(User::getLevels())
@@ -70,7 +110,7 @@ class UserResource extends Resource
                             ->label('创建时间')
                             ->columnSpanFull()
                             // 创建页面时不显示
-                            ->hidden(fn (string $context): bool => $context === 'create')
+                            ->hidden(fn(string $context): bool => $context === 'create')
                             ->disabled()
                             ->required(),
                     ])
@@ -106,6 +146,7 @@ class UserResource extends Resource
                     ->label('会员等级')
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

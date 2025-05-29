@@ -7,7 +7,6 @@ import { Tag } from '@nutui/nutui-react-taro';
 import { useActivityList } from '@/hooks/useActivityList';
 import Taro from '@tarojs/taro';
 import Loading from '@/components/Loading';
-import Card from '@/components/Card';
 import AspectRatioImage from '@/components/AspectRatioImage';
 
 const ActivityItem = ({ item }: { item: ActivityItemProps }) => {
@@ -34,7 +33,7 @@ const ActivityItem = ({ item }: { item: ActivityItemProps }) => {
                         </Text>
                     </View>
                     <View>
-                        {item.registration_fee === '0.00' && (
+                        {item.registration_fee === "0.00" && (
                             <Tag type="success">免费</Tag>
                         )}
                     </View>
@@ -101,31 +100,29 @@ const ActivityList = ({
     }
 
     return (
-        <Card>
-            <View>
-                {activityList.map(item => (
-                    <ActivityItem item={item} />
-                ))}
+        <View>
+            {activityList.map(item => (
+                <ActivityItem item={item} />
+            ))}
 
-                {activityList.length === 0 && !loading && (
-                    <View className="flex justify-center items-center h-64">
-                        <Text className="text-gray-500">该分类下还没有活动</Text>
-                    </View>
-                )}
+            {activityList.length === 0 && !loading && (
+                <View className="flex justify-center items-center h-64">
+                    <Text className="text-gray-500">该分类下还没有活动</Text>
+                </View>
+            )}
 
-                {loading && (
-                    <View className="flex justify-center items-center h-64">
-                        <Loading />
-                    </View>
-                )}
+            {loading && (
+                <View className="flex justify-center items-center h-64">
+                    <Loading />
+                </View>
+            )}
 
-                {!hasMore && activityList.length > 0 && (
-                    <View className="text-center text-gray-500 text-sm py-4">
-                        没有更多数据了
-                    </View>
-                )}
-            </View>
-        </Card>
+            {!hasMore && activityList.length > 0 && (
+                <View className="text-center text-gray-500 text-sm py-4">
+                    没有更多数据了
+                </View>
+            )}
+        </View>
     )
 }
 

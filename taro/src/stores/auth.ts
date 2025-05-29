@@ -1,11 +1,12 @@
 import Taro from "@tarojs/taro";
 import { create } from "zustand";
 import { persist } from 'zustand/middleware';
-
 import { http } from "@/utils/request";
 import { mapsTo } from "@/utils/common";
+import { userApi } from "@/api/user";
 
 import { UserInfo as UserInfoProps } from "@/types/ui";
+import { UserInfoSubmission } from "@/types/api";
 
 interface AuthStoreProps{
     openid: string | null;
@@ -23,8 +24,11 @@ interface AuthStoreProps{
         redirectUrl?: string
     ) => Promise<void>;
     logout: () => void;
+    syncUserInfo: () => void;
+    updateUserInfo: (data: UserInfoSubmission) => Promise<void>;
     isLoggedIn: () => boolean;
     isLoggingOut: boolean;
+    isLoading: boolean;
 }
 
 const useAuthStore = create<AuthStoreProps>()(
@@ -37,6 +41,7 @@ const useAuthStore = create<AuthStoreProps>()(
             userInfo: null,
             // 是否正在登出
             isLoggingOut: false,
+            isLoading: false,
 
             loginInSilence: async () => {
                 try {
@@ -174,6 +179,31 @@ const useAuthStore = create<AuthStoreProps>()(
                         userInfo: null,
                         isLoggingOut: false // <--- 重置标志位
                     });
+                }
+            },
+
+            syncUserInfo: async () => {
+                set({ isLoading: true });
+                try {
+                    const response = await userApi.info();
+                    set({ userInfo: response.data, isLoading: false });
+                } catch (e) {
+                    console.error(e);
+                    set({ isLoading: false });
+                }
+            },
+
+            updateUserInfo: async (data) => {
+                set({ isLoading: true });
+                try {
+                    const response = await userApi.update(data);
+                    set({ 
+                        userInfo: response.data,
+                        isLoading: false 
+                    });
+                } catch (e) {
+                    console.error(e);
+                    set({ isLoading: false });
                 }
             },
 

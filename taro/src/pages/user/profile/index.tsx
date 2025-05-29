@@ -1,22 +1,21 @@
 import { View, Button } from "@tarojs/components";
 import { useState, useRef } from 'react';
-import { DatePicker, Form, Input, FormInstance } from '@nutui/nutui-react-taro';
+import { DatePicker, Form, Input, Radio, FormInstance } from '@nutui/nutui-react-taro';
 import AreaPicker from '@/components/AreaPicker';
 import PageCard from '@/components/PageCard';
-import myCarApi from '@/api/car';
-import { navigateBack, showToast } from "@tarojs/taro";
+import useAuthStore from '@/stores/auth';
+import { showToast } from "@tarojs/taro";
 import { parseAddress } from "@/utils/common";
 
-const AddMyCar = () => {
+const UserProfile = () => {
 
-    // 我的爱车
-    const [loading, setLoading] = useState<boolean>(false);
     const formRef = useRef<FormInstance>(null);
+    const { userInfo, updateUserInfo, isLoading } = useAuthStore();
 
     // 日期组件
     const [datePickerState, setDatePickerState] = useState({
         visible: false,
-        date: new Date() as Date
+        date: userInfo?.birthday ? new Date(userInfo.birthday) : new Date() as Date
     });
 
     // 地区组件
@@ -25,10 +24,9 @@ const AddMyCar = () => {
         area: [] as string[]
     });
 
-    // 日期确认
     const handleDateConfirm = (_options, values) => {
         formRef.current?.setFieldsValue({
-            listing_at: values.join('/')
+            birthday: values.join('/')
         });
     }
 
@@ -40,7 +38,6 @@ const AddMyCar = () => {
     }
 
     const onSubmit = async (formData) => {
-        setLoading(true);
         try {
             // 处理省份城市为空的情况
             const { province, city } = formData.address ? parseAddress(formData.address) : {
@@ -51,41 +48,31 @@ const AddMyCar = () => {
             // 构造提交数据
             const submissionData = {
                 name: formData.name.trim(),
-                phone: formData.phone.trim(),
-                brand: formData.brand.trim(),
-                vin: formData.vin.trim(),
-                licence_plate: formData.licence_plate?.trim(),
-                listing_at: formData.listing_at,
+                sex: formData.sex,
+                birthday: formData.birthday,
                 province,
                 city,
                 address: formData.address_info?.trim(),
             };
-            const response = await myCarApi.create(submissionData);
 
-            if (response.success) {
-                showToast({
-                    icon: 'success',
-                    title: '添加成功！'
-                });
-                setTimeout(() => {
-                    navigateBack();
-                }, 1000);
-            } else {
-                throw new Error(response.message);
-            }
+            await updateUserInfo(submissionData);
+
+            showToast({
+                icon: 'success',
+                title: '修改成功！'
+            });
+
         } catch (error) {
             console.error('添加失败:', error);
             showToast({
                 icon: 'none',
                 title: error.data.message
             });
-        } finally {
-            setLoading(false);
         }
     }
 
     return (
-        <PageCard title="添加爱车" subtitle="请仔细填写以下信息来绑定您的爱车">
+        <PageCard title="个人资料" subtitle="修改您的个人信息让我们为你更好的服务。">
             <Form
                 ref={formRef}
                 divider
@@ -93,51 +80,29 @@ const AddMyCar = () => {
                 onFinish={onSubmit}
             >
                 <Form.Item
-                    label="称呼"
+                    label="昵称"
                     name="name"
-                    rules={[{ required: true, message: '请输入称呼' }]}
+                    initialValue={userInfo?.name}
+                    rules={[{ required: true, message: '请输昵称' }]}
                 >
-                    <Input placeholder="请输入称呼" type="text" />
+                    <Input placeholder="请输入昵称" type="text" />
                 </Form.Item>
 
                 <Form.Item
-                    label="手机号"
-                    name="phone"
-                    rules={[
-                        { required: true, message: '请输入手机号' },
-                        { pattern: /^1[3-9]\d{9}$/, message: '手机号格式不正确' }
-                    ]}
+                    label="性别"
+                    name="sex"
+                    initialValue={userInfo?.sex}
                 >
-                    <Input placeholder="请输入手机号" type="number" maxLength={11} />
+                    <Radio.Group direction="horizontal">
+                        <Radio value={1}>男</Radio>
+                        <Radio value={2}>女</Radio>
+                    </Radio.Group>
                 </Form.Item>
 
                 <Form.Item
-                    label="车型"
-                    name="brand"
-                    rules={[{ required: true, message: '请输入车型' }]}
-                >
-                    <Input placeholder="请输入车型" type="text" />
-                </Form.Item>
-
-                <Form.Item
-                    label="车架号"
-                    name="vin"
-                    rules={[{ required: true, pattern: /^[A-Za-z0-9]{17}$/, message: '请输入17位的车架号' }]}
-                >
-                    <Input placeholder="请输入称呼" type="text" />
-                </Form.Item>
-
-                <Form.Item
-                    label="车牌号"
-                    name="licence_plate"
-                    rules={[{ required: true, message: '请输入车牌号' }]}
-                >
-                    <Input placeholder="请输入称呼" type="text" />
-                </Form.Item>
-
-                <Form.Item
-                    label="上牌日期"
-                    name="listing_at"
+                    label="生日"
+                    name="birthday"
+                    initialValue={userInfo?.birthday}
                 >
                     <Input
                         placeholder="请选择日期"
@@ -150,9 +115,10 @@ const AddMyCar = () => {
                 <Form.Item
                     label="所在城市"
                     name="address"
+                    initialValue={`${userInfo?.province || ''} ${userInfo?.city || ''}`}
                 >
                     <Input
-                        placeholder="请选择地址"
+                        placeholder="请选择所在城市"
                         readOnly
                         onClick={() => setAreaPickerState(prev => ({ ...prev, visible: true }))}
                         style={{ caretColor: 'transparent' }}
@@ -162,8 +128,9 @@ const AddMyCar = () => {
                 <Form.Item
                     label="详细地址"
                     name="address_info"
+                    initialValue={userInfo?.address}
                 >
-                    <Input placeholder="请输入详细的住宅" type="text" />
+                    <Input placeholder="请输入详细的地址" type="text" />
                 </Form.Item>
 
                 <View className="mt-5">
@@ -171,9 +138,9 @@ const AddMyCar = () => {
                         type="primary"
                         formType="submit"
                         className="text-[.8rem] w-full !bg-black"
-                        loading={loading}
+                        loading={isLoading}
                     >
-                        提交报名信息
+                        修改资料
                     </Button>
                 </View>
             </Form>
@@ -189,6 +156,7 @@ const AddMyCar = () => {
                 title="日期选择"
                 visible={datePickerState.visible}
                 defaultValue={new Date(datePickerState.date)}
+                startDate={new Date(1949, 0, 1)}
                 showChinese
                 onConfirm={handleDateConfirm}
                 onClose={() => setDatePickerState(prev => ({ ...prev, visible: false }))}
@@ -197,4 +165,4 @@ const AddMyCar = () => {
     )
 }
 
-export default AddMyCar;
+export default UserProfile;

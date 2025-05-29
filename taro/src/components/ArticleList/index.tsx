@@ -6,7 +6,6 @@ import { mapsTo } from '@/utils/common';
 import { useArticleList } from '@/hooks/useArticleList';
 import Taro from '@tarojs/taro';
 import Loading from '@/components/Loading';
-import Card from '@/components/Card';
 import AspectRatioImage from '@/components/AspectRatioImage';
 
 const ArticleItem = ({ id, title, date, cover }: ArticleItemProps) => {
@@ -95,36 +94,34 @@ const ArticleList = ({
     }
 
     return (
-        <Card>
-            <View>
-                {articleList.map(item => (
-                    <ArticleItem
-                        id={item.id}
-                        title={item.title}
-                        cover={item.cover}
-                        date={item.date}
-                    />
-                ))}
+        <View>
+            {articleList.map(item => (
+                <ArticleItem
+                    id={item.id}
+                    title={item.title}
+                    cover={item.cover}
+                    date={item.date}
+                />
+            ))}
 
-                {articleList.length === 0 && !loading && (
-                    <View className="flex justify-center items-center h-64">
-                        <Text className="text-gray-500">该分类下还没有文章</Text>
-                    </View>
-                )}
+            {articleList.length === 0 && !loading && (
+                <View className="flex justify-center items-center h-64">
+                    <Text className="text-gray-500">该分类下还没有文章</Text>
+                </View>
+            )}
 
-                {loading && (
-                    <View className="flex justify-center items-center h-64">
-                        <Loading />
-                    </View>
-                )}
+            {loading && (
+                <View className="flex justify-center items-center h-64">
+                    <Loading />
+                </View>
+            )}
 
-                {!hasMore && articleList.length > 0 && (
-                    <View className="text-center text-gray-500 text-sm py-4">
-                        没有更多数据了
-                    </View>
-                )}
-            </View>
-        </Card>
+            {!hasMore && articleList.length > 0 && (
+                <View className="text-center text-gray-500 text-sm py-4">
+                    没有更多数据了
+                </View>
+            )}
+        </View>
     )
 }
 

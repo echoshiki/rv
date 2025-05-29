@@ -2,8 +2,8 @@ import { View } from '@tarojs/components';
 import MyCarSection from '@/components/MyCarSection';
 import { MenuRow, MenuFloat } from '@/components/Menu';
 import ArticleList from '@/components/ArticleList';
-import { SectionTitle } from '@/components/SectionTitle';
 import { useMenu } from '@/hooks/useMenu';
+import PageCard from '@/components/PageCard';
 
 /**
  * 用车频道
@@ -30,18 +30,16 @@ const Usage = () => {
             {/* 宫格菜单 */}
             <MenuRow menuList={rawMenuItems} />
 
-            <SectionTitle
-                title={`用车常识`}
-                subtitle={`在使用房车时的小知识`}
-                link={'/pages/article/index?code=common_sense'}
-            />
-
             {/* 用车常识 */}
-            <View className="px-5">
+            <PageCard 
+                title="用车常识" 
+                subtitle="在使用房车时的小知识" 
+                link="/pages/article/index?code=common_sense"
+            >
                 <ArticleList
                     queryParams={queryParams}
                 />
-            </View>
+            </PageCard>
 
             {/* 悬浮导航 */}
             <MenuFloat menuList={floatMenuItems} />

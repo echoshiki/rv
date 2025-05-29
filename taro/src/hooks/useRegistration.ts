@@ -368,7 +368,7 @@ const useRegistrationFlow = ({ activityDetail }: UseRegistrationFlowOptions) => 
         onSuccess: (_reg) => {
             // 完成提交阶段
             markStepCompleted('registration');
-            if (activityDetail.registration_fee > 0) {
+            if (parseFloat(activityDetail.registration_fee) > 0) {
                 // 进入支付阶段
                 setCurrentStep(RegistrationStep.PAYMENT);
             } else {
@@ -398,13 +398,13 @@ const useRegistrationFlow = ({ activityDetail }: UseRegistrationFlowOptions) => 
 
     // 处理支付
     const handlePayment = useCallback(async () => {
-        if (activityDetail.registration_fee === 0) {
+        if (activityDetail.registration_fee === "0.00") {
             throw new Error('当前活动无需支付');
         }
-        if (activityDetail.registration_fee <= 0) {
+        if (parseFloat(activityDetail.registration_fee) <= 0) {
             throw new Error('支付金额配置错误');
         }
-        return await registrationHook.initiatePayment(activityDetail.registration_fee);
+        return await registrationHook.initiatePayment(parseFloat(activityDetail.registration_fee));
     }, [registrationHook.initiatePayment, activityDetail.registration_fee]);
 
     // 重置流程
@@ -418,7 +418,7 @@ const useRegistrationFlow = ({ activityDetail }: UseRegistrationFlowOptions) => 
         currentStep,
         completedSteps,
         ...registrationHook,
-        requirePayment: activityDetail.registration_fee > 0,
+        requirePayment: parseFloat(activityDetail.registration_fee) > 0,
         paymentAmount: activityDetail.registration_fee,
         
         // 方法
@@ -432,7 +432,7 @@ const useRegistrationFlow = ({ activityDetail }: UseRegistrationFlowOptions) => 
         isPaymentCompleted: completedSteps.has('payment'),
         isFlowCompleted: currentStep === RegistrationStep.SUCCESS,
         canSubmitForm: currentStep === RegistrationStep.FORM,
-        canPay: currentStep === RegistrationStep.PAYMENT && activityDetail.registration_fee > 0
+        canPay: currentStep === RegistrationStep.PAYMENT && parseFloat(activityDetail.registration_fee) > 0
     };
 };
 

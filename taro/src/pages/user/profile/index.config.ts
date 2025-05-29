@@ -1,6 +1,5 @@
 export default definePageConfig({
-    navigationBarTitleText: '个人中心',
+    navigationBarTitleText: '个人资料',
     navigationBarBackgroundColor: '#000000',
     navigationBarTextStyle: 'white',
-    enablePullDownRefresh: true,
 })

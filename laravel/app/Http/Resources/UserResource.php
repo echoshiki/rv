@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\User;
 
 class UserResource extends JsonResource
 {
@@ -16,8 +17,19 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => mb_substr($this->name, 0, 16),
-            'phone' => $this->maskPhoneNumber($this->phone)
+            'name' => mb_substr($this->name, 0, 12),
+            'phone' => $this->maskPhoneNumber($this->phone),
+            'avatar' => $this->avatar,
+            'birthday' => $this->birthday ? $this->birthday->format('Y-m-d') : null,
+            'sex' => $this->sex,
+            'province' => $this->province,
+            'city' => $this->city,
+            'address' => $this->address,
+            'level' => [
+                'id' => $this->level ?? 1,
+                'name' => User::getLevels()[$this->level] ?? '普通会员'
+            ],
+            'points' => $this->points
         ];
     }
 

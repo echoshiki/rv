@@ -4,7 +4,7 @@ import { RegistrationItem as RegistrationItemProps } from '@/types/ui';
 import { useRegistrationList } from '@/hooks/useRegistrationList';
 import Taro from '@tarojs/taro';
 import Loading from '@/components/Loading';
-import StatusBadge from '@/components/StatusBadge';
+import { StatusBadge } from '@/components/CustomBadge';
 import { Dialog } from '@nutui/nutui-react-taro'
 import { useState } from 'react';
 import Card from '@/components/Card';
