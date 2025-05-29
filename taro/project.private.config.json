@@ -24,32 +24,11 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/user/index",
-          "pathName": "pages/user/index",
+          "name": "pages/usage/car/index",
+          "pathName": "pages/usage/car/index",
           "query": "",
           "scene": null,
           "launchMode": "default"
-        },
-        {
-          "name": "pages/user/profile/index",
-          "pathName": "pages/user/profile/index",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "pages/usage/index",
-          "pathName": "pages/usage/index",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "pages/usage/car/add/index",
-          "pathName": "pages/usage/car/add/index",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
         },
         {
           "name": "pages/usage/index",

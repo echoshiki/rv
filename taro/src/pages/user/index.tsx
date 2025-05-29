@@ -18,7 +18,7 @@ const UserInfoArea = ({ userInfo }: {
     userInfo: UserInfo | null
 }) => {
     return (
-        <View className="max-w-screen-md mx-auto rounded-xl shadow-sm flex flex-nowrap p-4 justify-between items-center bg-white">
+        <View className="max-w-screen-md mx-auto rounded-md shadow-sm flex flex-nowrap p-4 justify-between items-center bg-white">
             <View className="flex flex-nowrap space-x-3">
                 {userInfo ? (
                 <View className="flex flex-col justify-center space-y-1">
@@ -83,10 +83,15 @@ const UserCenter = () => {
                 </View>
             </View>
 
-            {/* 横向菜单块 */}  
-            <MenuRow menuList={userRowMenu} />
+            {/* 横向菜单块 */} 
+            <View className="px-5 mt-4">
+                <MenuRow menuList={userRowMenu} />
+            </View> 
+
             {/* 条目菜单块 */}
-            <MenuColumn menuList={userColumnMenu} />
+            <View className="px-5 mt-4">
+                <MenuColumn menuList={userColumnMenu} />
+            </View>
 
             {/* 底部版权信息 */}
             <BottomCopyright

@@ -6,12 +6,13 @@ interface PageCardProps {
     title?: string,
     subtitle?: string,
     link?: string,
-    children: React.ReactNode;
+    children: React.ReactNode,
+    className?: string
 }
 
-const PageCard = ({ title, subtitle, link, children }: PageCardProps) => {
+const PageCard = ({ title, subtitle, link, children, className = '' }: PageCardProps) => {
     return (
-        <View className="bg-gray-100 min-h-screen py-5">
+        <View className={`bg-gray-100 min-h-screen py-5 ${className}`}>
             {title && (
                 <SectionTitle
                     title={title}

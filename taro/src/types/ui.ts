@@ -156,6 +156,24 @@ interface RvDetail extends RvItem {
     content: string
 } 
 
+interface MyCarItem {
+    id: string,
+    name: string,
+    phone: string,
+    province?: string,
+    city?: string,
+    brand: string,
+    vin: string,
+    licence_plate: string,
+    listing_at?: string | null,
+    birthday?: string | null,
+    address?: string
+}
+
+interface MyCarList {
+    list: MyCarItem[]
+}
+
 export {
     SectionTitle,
     MenuItem,
@@ -177,5 +195,6 @@ export {
     RegionItem,
     RvItem,
     RvList,
-    RvDetail
+    RvDetail,
+    MyCarList
 }

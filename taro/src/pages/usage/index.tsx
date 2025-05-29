@@ -28,13 +28,16 @@ const Usage = () => {
             <MyCarSection />
 
             {/* 宫格菜单 */}
-            <MenuRow menuList={rawMenuItems} />
-
+            <View className="px-5 mt-4">
+                <MenuRow menuList={rawMenuItems} />
+            </View>
+            
             {/* 用车常识 */}
             <PageCard 
                 title="用车常识" 
                 subtitle="在使用房车时的小知识" 
                 link="/pages/article/index?code=common_sense"
+                className="pt-0"
             >
                 <ArticleList
                     queryParams={queryParams}

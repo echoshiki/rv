@@ -4,6 +4,7 @@ import { MenuItem, MenuList } from '@/types/ui';
 import RightArrowIcon from '@/assets/icons/right-arrow.svg';
 import { FixedNav, FixedNavItem } from '@nutui/nutui-react-taro';
 import { useState } from 'react';
+import Card from '@/components/Card';
 
 // 处理菜单项的点击
 const handleItemClick = (item: MenuItem) => {
@@ -20,23 +21,21 @@ const handleItemClick = (item: MenuItem) => {
  */
 const MenuColumn = ({ menuList }: MenuList) => {
     return (
-        <View className="px-5 mt-4">
-            <View className="bg-white rounded-xl">
-                {menuList.map((item, index) => (
-                    <View 
-                        key={index} 
-                        className="flex items-center justify-between p-4 border-b border-gray-100" 
-                        onClick={() => handleItemClick(item)}
-                    >
-                        <View className="flex items-center">
-                            <Image src={item.icon} className="w-5 h-5" />
-                            <Text className="text-gray-800 ml-3">{item.title}</Text>
-                        </View>
-                        <Image src={RightArrowIcon} className="w-4 h-4" />
+        <Card className="pt-3">
+            {menuList.map((item, index) => (
+                <View
+                    key={index}
+                    className="flex items-center justify-between p-4 border-b border-gray-100"
+                    onClick={() => handleItemClick(item)}
+                >
+                    <View className="flex items-center">
+                        <Image src={item.icon} className="w-5 h-5" />
+                        <Text className="text-gray-800 ml-3">{item.title}</Text>
                     </View>
-                ))}
-            </View>
-        </View>
+                    <Image src={RightArrowIcon} className="w-4 h-4" />
+                </View>
+            ))}
+        </Card>
     )
 }
 
@@ -46,20 +45,20 @@ const MenuColumn = ({ menuList }: MenuList) => {
  */
 const MenuRow = ({ menuList }: MenuList) => {
     return (
-        <View className="px-5 mt-4">
-            <View className="w-full py-5 rounded-xl bg-white grid grid-cols-4 gap-y-3">
+        <Card className="!px-3">
+            <View className="grid grid-cols-4 gap-y-3">
                 {menuList.map((item, index) => (
-                    <View 
-                        key={index} 
+                    <View
+                        key={index}
                         className="flex flex-col items-center justify-center"
                         onClick={() => handleItemClick(item)}
                     >
                         <Image src={item.icon} className="w-6 h-6" />
                         <Text className="text-xs text-gray-800 mt-2">{item.title}</Text>
-                    </View>                    
+                    </View>
                 ))}
             </View>
-        </View>
+        </Card>
     )
 }
 
@@ -71,9 +70,9 @@ const MenuPage = ({ menuList }: MenuList) => {
     return (
         <View className="flex flex-col space-y-3">
             {menuList.map((item, index) => (
-                <View 
+                <View
                     key={index}
-                    className="flex flex-row items-center justify-between bg-white rounded-xl px-3 py-4" 
+                    className="flex flex-row items-center justify-between bg-white rounded-md px-3 py-4"
                     onClick={() => handleItemClick(item)}
                 >
                     <View className="flex flex-row items-center">
@@ -88,7 +87,7 @@ const MenuPage = ({ menuList }: MenuList) => {
                     <View className="flex flex-row items-center">
                         <Image src={RightArrowIcon} className="w-5 h-5" />
                     </View>
-                </View>                    
+                </View>
             ))}
         </View>
     )
@@ -147,10 +146,10 @@ const MenuMatrix = ({ menuList }: MenuList) => {
     // 渲染左侧矩形图片菜单
     const renderLeftMenu = (item: MenuItem) => {
         return (
-            <View className="relative block h-0 p-0 overflow-hidden pb-[100%] rounded-lg" onClick={() => handleItemClick(item)}>
+            <View className="relative block h-0 p-0 overflow-hidden pb-[100%] rounded-md" onClick={() => handleItemClick(item)}>
                 <Image
                     src={item.icon}
-                    className="absolute object-cover w-full h-full border-none align-middle" 
+                    className="absolute object-cover w-full h-full border-none align-middle"
                     mode={`aspectFill`}
                 />
                 <View className="absolute w-full h-full flex justify-center items-center">
@@ -163,10 +162,10 @@ const MenuMatrix = ({ menuList }: MenuList) => {
     // 渲染右侧长方形菜单
     const renderRightMenu = (item: MenuItem) => {
         return (
-            <View className="relative block h-0 p-0 overflow-hidden pb-[48%] rounded-lg" onClick={() => handleItemClick(item)}>
+            <View className="relative block h-0 p-0 overflow-hidden pb-[48%] rounded-md" onClick={() => handleItemClick(item)}>
                 <Image
                     src={item.icon}
-                    className="absolute object-cover w-full h-full border-none align-middle" 
+                    className="absolute object-cover w-full h-full border-none align-middle"
                     mode={`aspectFill`}
                 />
                 <View className="absolute w-full h-full flex items-center justify-center text-white text-opacity-75">

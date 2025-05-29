@@ -23,8 +23,8 @@ class MyCarResource extends JsonResource
             'brand' => $this->brand,
             'vin' => mb_substr($this->vin, 0, 4) . '****' . mb_substr($this->vin, -4),
             "licence_plate" => $this->licence_plate,
-            "listing_at" => $this->listing_at,
-            "birthday" => $this->birthday,
+            "listing_at" => $this->listing_at ? $this->listing_at->format('Y-m-d') : null,
+            "birthday" => $this->birthday ? $this->birthday->format('Y-m-d') : null,
             "address" => $this->address,
         ];
     }
