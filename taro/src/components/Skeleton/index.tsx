@@ -66,4 +66,34 @@ const Skeleton: React.FC<SkeletonProps> = ({
 	)
 }
 
-export default Skeleton
+const ArticleItemSkeleton = () => {
+	return (
+		<View className="flex flex-nowrap items-center space-x-3 py-3 border-b border-gray-300 border-dashed">
+			<View className="w-24">
+				<Skeleton height={150} round={false} animate={true} />
+			</View>
+			<View className="flex-1 flex flex-col space-y-2">
+				<Skeleton height={32} round={false} animate={true} />
+				<Skeleton height={32} round={false} animate={true} />
+				<Skeleton width={`50%`} height={32} round={false} animate={true} />
+			</View>
+		</View>
+	)
+}
+
+const ArticleListSkeleton = () => {
+	return (
+		<View>
+			<ArticleItemSkeleton />
+			<ArticleItemSkeleton />
+			<ArticleItemSkeleton />
+			<ArticleItemSkeleton />
+		</View>
+	)
+}
+
+export {
+	Skeleton,
+	ArticleItemSkeleton,
+	ArticleListSkeleton
+} 

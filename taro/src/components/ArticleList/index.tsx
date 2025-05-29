@@ -5,8 +5,8 @@ import { ArticleListQueryParams } from '@/api/article';
 import { mapsTo } from '@/utils/common';
 import { useArticleList } from '@/hooks/useArticleList';
 import Taro from '@tarojs/taro';
-import Loading from '@/components/Loading';
 import AspectRatioImage from '@/components/AspectRatioImage';
+import { ArticleListSkeleton } from '@/components/Skeleton';
 
 const ArticleItem = ({ id, title, date, cover }: ArticleItemProps) => {
     return (
@@ -111,9 +111,7 @@ const ArticleList = ({
             )}
 
             {loading && (
-                <View className="flex justify-center items-center h-64">
-                    <Loading />
-                </View>
+                <ArticleListSkeleton />
             )}
 
             {!hasMore && articleList.length > 0 && (

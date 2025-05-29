@@ -6,8 +6,8 @@ import { mapsTo } from '@/utils/common';
 import { Tag } from '@nutui/nutui-react-taro';
 import { useActivityList } from '@/hooks/useActivityList';
 import Taro from '@tarojs/taro';
-import Loading from '@/components/Loading';
 import AspectRatioImage from '@/components/AspectRatioImage';
+import { ArticleListSkeleton } from '@/components/Skeleton';
 
 const ActivityItem = ({ item }: { item: ActivityItemProps }) => {
     return (
@@ -112,9 +112,7 @@ const ActivityList = ({
             )}
 
             {loading && (
-                <View className="flex justify-center items-center h-64">
-                    <Loading />
-                </View>
+                <ArticleListSkeleton />
             )}
 
             {!hasMore && activityList.length > 0 && (

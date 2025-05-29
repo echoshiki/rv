@@ -21,7 +21,7 @@ const UserInfoArea = ({ userInfo }: {
         <View className="max-w-screen-md mx-auto rounded-md shadow-sm flex flex-nowrap p-4 justify-between items-center bg-white">
             <View className="flex flex-nowrap space-x-3">
                 {userInfo ? (
-                <View className="flex flex-col justify-center space-y-1">
+                <View className="flex flex-col justify-center space-y-2">
                     <View className="text-lg font-semibold leading-tight">
                         {userInfo.name}
                     </View>

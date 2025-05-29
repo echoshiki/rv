@@ -4,8 +4,7 @@ import { View, RichText } from "@tarojs/components";
 import Loading from "@/components/Loading";
 import { cleanHTML } from '@/utils/common';
 
-
-import Skeleton from '@/components/Skeleton';
+import { ArticleItemSkeleton } from '@/components/Skeleton';
 
 const RvDetail = () => {
 
@@ -19,7 +18,7 @@ const RvDetail = () => {
 
     return (
         <View>
-            <Skeleton width={500} height={200} className="m-10" />
+            <ArticleItemSkeleton />
             {/* <View className="relative">
                 <View>
                     <RichText
