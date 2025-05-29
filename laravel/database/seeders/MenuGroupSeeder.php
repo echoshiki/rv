@@ -108,7 +108,7 @@ class MenuGroupSeeder extends Seeder
                     'title' => '我的房车',
                     'icon' =>  'origin/icons/usage/car.svg',
                     'link_type' => 'page',
-                    'link_value' => '/pages/user/mycar/index',
+                    'link_value' => '/pages/usage/car/index',
                     'requires_auth' => true,
                 ],
                 [

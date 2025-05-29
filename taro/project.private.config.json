@@ -19,7 +19,7 @@
     "bigPackageSizeSupport": false
   },
   "projectname": "rv_taro",
-  "libVersion": "3.3.5",
+  "libVersion": "3.5.8",
   "condition": {
     "miniprogram": {
       "list": [
