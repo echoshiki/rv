@@ -84,7 +84,7 @@ const cleanHTML = (html: string, noMargin: boolean = false) => {
             const cleanAttrs = attrs
                 .replace(/(width|height)\s*=\s*["']\d+["']/gi, '')
                 .replace(/style\s*=\s*["'][^"']*["']/gi, '');
-            return `<img style="margin-top:${noMargin ? '0' : '10px'};margin-bottom:${noMargin ? '0' : '10px'};max-width:100%;height:auto;${cleanAttrs.match(/style\s*=\s*["']([^"']*)["']/)?.[1] || ''}" ${cleanAttrs}>`;
+            return `<img style="display:block;margin-top:${noMargin ? '0' : '10px'};margin-bottom:${noMargin ? '0' : '10px'};max-width:100%;height:auto;${cleanAttrs.match(/style\s*=\s*["']([^"']*)["']/)?.[1] || ''}" ${cleanAttrs}>`;
         });
 };
 
