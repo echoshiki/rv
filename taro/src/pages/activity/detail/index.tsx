@@ -6,7 +6,7 @@ import { cleanHTML } from '@/utils/common';
 import { Tag } from '@nutui/nutui-react-taro';
 import Card from '@/components/Card';
 import AspectRatioImage from '@/components/AspectRatioImage';
-import Loading from "@/components/Loading";
+import { ArticleDetailSkeleton } from "@/components/Skeleton";
 import RegistrationSection from '@/components/RegistrationSection';
 import ActivityNote from '@/components/ActivityNote';
 
@@ -31,9 +31,7 @@ const Detail = () => {
     // 如果正在加载，显示加载状态
     if (loading) {
         return (
-            <View className="bg-gray-100 min-h-screen flex justify-center items-center">
-                <Loading />
-            </View>
+            <ArticleDetailSkeleton />
         );
     }
 
@@ -53,6 +51,7 @@ const Detail = () => {
                 <AspectRatioImage
                     src={activityDetail.cover || DefaultCover}
                     ratio={.5}
+                    rounded="none"
                 />
             </View>
             <View className="px-5 relative mt-[-3rem]">

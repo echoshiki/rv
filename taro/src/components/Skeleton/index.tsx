@@ -93,6 +93,36 @@ const ArticleListSkeleton = () => {
 	)
 }
 
+const ArticleDetailSkeleton = () => {
+	return (
+		<View className="bg-gray-100 min-h-screen pb-5">
+            <View className="w-full">
+                <Skeleton height={320} round={false} animate={true} />
+            </View>
+            <View className="w-5/6 px-5 relative mt-[-3rem] mx-auto bg-white py-4">
+				<View className="mb-5 flex flex-col space-y-2">
+					<Skeleton height={50} round={false} animate={true} />
+					<Skeleton width={120} height={50} round={false} animate={true} />
+				</View>
+
+				{/* 活动相关信息 */}
+				<View>
+					<Skeleton height={240} round={false} animate={true} />
+				</View>
+				
+				{/* 内容 */}
+				<View className="w-full flex flex-col space-y-2 mt-5">
+					<Skeleton height={50} round={false} animate={true} />
+					<Skeleton height={50} round={false} animate={true} />
+					<Skeleton height={50} round={false} animate={true} />
+					<Skeleton height={50} round={false} animate={true} />
+					<Skeleton width={`50%`} height={50} round={false} animate={true} />
+				</View>
+            </View>
+        </View>
+	)
+}
+
 // 首页矩阵图菜单
 const MenuMatrixSkeleton = () => {
 	return (
@@ -136,6 +166,7 @@ export {
 	Skeleton,
 	ArticleItemSkeleton,
 	ArticleListSkeleton,
+	ArticleDetailSkeleton,
 	MenuMatrixSkeleton,
 	BannerSkeleton,
 	TabSkeleton

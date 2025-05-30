@@ -2,7 +2,7 @@ import { View, Text, Image } from "@tarojs/components";
 import { mapsTo } from "@/utils/common";
 import { MenuItem, MenuList } from '@/types/ui';
 import RightArrowIcon from '@/assets/icons/right-arrow.svg';
-import { FixedNav, FixedNavItem } from '@nutui/nutui-react-taro';
+import { FixedNav, FixedNavItem, Drag } from '@nutui/nutui-react-taro';
 import { useState } from 'react';
 import Card from '@/components/Card';
 import AspectRatioImage from '@/components/AspectRatioImage';
@@ -125,17 +125,16 @@ const MenuFloat = ({ menuList }: MenuList) => {
     }
 
     return (
-        <View>
+        <Drag direction="y" style={{ right: '0px', bottom: '100px' }}>
             <FixedNav
                 list={fixedMenu}
                 activeText="贴心服务"
                 overlay
-                position={{ bottom: '50px' }}
                 onChange={change}
                 visible={visible}
                 onSelect={selected}
             />
-        </View>
+        </Drag>
     )
 }
 

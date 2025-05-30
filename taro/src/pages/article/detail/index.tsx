@@ -3,7 +3,7 @@ import DefaultCover from '@/assets/images/cover.jpg';
 import { useArticleDetail } from "@/hooks/useArticleDetail";
 import Taro from "@tarojs/taro";
 import { type ArticleDetailQueryParams } from "@/api/article";
-import Loading from "@/components/Loading";
+import { ArticleDetailSkeleton } from '@/components/Skeleton';
 import { cleanHTML } from '@/utils/common';
 import Card from '@/components/Card';
 import AspectRatioImage from "@/components/AspectRatioImage";
@@ -26,12 +26,19 @@ const Detail = () => {
         }
     });
 
+    if (loading) {
+        return (
+            <ArticleDetailSkeleton />
+        );
+    }
+
     return (
         <View className="bg-gray-100 min-h-screen pb-5">
             <View className="w-full">
                 <AspectRatioImage
                     src={articleDetail?.cover || DefaultCover}
                     ratio={.5}
+                    rounded="none"
                 />
             </View>
             <View className="px-5 relative mt-[-3rem]">
@@ -53,13 +60,6 @@ const Detail = () => {
                     </View>
                 </Card>
             </View>
-
-            {/* 加载状态展示 */}
-            {loading && (
-                <View className="flex justify-center py-4">
-                    <Loading />
-                </View>
-            )}
 
             {/* 加载完成提示 */}
             {!articleDetail && (

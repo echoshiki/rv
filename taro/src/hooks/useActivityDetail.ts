@@ -15,7 +15,7 @@ const useActivityDetail = (
     const { autoLoad = true, onLoaded } = options;
 
     const [activityDetail, setActivityDetail] = useState<ActivityDetail | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     // 获取文章详情

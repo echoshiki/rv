@@ -88,8 +88,15 @@ const ArticleList = ({
     if (isPullDownRefresh) {
         Taro.usePullDownRefresh(handlePullDownRefresh);
     }
+
     if (isReachBottomRefresh) {
         Taro.useReachBottom(handleReachBottom);
+    }
+
+    if (loading) {
+        return (
+            <ArticleListSkeleton />
+        )
     }
 
     return (
@@ -107,10 +114,6 @@ const ArticleList = ({
                 <View className="flex justify-center items-center h-64">
                     <Text className="text-gray-500">该分类下还没有文章</Text>
                 </View>
-            )}
-
-            {loading && (
-                <ArticleListSkeleton />
             )}
 
             {!hasMore && articleList.length > 0 && (

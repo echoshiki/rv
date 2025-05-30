@@ -14,7 +14,7 @@ const useArticleDetail = (
     const { autoLoad = true, onLoaded } = options;
 
     const [articleDetail, setArticleDetail] = useState<ArticleDetail | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     // 获取文章详情
