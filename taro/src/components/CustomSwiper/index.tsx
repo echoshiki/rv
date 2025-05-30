@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image, Swiper, SwiperItem } from '@tarojs/components'
 import { BannerItem } from '@/types/api';
+import { BannerSkeleton } from '@/components/Skeleton';
 
 /**
  * 轮播图参数类型
@@ -26,6 +27,7 @@ interface CustomSwiperProps {
     imageRatio?: number;
     useScreenWidth?: boolean;
     rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+    isLoading?: boolean;
     onClick?: (item: any) => void;
 }
 
@@ -39,6 +41,7 @@ const CustomSwiper: React.FC<CustomSwiperProps> = ({
     imageRatio = 2,
     useScreenWidth = false,
     rounded = 'none',
+    isLoading = false,
     onClick
 }) => {
     const [current, setCurrent] = useState(0);
@@ -95,6 +98,12 @@ const CustomSwiper: React.FC<CustomSwiperProps> = ({
                 return 'left-1/2 transform -translate-x-1/2';
         }
     };
+
+    if (isLoading) {
+        return (
+            <BannerSkeleton />
+        )
+    }
 
     return (
         <View className={`relative w-full z-0 swiper-self rounded-${rounded} overflow-hidden`}>

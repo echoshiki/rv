@@ -4,7 +4,7 @@ import { getActivityCategoryList } from "@/api/activity";
 
 const useActivityCategoryList = () => {
     const [categories, setCategories] =  useState<Category[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     const fetchCategories = useCallback(async () => {

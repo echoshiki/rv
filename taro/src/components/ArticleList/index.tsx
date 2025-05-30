@@ -18,7 +18,6 @@ const ArticleItem = ({ id, title, date, cover }: ArticleItemProps) => {
                 <AspectRatioImage
                     src={cover ? cover : DefaultCover}
                     ratio={.8}
-                    rounded="xl"
                 />
             </View>
             <View className="flex-1 flex flex-col space-y-2">

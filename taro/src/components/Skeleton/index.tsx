@@ -81,6 +81,7 @@ const ArticleItemSkeleton = () => {
 	)
 }
 
+// 文章列表
 const ArticleListSkeleton = () => {
 	return (
 		<View>
@@ -92,10 +93,50 @@ const ArticleListSkeleton = () => {
 	)
 }
 
+// 首页矩阵图菜单
+const MenuMatrixSkeleton = () => {
+	return (
+		<View className="flex flex-nowrap space-x-2">
+			<View className="w-1/2">
+				<Skeleton height={300} round={false} animate={true} />
+			</View>
+			<View className="w-1/2 flex flex-col justify-between">
+				<Skeleton height={140} round={false} animate={true} />
+				<Skeleton height={140} round={false} animate={true} />
+			</View>
+		</View>
+	)
+}
 
+// 轮播图
+const BannerSkeleton = () => {
+	return (
+		<View>
+			<Skeleton height={420} round={false} animate={true} />
+		</View>
+	)
+}
+
+const TabSkeleton = () => {
+	return (
+		<View className="w-full py-3">
+			<View className="grid grid-cols-3">
+				<Skeleton height={60} width={200} round={false} animate={true} />
+				<Skeleton height={60} width={200} round={false} animate={true} />
+				<Skeleton height={60} width={200} round={false} animate={true} />
+			</View>
+			<View>
+				<ArticleListSkeleton />
+			</View>
+		</View>
+	)
+}
 
 export {
 	Skeleton,
 	ArticleItemSkeleton,
-	ArticleListSkeleton
+	ArticleListSkeleton,
+	MenuMatrixSkeleton,
+	BannerSkeleton,
+	TabSkeleton
 } 

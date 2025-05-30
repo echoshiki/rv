@@ -1,7 +1,6 @@
 import { View, Text } from '@tarojs/components'
 import CustomSwiper from '@/components/CustomSwiper';
 import { useBanner } from '@/hooks/useBanner';
-import Loading from '@/components/Loading';
 import { useMenu } from '@/hooks/useMenu';
 import { MenuMatrix } from '@/components/Menu';
 import { useMemo } from 'react';
@@ -13,7 +12,7 @@ import Card from '@/components/Card';
 
 const Index = () => {
 	const { banners, loading: bannerLoading } = useBanner('home');
-	const { rawMenuItems: matrixMenuItems } = useMenu('home_matrix_menu');
+	const { rawMenuItems: matrixMenuItems, loading: menuLoading } = useMenu('home_matrix_menu');
 	const { rawMenuItems: tabMenuItems, loading: tabLoading } = useMenu('home_tab_menu');
 	
 	const tabCategories = useMemo(() => tabMenuItems.map(item => ({
@@ -67,13 +66,13 @@ const Index = () => {
 					imageList={banners} 
 					imageRatio={1.8}
 					useScreenWidth={true}
+					isLoading={bannerLoading}
 				/>
-				{bannerLoading && <Loading />}
 			</View>
 
 			{/* 图片导航矩阵 */}
 			<View className="px-5 mt-3">
-				<MenuMatrix menuList={matrixMenuItems} />
+				<MenuMatrix menuList={matrixMenuItems} isLoading={menuLoading}/>
 			</View>
 
 			{/* 首页列表模块 */}

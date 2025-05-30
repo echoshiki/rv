@@ -4,7 +4,7 @@ import bannerApi from "@/api/banner";
 
 const useBanner = (channel: string) => {
     const [banners, setBanners] =  useState<BannerItem[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     const fetchBanners = useCallback(async () => {

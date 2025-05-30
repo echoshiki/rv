@@ -5,7 +5,7 @@ import { transformApiMenuItem } from "@/utils/apiTransformers";
 
 const useMenu = (code: string) => {
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     const fetchMenuGroup = useCallback(async () => {

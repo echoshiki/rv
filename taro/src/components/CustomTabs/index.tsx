@@ -1,7 +1,7 @@
 import { View } from '@tarojs/components';
 import { Tabs, ConfigProvider } from '@nutui/nutui-react-taro';
 import { useState, useEffect, ReactNode, useMemo } from 'react';
-import Loading from '@/components/Loading'; // 确保路径正确
+import { TabSkeleton } from '@/components/Skeleton';
 
 // 默认的 NutUI Tabs 主题配置 (请确保您的主题配置在这里)
 const defaultTabsTheme = {
@@ -107,18 +107,16 @@ const CustomTabs = ({
         return ""; // 或者一个在 items 中不存在的虚拟值，如果 NutUI 不接受空字符串
     }, [activeTabId, items]);
 
-    if (isLoading && items.length === 0) { // 分类数据加载中
-        return <Loading />;
-    }
-
-    if (!items || items.length === 0) {
-        return null; // 没有分类数据则不渲染 Tabs
+    if (isLoading) { // 分类数据加载中
+        return (
+            <View className={className}>
+                <TabSkeleton />
+            </View>
+        );
     }
 
     return (
         <View className={className}>
-            {/* isLoading 用于表示分类列表本身的加载状态 */}
-            {isLoading && <Loading />}
             {!isLoading && items.length > 0 && activeTabId !== undefined && (
                 <ConfigProvider theme={finalTheme}>
                     <Tabs

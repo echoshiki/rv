@@ -1,7 +1,6 @@
 import { View } from '@tarojs/components';
 import CustomSwiper from '@/components/CustomSwiper';
 import { useBanner } from '@/hooks/useBanner';
-import Loading from '@/components/Loading';
 import { useActivityList } from '@/hooks/useActivityList';
 import CustomTabs from '@/components/CustomTabs';
 import { useMemo } from 'react';
@@ -34,18 +33,11 @@ const ActivitySwiper = () => {
 
     // 载入中
     const isLoading = cmsLoading || recommendLoading;
-    if (isLoading && combinedBanners.length === 0) {
-        return <Loading />;
-    }
-
-    // 没有数据不显示组件
-    if (combinedBanners.length === 0 && !isLoading) {
-        return null;
-    }
 
     return (
         <View>
             <CustomSwiper
+                isLoading={isLoading}
                 imageList={combinedBanners}
                 imageRatio={1.8}
                 rounded="lg"

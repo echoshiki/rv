@@ -6,6 +6,7 @@ import { FixedNav, FixedNavItem } from '@nutui/nutui-react-taro';
 import { useState } from 'react';
 import Card from '@/components/Card';
 import AspectRatioImage from '@/components/AspectRatioImage';
+import { MenuMatrixSkeleton } from '@/components/Skeleton';
 
 // 处理菜单项的点击
 const handleItemClick = (item: MenuItem) => {
@@ -142,7 +143,7 @@ const MenuFloat = ({ menuList }: MenuList) => {
  * 首页图片矩阵菜单
  * @param menuList 菜单数据
  */
-const MenuMatrix = ({ menuList }: MenuList) => {
+const MenuMatrix = ({ menuList, isLoading }: MenuList) => {
 
     // 渲染左侧矩形图片菜单
     const renderLeftMenu = (item: MenuItem) => {
@@ -170,18 +171,24 @@ const MenuMatrix = ({ menuList }: MenuList) => {
         )
     }
 
+    if (isLoading) {
+        return (
+            <MenuMatrixSkeleton />
+        )
+    }
+
     return (
-        <View className="flex flex-nowrap space-x-2">
-            {menuList[0] && (
+        <>
+            <View className="flex flex-nowrap space-x-2">
                 <View className="w-1/2">
-                    {renderLeftMenu(menuList[0])}
+                    {menuList[0] && renderLeftMenu(menuList[0])}
                 </View>
-            )}
-            <View className="w-1/2 flex flex-col justify-between">
-                {menuList[1] && renderRightMenu(menuList[1])}
-                {menuList[2] && renderRightMenu(menuList[2])}
+                <View className="w-1/2 flex flex-col justify-between">
+                    {menuList[1] && renderRightMenu(menuList[1])}
+                    {menuList[2] && renderRightMenu(menuList[2])}
+                </View>
             </View>
-        </View>
+        </>   
     )
 }
 

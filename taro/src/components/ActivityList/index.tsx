@@ -19,7 +19,6 @@ const ActivityItem = ({ item }: { item: ActivityItemProps }) => {
                 <AspectRatioImage
                     src={item.cover ? item.cover : DefaultCover}
                     ratio={.8}
-                    rounded="xl"
                 />
             </View>
             <View className="flex-1 flex flex-col space-y-2">

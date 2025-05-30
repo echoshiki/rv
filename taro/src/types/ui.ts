@@ -24,7 +24,8 @@ interface MenuItem {
 }
 
 interface MenuList {
-    menuList: MenuItem[]
+    menuList: MenuItem[],
+    isLoading?: boolean
 }
 
 interface Category {
