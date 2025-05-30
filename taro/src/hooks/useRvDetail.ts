@@ -7,11 +7,11 @@ const useRvDetail = (id: string, used: boolean = false) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    // 获取房车详情
+    // 获取车型详情
     const fetchRvDetail = useCallback(async () => {
 
         if (!id) {
-            setError("房车 ID 不能为空");
+            setError("车型 ID 不能为空");
             return;   
         }
 
@@ -22,7 +22,7 @@ const useRvDetail = (id: string, used: boolean = false) => {
             const { data: responseData } = await getRvDetail(id, used ?? false);
             setRvDetail(responseData);
         } catch (e) {
-            setError(e.message || '获取房车详情时出现问题');
+            setError(e.message || '获取车型详情时出现问题');
         } finally {
             setLoading(false);
         }

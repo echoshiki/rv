@@ -140,6 +140,7 @@ interface RvItem {
     name: string,
     cover: string,
     price: string,
+    used?: boolean,
     order_price?: string
 }
 

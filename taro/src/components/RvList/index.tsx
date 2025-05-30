@@ -7,11 +7,11 @@ import Loading from '@/components/Loading';
 import Card from '@/components/Card';
 import AspectRatioImage from '@/components/AspectRatioImage';
 
-const RvItem = ({ id, name, price, cover }: RvItemProps) => {
+const RvItem = ({ id, name, price, cover, used }: RvItemProps) => {
     return (
         <View
             className="flex flex-nowrap items-center space-x-3 py-3 border-b border-gray-300 border-dashed"
-            onClick={() => mapsTo(`/pages/sale/detail/index?id=${id}`)}
+            onClick={() => mapsTo(`/pages/sale/detail/index?id=${id}${used ? '&used=1' : ''}`)}
         >
             <View className="w-24">
                 <AspectRatioImage
@@ -27,7 +27,7 @@ const RvItem = ({ id, name, price, cover }: RvItemProps) => {
                 <View className="flex flex-nowrap justify-between items-center">
                     <View>
                         <Text className="text-gray-400 text-xs">
-                            官方发布
+                            {used ? '二手车' : '官方发布'}
                         </Text>
                     </View>
                     <View>
@@ -96,6 +96,7 @@ const RvList = ({
                         name={item.name}
                         cover={item.cover}
                         price={item.price}
+                        used={used}
                     />
                 ))}
 
