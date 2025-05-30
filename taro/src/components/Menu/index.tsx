@@ -5,6 +5,7 @@ import RightArrowIcon from '@/assets/icons/right-arrow.svg';
 import { FixedNav, FixedNavItem } from '@nutui/nutui-react-taro';
 import { useState } from 'react';
 import Card from '@/components/Card';
+import AspectRatioImage from '@/components/AspectRatioImage';
 
 // 处理菜单项的点击
 const handleItemClick = (item: MenuItem) => {
@@ -146,15 +147,12 @@ const MenuMatrix = ({ menuList }: MenuList) => {
     // 渲染左侧矩形图片菜单
     const renderLeftMenu = (item: MenuItem) => {
         return (
-            <View className="relative block h-0 p-0 overflow-hidden pb-[100%] rounded-md" onClick={() => handleItemClick(item)}>
-                <Image
-                    src={item.icon}
-                    className="absolute object-cover w-full h-full border-none align-middle"
-                    mode={`aspectFill`}
-                />
-                <View className="absolute w-full h-full flex justify-center items-center">
-                    <Text className="text-xl text-white text-opacity-75 font-semibold">{item.title}</Text>
-                </View>
+            <View onClick={() => handleItemClick(item)}>
+                <AspectRatioImage src={item.icon} ratio={1}>
+                    <View className="absolute w-full h-full flex justify-center items-center">
+                        <Text className="text-xl text-white text-opacity-75 font-semibold">{item.title}</Text>
+                    </View>
+                </AspectRatioImage>
             </View>
         )
     }
@@ -162,15 +160,12 @@ const MenuMatrix = ({ menuList }: MenuList) => {
     // 渲染右侧长方形菜单
     const renderRightMenu = (item: MenuItem) => {
         return (
-            <View className="relative block h-0 p-0 overflow-hidden pb-[48%] rounded-md" onClick={() => handleItemClick(item)}>
-                <Image
-                    src={item.icon}
-                    className="absolute object-cover w-full h-full border-none align-middle"
-                    mode={`aspectFill`}
-                />
-                <View className="absolute w-full h-full flex items-center justify-center text-white text-opacity-75">
-                    <Text className="text-base font-bold">{item.title}</Text>
-                </View>
+            <View onClick={() => handleItemClick(item)}>
+                <AspectRatioImage src={item.icon} ratio={.48}>
+                    <View className="absolute w-full h-full flex items-center justify-center">
+                        <Text className="text-base text-white text-opacity-75 font-bold">{item.title}</Text>
+                    </View>
+                </AspectRatioImage>
             </View>
         )
     }
