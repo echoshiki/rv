@@ -63,8 +63,8 @@ const UserCenter = () => {
     const { userInfo, syncUserInfo, isLoading, isLoggedIn } = useAuthStore();
 
     // 原始菜单数据
-    const { rawMenuItems: userRowMenu } = useMenu('user_row_menu');
-    const { rawMenuItems: userColumnMenu } = useMenu('user_column_menu');
+    const { rawMenuItems: userRowMenu, loading: userRowLoading } = useMenu('user_row_menu');
+    const { rawMenuItems: userColumnMenu, loading: userColumnLoading } = useMenu('user_column_menu');
 
     usePullDownRefresh(async () => {
         // 未登录和加载中时不触发刷新
@@ -85,12 +85,18 @@ const UserCenter = () => {
 
             {/* 横向菜单块 */} 
             <View className="px-5 mt-4">
-                <MenuRow menuList={userRowMenu} />
+                <MenuRow 
+                    menuList={userRowMenu} 
+                    isLoading={userRowLoading}
+                />
             </View> 
 
             {/* 条目菜单块 */}
             <View className="px-5 mt-4">
-                <MenuColumn menuList={userColumnMenu} />
+                <MenuColumn 
+                    menuList={userColumnMenu} 
+                    isLoading={userColumnLoading}
+                />
             </View>
 
             {/* 底部版权信息 */}

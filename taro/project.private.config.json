@@ -24,11 +24,18 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/activity/detail/index",
-          "pathName": "pages/activity/detail/index",
-          "query": "id=53",
+          "name": "pages/sale/index",
+          "pathName": "pages/sale/index",
+          "query": "",
           "scene": null,
           "launchMode": "default"
+        },
+        {
+          "name": "pages/user/index",
+          "pathName": "pages/user/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         },
         {
           "name": "pages/sale/detail/index",

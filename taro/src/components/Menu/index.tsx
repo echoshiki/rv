@@ -6,7 +6,7 @@ import { FixedNav, FixedNavItem, Drag } from '@nutui/nutui-react-taro';
 import { useState } from 'react';
 import Card from '@/components/Card';
 import AspectRatioImage from '@/components/AspectRatioImage';
-import { MenuMatrixSkeleton } from '@/components/Skeleton';
+import { MenuMatrixSkeleton, MenuColumnSkeleton, MenuRowSkeleton } from '@/components/Skeleton';
 
 // 处理菜单项的点击
 const handleItemClick = (item: MenuItem) => {
@@ -21,7 +21,14 @@ const handleItemClick = (item: MenuItem) => {
  * 用户中心竖向菜单
  * @param menuList 菜单数据
  */
-const MenuColumn = ({ menuList }: MenuList) => {
+const MenuColumn = ({ menuList, isLoading }: MenuList) => {
+    // 载入骨架屏
+    if (isLoading) {
+        return (
+            <MenuColumnSkeleton />
+        )
+    }
+
     return (
         <Card className="pt-3">
             {menuList.map((item, index) => (
@@ -45,7 +52,13 @@ const MenuColumn = ({ menuList }: MenuList) => {
  * 横向带图标的菜单
  * @param menuList 菜单数据
  */
-const MenuRow = ({ menuList }: MenuList) => {
+const MenuRow = ({ menuList, isLoading }: MenuList) => {
+    if (isLoading) {
+        return (
+            <MenuRowSkeleton />
+        )
+    }
+
     return (
         <Card className="!px-3">
             <View className="grid grid-cols-4 gap-y-3">

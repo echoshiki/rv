@@ -138,6 +138,29 @@ const MenuMatrixSkeleton = () => {
 	)
 }
 
+// 用户中心横向菜单
+const MenuRowSkeleton = () => {
+	return (
+		<View className="flex flex-col space-y-2">
+			<Skeleton height={150} round={false} animate={true} />
+		</View>
+	)
+}
+
+// 用户中心竖形菜单
+const MenuColumnSkeleton = () => {
+	return (
+		<View className="flex flex-col space-y-3">
+			<Skeleton height={80} round={false} animate={true} />
+			<Skeleton height={80} round={false} animate={true} />
+			<Skeleton height={80} round={false} animate={true} />
+			<Skeleton height={80} round={false} animate={true} />
+			<Skeleton height={80} round={false} animate={true} />
+			<Skeleton height={80} round={false} animate={true} />
+		</View>
+	)
+}
+
 // 轮播图
 const BannerSkeleton = () => {
 	return (
@@ -168,6 +191,8 @@ export {
 	ArticleListSkeleton,
 	ArticleDetailSkeleton,
 	MenuMatrixSkeleton,
+	MenuColumnSkeleton,
+	MenuRowSkeleton,
 	BannerSkeleton,
 	TabSkeleton
 } 

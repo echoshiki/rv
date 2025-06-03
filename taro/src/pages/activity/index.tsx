@@ -1,58 +1,26 @@
 import { View } from '@tarojs/components';
 import CustomSwiper from '@/components/CustomSwiper';
-import { useBanner } from '@/hooks/useBanner';
-import { useActivityList } from '@/hooks/useActivityList';
 import CustomTabs from '@/components/CustomTabs';
-import { useMemo } from 'react';
 import { useActivityCategoryList } from '@/hooks/useActivityCategoryList';
 import ActivityList from '@/components/ActivityList';
 import Card from '@/components/Card';
-
-/**
- * 活动频道轮播图
- */
-const ActivitySwiper = () => {
-    const { banners: cmsBanners, loading: cmsLoading } = useBanner('activity');
-    const { activityList: activityRecommend, loading: recommendLoading } = useActivityList({
-        filter: {
-            is_recommend: 1
-        },
-        limit: 5
-    });
-
-    // 使用 useMemo 节省计算合并两个列表
-    const combinedBanners = useMemo(() => {
-        const bannerFromActivityRecommend = activityRecommend.map(item => ({
-            id: item.id,
-            image: item.cover || '',
-            title: item.title,
-            link: `/pages/activity/detail/${item.id}`
-        }));
-        return [...cmsBanners, ...bannerFromActivityRecommend];
-    }, [cmsBanners, activityRecommend]);
-
-    // 载入中
-    const isLoading = cmsLoading || recommendLoading;
-
-    return (
-        <View>
-            <CustomSwiper
-                isLoading={isLoading}
-                imageList={combinedBanners}
-                imageRatio={1.8}
-                rounded="lg"
-            />
-        </View>
-    )
-}
+import { useActivityBanner } from '@/hooks/useBanner';
 
 const Activity = () => {
-    const { categories, loading } = useActivityCategoryList();
+    const { banners, loading: bannerLoading } = useActivityBanner();
+    const { categories, loading: tabsLoading } = useActivityCategoryList();
+    const isLoading = bannerLoading || tabsLoading;
+
     return (
         <View className="bg-gray-100 min-h-screen py-3">
             {/* 活动频道轮播图 */}
             <View className="px-5">
-                <ActivitySwiper />
+                <CustomSwiper
+                    isLoading={isLoading}
+                    imageList={banners}
+                    imageRatio={1.8}
+                    rounded="lg"
+                />
             </View>
 
             {/* 活动频道标签页 */}
@@ -73,7 +41,7 @@ const Activity = () => {
                             />
                         </Card>
                     )}
-                    isLoading={loading}
+                    isLoading={isLoading}
                 />
             </View>
         </View>

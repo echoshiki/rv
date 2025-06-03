@@ -68,7 +68,7 @@ const MenuScrollBox = ({ data }: { data: RvItem[] }) => {
                                                 : 'text-[#6c6c6c] hover:bg-gray-100'
                                             }`}
                                     >
-                                        <Text className="font-bold">{item.name}</Text>
+                                        <Text className="font-bold text-sm">{item.name}</Text>
                                     </View>
                                 </View>
                             ))}
@@ -86,7 +86,7 @@ const MenuScrollBox = ({ data }: { data: RvItem[] }) => {
                     className="h-full"
                     scrollWithAnimation
                 >
-                    <View className="flex flex-col space-y-8 p-2 pb-5">
+                    <View className="flex flex-col space-y-8 px-2 pb-5">
                         {data.map((item) => (
                             <View
                                 key={item.id}

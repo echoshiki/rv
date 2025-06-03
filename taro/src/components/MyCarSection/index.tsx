@@ -47,7 +47,7 @@ const MyCarSection = () => {
         }
         return (
             <Button
-                className="w-52 !border !border-solid !border-white text-white bg-transparent"
+                className="w-52 !border-2 !border-solid !border-white text-white bg-transparent"
                 onClick={() => checkLoginBeforeNavigate('/pages/usage/car/add/index')}
             >
                 添加爱车
