@@ -10,6 +10,7 @@ import bottomImg from '@/assets/images/center-bottom-img.svg';
 import { usePullDownRefresh, stopPullDownRefresh } from "@tarojs/taro";
 import { LevelBadge } from '@/components/CustomBadge';
 import { Tag } from '@nutui/nutui-react-taro';
+import { mapsTo } from "@/utils/common";
 
 /**
  * 包含昵称、头像以及右边图片的用户信息块
@@ -31,8 +32,16 @@ const UserInfoArea = ({ userInfo }: {
                     </View>
                     <View>
                         <View className="flex items-center space-x-2">
-                            <LevelBadge level={userInfo.level} />
-                            <Tag plain>{userInfo.points} 积分</Tag>
+                            <LevelBadge 
+                                level={userInfo.level} 
+                                onClick={() => mapsTo(`/pages/article/detail/index?code=level_rules`)} 
+                            />
+                            <Tag 
+                                plain 
+                                onClick={() => mapsTo(`/pages/user/point/index`)}
+                            >
+                                {userInfo.points} 积分
+                            </Tag>
                         </View>
                     </View>
                 </View> 

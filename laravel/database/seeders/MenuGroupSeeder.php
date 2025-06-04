@@ -72,7 +72,7 @@ class MenuGroupSeeder extends Seeder
                     'title' => '邀请好友',
                     'icon' =>  'origin/icons/invite.svg',
                     'link_type' => 'page',
-                    'link_value' => '/pages/book/index',
+                    'link_value' => '/pages/invite/index',
                     'requires_auth' => true,
                 ],
                 [

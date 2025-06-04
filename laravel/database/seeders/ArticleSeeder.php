@@ -33,6 +33,11 @@ class ArticleSeeder extends Seeder
             'content' => '请在此处填写积分规则内容...',
         ],
         [
+            'code' => 'level_rules',
+            'title' => '会员等级',
+            'content' => '请在此处填写会员等级规则的说明...',
+        ],
+        [
             'code' => 'after_sales_standard',
             'title' => '售后标准',
             'content' => '请在此处填写售后标准内容...',

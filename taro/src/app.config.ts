@@ -3,6 +3,7 @@ export default defineAppConfig({
     'pages/index/index',
     'pages/user/index',
     'pages/user/profile/index',
+    'pages/user/point/index',
     'pages/login/index',
     'pages/usage/index',
     'pages/usage/car/index',
@@ -14,6 +15,7 @@ export default defineAppConfig({
     'pages/activity/index',
     'pages/activity/detail/index',
     'pages/registration/index',
+    'pages/invite/index',
     'pages/404/index',
   ],
   window: {

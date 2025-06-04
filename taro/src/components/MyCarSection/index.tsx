@@ -32,14 +32,14 @@ const MyCarSection = () => {
         }
         if (myCar) {
             return (
-                <View className="w-4/5 bg-[#3c3c3c] bg-opacity-50 p-5 rounded-lg text-white">
-                    <View className="text-lg mb-1">
-                        {myCar.name}
-                    </View>
-                    <View className="text-sm text-gray-400">
+                <View className="w-4/5 bg-[#3c3c3c] bg-opacity-50 p-5 rounded-lg text-white flex flex-col space-y-1">
+                    <View className="text-lg font-semibold">
                         {myCar.licence_plate}
                     </View>
-                    <View className="text-sm text-gray-400">
+                    <View className="text-xs text-gray-400">
+                        {myCar.name} 
+                    </View>
+                    <View className="text-xs text-gray-400">
                         {myCar.brand}
                     </View>
                 </View>

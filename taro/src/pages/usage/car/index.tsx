@@ -1,8 +1,9 @@
-import { View, Text } from "@tarojs/components";
+import { View, Text, Button } from "@tarojs/components";
 import Card from '@/components/Card';
 import { useMyCarList } from '@/hooks/useMyCarList';
 import Loading from "@/components/Loading";
 import { showModal } from "@tarojs/taro";
+import { mapsTo } from "@/utils/common";
 
 const MyCar = () => {
     const { myCars, deleteMyCar, loading } = useMyCarList();
@@ -41,7 +42,7 @@ const MyCar = () => {
     }
 
     return (
-        <View className="bg-black p-5 min-h-screen">
+        <View className="bg-black p-5 min-h-screen flex flex-col justify-between">
             <View className="flex flex-col space-y-3">
                 {myCars && myCars.list.map(car => (
                     <Card key={car.id} className="bg-opacity-50 !bg-[#3c3c3c] text-white">
@@ -71,6 +72,15 @@ const MyCar = () => {
                         </View>
                     </Card>
                 ))}
+            </View>
+
+            <View className="flex justify-center items-center mx-auto pb-10">
+                <Button 
+                    className="w-52 !border-2 !border-solid !border-white text-white bg-transparent"
+                    onClick={() => mapsTo('/pages/usage/car/add/index')}
+                >
+                    添加爱车
+                </Button>
             </View>
         </View >
     )

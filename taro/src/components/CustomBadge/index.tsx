@@ -33,10 +33,11 @@ interface LevelBadgeProps {
     level: {
         id: number,
         name: string
-    }   
+    },
+    onClick?: () => void 
 }
 
-const LevelBadge = ({ level }: LevelBadgeProps) => {
+const LevelBadge = ({ level, onClick }: LevelBadgeProps) => {
     let theme: TagType = 'default';
     
     switch (level.id) {
@@ -62,7 +63,7 @@ const LevelBadge = ({ level }: LevelBadgeProps) => {
             theme = 'default';
             break;
     }
-    return <Tag type={theme}>{level.name}</Tag>
+    return <Tag type={theme} onClick={onClick}>{level.name}</Tag>
 }
 
 export {
