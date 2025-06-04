@@ -17,7 +17,7 @@ class ActivityCategorySeeder extends Seeder
         ActivityCategory::truncate();
 
         $this->command->info('开始创建活动分类...');
-        ActivityCategory::factory()->count(5)->create();
+        ActivityCategory::factory()->count(3)->create();
         $this->command->info('活动分类创建完毕');
     }
 }

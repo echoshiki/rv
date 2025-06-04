@@ -234,24 +234,24 @@ class MenuGroupSeeder extends Seeder
             'layout' => 'grid',
             'items' => [
                 [
-                    'title' => '车友活动',
+                    'title' => '促销活动',
                     'icon' =>  null,
                     'link_type' => 'channel',
-                    'link_value' => '1|activity',
+                    'link_value' => '3|activity',
                     'requires_auth' => false,
                 ],
                 [
                     'title' => '二手车',
                     'icon' =>  null,
                     'link_type' => 'channel',
-                    'link_value' => '1|article',
+                    'link_value' => '0|used_rv',
                     'requires_auth' => false,
                 ],
                 [
-                    'title' => '促销活动',
+                    'title' => '车友活动',
                     'icon' =>  null,
                     'link_type' => 'channel',
-                    'link_value' => '5|activity',
+                    'link_value' => '1|activity',
                     'requires_auth' => false,
                 ]
             ]

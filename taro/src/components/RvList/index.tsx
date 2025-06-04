@@ -4,7 +4,6 @@ import { mapsTo } from '@/utils/common';
 import { useRvList } from '@/hooks/useRvList';
 import Taro from '@tarojs/taro';
 import Loading from '@/components/Loading';
-import Card from '@/components/Card';
 import AspectRatioImage from '@/components/AspectRatioImage';
 
 const RvItem = ({ id, name, price, cover, used }: RvItemProps) => {
@@ -16,13 +15,12 @@ const RvItem = ({ id, name, price, cover, used }: RvItemProps) => {
             <View className="w-24">
                 <AspectRatioImage
                     src={cover}
-                    ratio={.72}
-                    rounded="xl"
+                    ratio={.8}
                 />
             </View>
             <View className="flex-1 flex flex-col space-y-2">
-                <View className="text-ellipsis overflow-hidden line-clamp-2">
-                    <Text className="font-bold text-white">{name}</Text>
+                <View className="text-sm text-ellipsis overflow-hidden line-clamp-2 h-10">
+                    <Text>{name}</Text>
                 </View>
                 <View className="flex flex-nowrap justify-between items-center">
                     <View>
@@ -31,8 +29,8 @@ const RvItem = ({ id, name, price, cover, used }: RvItemProps) => {
                         </Text>
                     </View>
                     <View>
-                        <Text className="text-gray-400 text-xs">
-                            ¥{price} 起
+                        <Text className="text-red-500 text-xs font-semibold">
+                            ¥{price}起
                         </Text>
                     </View>
                 </View>
@@ -88,37 +86,35 @@ const RvList = ({
     }
 
     return (
-        <Card className="!bg-[#3c3c3c]">
-            <View>
-                {rvList.map(item => (
-                    <RvItem
-                        id={item.id}
-                        name={item.name}
-                        cover={item.cover}
-                        price={item.price}
-                        used={used}
-                    />
-                ))}
+        <View>
+            {rvList.map(item => (
+                <RvItem
+                    id={item.id}
+                    name={item.name}
+                    cover={item.cover}
+                    price={item.price}
+                    used={used}
+                />
+            ))}
 
-                {rvList.length === 0 && !loading && (
-                    <View className="flex justify-center items-center h-64">
-                        <Text className="text-gray-500">尚未发布房车</Text>
-                    </View>
-                )}
+            {rvList.length === 0 && !loading && (
+                <View className="flex justify-center items-center h-64">
+                    <Text className="text-gray-500">尚未发布房车</Text>
+                </View>
+            )}
 
-                {loading && (
-                    <View className="flex justify-center items-center h-64">
-                        <Loading />
-                    </View>
-                )}
+            {loading && (
+                <View className="flex justify-center items-center h-64">
+                    <Loading />
+                </View>
+            )}
 
-                {!hasMore && rvList.length > 0 && (
-                    <View className="text-center text-gray-500 text-sm py-4">
-                        没有更多数据了
-                    </View>
-                )}
-            </View>
-        </Card>
+            {!hasMore && rvList.length > 0 && (
+                <View className="text-center text-gray-500 text-sm py-4">
+                    没有更多数据了
+                </View>
+            )}
+        </View>
     )
 }
 

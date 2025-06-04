@@ -25,11 +25,9 @@ class ActivityCategoryFactory extends Factory
     public function definition(): array
     {
         $categoryTitles = [
-            '房车自驾',
             '促销活动',
-            '车展信息', 
             '车友活动',
-            '二手房车'
+            '卫航营地'
         ];
 
         return [
@@ -37,7 +35,7 @@ class ActivityCategoryFactory extends Factory
             'title' => fake()->unique()->randomElement($categoryTitles), // 确保标题在本次生成中唯一，或使用更广泛的词汇
             'code' => fake()->unique()->toUpper(fake()->bothify('CAT-???###')), // 80% 几率生成唯一代码
             'description' => fake()->optional(0.7)->sentence(10), // 70% 几率生成描述
-            'is_active' => fake()->boolean(90), // 90% 几率为 true
+            'is_active' => true, // 100% 几率为 true
             'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
             'updated_at' => fake()->dateTimeBetween('-6 months', 'now'),
         ];

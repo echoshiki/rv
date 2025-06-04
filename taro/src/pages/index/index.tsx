@@ -9,6 +9,7 @@ import CustomTabs from '@/components/CustomTabs';
 import ArticleList from '@/components/ArticleList';
 import ActivityList from '@/components/ActivityList';
 import Card from '@/components/Card';
+import RvList from '@/components/RvList';
 
 const Index = () => {
 	const { banners, loading: bannerLoading } = useBanner('home');
@@ -45,6 +46,14 @@ const Index = () => {
 			return (
 				<Card>
 					<ActivityList queryParams={queryParams} />
+				</Card>
+			)
+		}
+
+		if (channel === 'used_rv') {
+			return (
+				<Card>
+					<RvList used />
 				</Card>
 			)
 		}

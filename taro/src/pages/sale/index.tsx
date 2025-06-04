@@ -3,6 +3,7 @@ import MenuScrollBox from '@/components/MenuScrollBox';
 import { useRvList } from '@/hooks/useRvList';
 import { SectionTitle } from '@/components/SectionTitle';
 import RvList from '@/components/RvList';
+import PageCard from '@/components/PageCard';
 
 const Sale = () => {
 
@@ -14,12 +15,14 @@ const Sale = () => {
                 <MenuScrollBox data={rvList} />
             </View>
 
-            <View>
-                <SectionTitle title="二手车选购" subtitle="为您推荐最适合的二手房车" theme='dark' />
-                <View className="px-5">
-                    <RvList used />  
-                </View>
-            </View>
+            <PageCard 
+                title="二手车" 
+                subtitle="为您推荐最适合的二手房车"
+                className="pt-0"
+                theme="dark"
+            >
+                <RvList used />
+            </PageCard>
         </View>
     )
 }
