@@ -17,6 +17,8 @@ class ActivityCategoryFactory extends Factory
      */
     protected $model = ActivityCategory::class;
 
+    protected static int $titleSequenceIndex = 0;
+
     /**
      * Define the model's default state.
      *
@@ -25,17 +27,24 @@ class ActivityCategoryFactory extends Factory
     public function definition(): array
     {
         $categoryTitles = [
-            '促销活动',
             '车友活动',
-            '卫航营地'
+            '卫航营地',
+            '促销活动'
         ];
 
+        // 按顺序获取标题
+        // 使用取模运算符 (%) 确保索引在数组边界内循环，如果生成的数量超过数组大小
+        $currentTitle = $categoryTitles[self::$titleSequenceIndex % count($categoryTitles)];
+        self::$titleSequenceIndex++;
+
         return [
-            'parent_id' => null, // 默认顶级分类，可以按需设置为 ActivityCategory::inRandomOrder()->first()?->id
-            'title' => fake()->unique()->randomElement($categoryTitles), // 确保标题在本次生成中唯一，或使用更广泛的词汇
-            'code' => fake()->unique()->toUpper(fake()->bothify('CAT-???###')), // 80% 几率生成唯一代码
-            'description' => fake()->optional(0.7)->sentence(10), // 70% 几率生成描述
-            'is_active' => true, // 100% 几率为 true
+            'parent_id' => null, // 默认顶级分类
+            'title' => $currentTitle, // 使用按顺序选择的标题
+            // code 仍然可以尝试生成唯一的，因为其组合可能性远大于3
+            // 如果你严格只生成3个，并且 code 也需要特定模式，可以类似处理
+            'code' => fake()->unique()->toUpper(fake()->bothify('CAT-???###')),
+            'description' => fake()->optional(0.7)->sentence(10),
+            'is_active' => true,
             'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
             'updated_at' => fake()->dateTimeBetween('-6 months', 'now'),
         ];

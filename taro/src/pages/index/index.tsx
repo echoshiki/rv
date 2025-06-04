@@ -1,4 +1,4 @@
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import CustomSwiper from '@/components/CustomSwiper';
 import { useBanner } from '@/hooks/useBanner';
 import { useMenu } from '@/hooks/useMenu';
@@ -6,10 +6,7 @@ import { MenuMatrix } from '@/components/Menu';
 import { useMemo } from 'react';
 import { Category } from '@/types/ui';
 import CustomTabs from '@/components/CustomTabs';
-import ArticleList from '@/components/ArticleList';
-import ActivityList from '@/components/ActivityList';
-import Card from '@/components/Card';
-import RvList from '@/components/RvList';
+import CustomTabPanel from '@/components/CustomTabs/CustomTabPanel';
 
 const Index = () => {
 	const { banners, loading: bannerLoading } = useBanner('home');
@@ -24,47 +21,9 @@ const Index = () => {
 		channel: item.link.split('|')[1]
 	})), [tabMenuItems]);
 
+	// 根据分类渲染对应的列表UI
 	const renderTabPanel = (item: Category) => {
-		const category_id = item.id.split('|')[0];
-		const channel = item.id.split('|')[1];
-		const queryParams = {
-			filter: {
-				category_id: category_id
-			},
-			limit: 5
-		};
-
-		if (channel === 'article') {
-			return (
-				<Card>
-					<ArticleList queryParams={queryParams} />
-				</Card>
-			)
-		}
-
-		if (channel === 'activity') {
-			return (
-				<Card>
-					<ActivityList queryParams={queryParams} />
-				</Card>
-			)
-		}
-
-		if (channel === 'used_rv') {
-			return (
-				<Card>
-					<RvList used />
-				</Card>
-			)
-		}
-
-		return (
-			<Card>
-				<View className="flex justify-center items-center h-64">
-					<Text>暂无数据</Text>
-				</View>
-			</Card>
-		);
+		return <CustomTabPanel item={item} />
 	}
 	
 	return (

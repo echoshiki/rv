@@ -255,6 +255,28 @@ class MenuGroupSeeder extends Seeder
                     'requires_auth' => false,
                 ]
             ]
+        ],
+        [
+            'name' => '玩车频道标签栏菜单',
+            'code' => 'activity_tab_menu',
+            'description' => '玩车频道标签栏菜单',
+            'layout' => 'grid',
+            'items' => [
+                [
+                    'title' => '车友活动',
+                    'icon' =>  null,
+                    'link_type' => 'channel',
+                    'link_value' => '1|activity',
+                    'requires_auth' => false,
+                ],
+                [
+                    'title' => '卫航营地',
+                    'icon' =>  null,
+                    'link_type' => 'channel',
+                    'link_value' => '2|activity',
+                    'requires_auth' => false,
+                ]
+            ]
         ]
         
     ];

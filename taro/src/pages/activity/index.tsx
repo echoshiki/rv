@@ -1,14 +1,31 @@
 import { View } from '@tarojs/components';
 import CustomSwiper from '@/components/CustomSwiper';
 import CustomTabs from '@/components/CustomTabs';
-import { useActivityCategoryList } from '@/hooks/useActivityCategoryList';
-import ActivityList from '@/components/ActivityList';
-import Card from '@/components/Card';
 import { useActivityBanner } from '@/hooks/useBanner';
+import { useMenu } from '@/hooks/useMenu';
+import { useMemo } from 'react';
+import { Category } from '@/types/ui';
+import CustomTabPanel from '@/components/CustomTabs/CustomTabPanel';
 
 const Activity = () => {
     const { banners, loading: bannerLoading } = useActivityBanner();
-    const { categories, loading: tabsLoading } = useActivityCategoryList();
+    const { rawMenuItems: tabMenuItems, loading: tabsLoading } = useMenu('activity_tab_menu');
+
+    // 格式化菜单项为分类项
+    const categories = useMemo(() => tabMenuItems.map(item => ({
+        id: item.link,
+        title: item.title,
+        description: '',
+        code: '',
+        channel: item.link.split('|')[1]
+    })), [tabMenuItems]);
+
+    // 根据分类渲染对应的列表UI
+	const renderTabPanel = (item: Category) => {
+		return <CustomTabPanel item={item} />
+	}
+
+    // 合并载入状态
     const isLoading = bannerLoading || tabsLoading;
 
     return (
@@ -26,21 +43,11 @@ const Activity = () => {
             {/* 活动频道标签页 */}
             <View className="w-full px-5 mt-2">
                 <CustomTabs
+                    theme={{
+                        '--nutui-tabs-titles-font-size': '18px',
+                    }}
                     items={categories}
-                    renderTabContent={(item) => (
-                        <Card>
-                            <ActivityList
-                                queryParams={{
-                                    filter: {
-                                        category_id: item.id
-                                    },
-                                    limit: 5
-                                }}
-                                isPullDownRefresh={true}
-                                isReachBottomRefresh={true}
-                            />
-                        </Card>
-                    )}
+                    renderTabContent={renderTabPanel}
                     isLoading={isLoading}
                 />
             </View>
