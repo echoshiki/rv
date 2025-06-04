@@ -116,6 +116,7 @@ interface ArticleDetail {
     title: string,
     content: string,
     cover: string | null,
+    is_single_page: boolean,
     is_recommend: boolean,
     published_at: string,
     category: Category | null

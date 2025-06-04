@@ -26,6 +26,7 @@ class ArticleDetailResource extends JsonResource
             'content' => $this->content,
             'cover' => $this->cover ? asset('storage/' . $this->cover) : $defaultCover,
             'sort' => $this->sort,
+            'is_single_page' => $this->is_single_page,
             'is_active' => (bool) $this->is_active, // 确保返回布尔值
             'is_recommend' => (bool) $this->is_recommend,
             'published_at' => $this->published_at ? $this->published_at->format('Y-m-d') : null,

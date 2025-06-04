@@ -24,11 +24,18 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/article/detail/index",
+          "pathName": "pages/article/detail/index",
+          "query": "code=about_us",
+          "scene": null,
+          "launchMode": "default"
+        },
+        {
           "name": "pages/invite/index",
           "pathName": "pages/invite/index",
           "query": "",
-          "scene": null,
-          "launchMode": "default"
+          "launchMode": "default",
+          "scene": null
         },
         {
           "name": "pages/sale/detail/index",

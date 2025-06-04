@@ -49,7 +49,8 @@ interface ArticleItem {
 }
 
 interface ArticleDetail extends ArticleItem {
-    content: string
+    content: string,
+    is_single_page: boolean
 }
 
 interface ActivityList {
