@@ -20,52 +20,5 @@
   },
   "projectname": "rv_taro",
   "libVersion": "3.8.6",
-  "condition": {
-    "miniprogram": {
-      "list": [
-        {
-          "name": "pages/article/detail/index",
-          "pathName": "pages/article/detail/index",
-          "query": "code=about_us",
-          "scene": null,
-          "launchMode": "default"
-        },
-        {
-          "name": "pages/invite/index",
-          "pathName": "pages/invite/index",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "pages/sale/detail/index",
-          "pathName": "pages/sale/detail/index",
-          "query": "id=1",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "pages/usage/car/index",
-          "pathName": "pages/usage/car/index",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "pages/usage/index",
-          "pathName": "pages/usage/index",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "pages/sale/detail/index",
-          "pathName": "pages/sale/detail/index",
-          "query": "id=2",
-          "launchMode": "default",
-          "scene": null
-        }
-      ]
-    }
-  }
+  "condition": {}
 }
