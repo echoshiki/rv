@@ -110,8 +110,8 @@ class ArticleCategoryResource extends Resource
                     ->url(fn (ArticleCategory $record): string =>
                         ArticleResource::getUrl('index', ['tableFilters' => ['category_id' => ['value' => $record->id]]])
                     ),
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

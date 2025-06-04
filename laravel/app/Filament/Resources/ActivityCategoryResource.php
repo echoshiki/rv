@@ -103,8 +103,7 @@ class ActivityCategoryResource extends Resource
                     ->url(fn (ActivityCategory $record): string =>
                         ActivityResource::getUrl('index', ['tableFilters' => ['category_id' => ['value' => $record->id]]])
                     ),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

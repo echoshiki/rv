@@ -33,6 +33,12 @@ class RvResource extends Resource
                 Section::make('房车信息')
                     ->columns(2)
                     ->schema([
+                        Forms\Components\Select::make('category_id')
+                            ->label('底盘')
+                            ->relationship('category', 'title')
+                            ->columnSpanFull()
+                            ->native(false)
+                            ->required(),
                         Forms\Components\TextInput::make('name')
                             ->label('名称')
                             ->required()
@@ -45,7 +51,6 @@ class RvResource extends Resource
                             ->directory('rvs/'. now()->format('Ymd'))
                             ->disk('public')
                             ->imageEditor()
-                            ->nullable()
                             ->columnSpanFull(),
                         Forms\Components\TextInput::make('price')
                             ->label('价格')
@@ -93,23 +98,30 @@ class RvResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('名称')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('category.title')
+                    ->label('底盘')
+                    ->badge()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('price')
                     ->label('价格'),
                 Tables\Columns\TextColumn::make('order_price')
                     ->label('定金'),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->label('是否启用')
-                    ->boolean(),
                 Tables\Columns\TextColumn::make('sort')
                     ->label('排序'),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('category_id')
+                    ->label('底盘')
+                    ->relationship('category', 'title')
+                    ->native(false),
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('是否启用')
                     ->native(false),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

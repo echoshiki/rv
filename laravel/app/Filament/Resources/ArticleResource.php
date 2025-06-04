@@ -37,6 +37,7 @@ class ArticleResource extends Resource
                             ->label('分类')
                             ->relationship('category', 'title')
                             ->columnSpanFull()
+                            ->native(false)
                             ->required(),
                         Forms\Components\TextInput::make('title')
                             ->label('标题')
@@ -129,6 +130,7 @@ class ArticleResource extends Resource
                     ->native(false),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             ArticleCategorySeeder::class,
             ArticleSeeder::class, 
             MenuGroupSeeder::class,
-            RvSeeder::class
+            RvCategorySeeder::class
         ]);
 
         if (app()->environment('local')) {
@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
                 ActivityRegistrationSeeder::class,
                 BannerSeeder::class,
                 UsedRvSeeder::class,
-                MyCarSeeder::class
+                MyCarSeeder::class,
+                RvSeeder::class
             ]);
         }
     }
