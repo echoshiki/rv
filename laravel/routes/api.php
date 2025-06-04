@@ -72,6 +72,7 @@ Route::prefix('v1')->group(function () {
 
     // 房车相关API
     Route::prefix('rvs')->group(function () {
+        Route::get('/categories', [RvController::class, 'categories']);
         Route::get('/', [RvController::class, 'index']);
         Route::get('/{id}', [RvController::class, 'show']);
     });

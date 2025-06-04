@@ -41,4 +41,10 @@ class Rv extends Model
     {
         return json_decode($value, true);
     }
+
+    // 定义全局范围
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
 }

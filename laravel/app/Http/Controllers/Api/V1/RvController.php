@@ -23,7 +23,24 @@ class RvController extends Controller
     public function index(Request $request)
     {
         try {
-            $rvs = $this->rvService->getRvList();
+            // 获取请求中的特定键值组成条件数组
+            $filter = $request->only([
+                'is_active',
+                'category_id',
+                'category_code',
+                'search'
+            ]);
+
+            // 获取排序字段
+            $orderBy = $request->get('orderBy', 'created_at');
+            // 获取排序方式
+            $sort = $request->get('sort', 'desc');
+            // 获取当前页码
+            $page = $request->get('page', 1);
+            // 获取每页数据量
+            $limit = $request->get('limit', 10);
+
+            $rvs = $this->rvService->getRvList($filter, $orderBy, $sort, $page, $limit);
             return $this->successResponse(new RvResourceCollection($rvs));
         } catch (\Throwable $e) {
             return $this->errorResponse('房车列表获取失败：' . $e->getMessage(), 500);
@@ -40,6 +57,19 @@ class RvController extends Controller
             return $this->successResponse(new RvDetailResource($rv));
         } catch (\Throwable $e) {
             return $this->errorResponse('房车详情获取失败：' . $e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * 获取房车底盘列表
+     */
+    public function categories(Request $request)
+    {
+        try {
+            $categories = $this->rvService->getRvCategoryList();
+            return $this->successResponse($categories);
+        } catch (\Throwable $e) {
+            return $this->errorResponse('房车底盘列表获取失败：' . $e->getMessage(), 500);
         }
     }
 }

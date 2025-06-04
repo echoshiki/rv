@@ -20,6 +20,7 @@ class RvResource extends JsonResource
         
         return [
             'id' => $this->id,
+            'category_id' => $this->category_id,
             'name' => $this->name,
             'cover' => $this->cover ? asset('storage/' . $this->cover) : $defaultCover,
             'price' => $this->price,
