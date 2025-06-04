@@ -46,7 +46,7 @@ export default defineAppConfig({
         iconPath: 'assets/icons/mountain.png',
         selectedIconPath: 'assets/icons/mountain_fill.png',
         pagePath: 'pages/activity/index',
-        text: '活动'
+        text: '玩车'
       },
       {
         iconPath: 'assets/icons/user.png',

@@ -141,7 +141,8 @@ const MenuFloat = ({ menuList }: MenuList) => {
         <Drag direction="y" style={{ right: '0px', bottom: '100px' }}>
             <FixedNav
                 list={fixedMenu}
-                activeText="贴心服务"
+                activeText="服务建议"
+                inactiveText="服务建议"
                 overlay
                 onChange={change}
                 visible={visible}

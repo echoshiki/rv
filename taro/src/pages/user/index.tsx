@@ -9,6 +9,7 @@ import avatarRightImg from '@/assets/images/avatar-right-img.png';
 import bottomImg from '@/assets/images/center-bottom-img.svg';
 import { usePullDownRefresh, stopPullDownRefresh } from "@tarojs/taro";
 import { LevelBadge } from '@/components/CustomBadge';
+import { Tag } from '@nutui/nutui-react-taro';
 
 /**
  * 包含昵称、头像以及右边图片的用户信息块
@@ -21,17 +22,19 @@ const UserInfoArea = ({ userInfo }: {
         <View className="max-w-screen-md mx-auto rounded-md shadow-sm flex flex-nowrap p-4 justify-between items-center bg-white">
             <View className="flex flex-nowrap space-x-3">
                 {userInfo ? (
-                <View className="flex flex-col justify-center space-y-2">
+                <View className="flex flex-col justify-center space-y-1">
                     <View className="text-lg font-semibold leading-tight">
                         {userInfo.name}
                     </View>
-                    
-                    <View className="flex items-center space-x-2">
-                        <LevelBadge level={userInfo.level} />
-                        <View className="text-xs font-light  text-gray-600">
-                            {userInfo.phone}
+                    <View className="text-xs font-light  text-gray-600">
+                        {userInfo.phone}
+                    </View>
+                    <View>
+                        <View className="flex items-center space-x-2">
+                            <LevelBadge level={userInfo.level} />
+                            <Tag plain>{userInfo.points} 积分</Tag>
                         </View>
-                    </View>  
+                    </View>
                 </View> 
                 ) : (
                 <View>

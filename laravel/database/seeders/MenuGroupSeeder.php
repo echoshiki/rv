@@ -169,14 +169,14 @@ class MenuGroupSeeder extends Seeder
             'layout' => 'grid',
             'items' => [
                 [
-                    'title' => '售后网点',
+                    'title' => '快速救援',
                     'icon' =>  'origin/icons/usage/float/network.svg',
                     'link_type' => 'page',
-                    'link_value' => '/pages/article/detail/index?code=after_sales_network',
+                    'link_value' => 'onMakePhoneCall',
                     'requires_auth' => false,
                 ],
                 [
-                    'title' => '快速救援',
+                    'title' => '售后服务',
                     'icon' =>  'origin/icons/usage/float/help.svg',
                     'link_type' => 'function',
                     'link_value' => 'onMakePhoneCall',

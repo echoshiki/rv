@@ -38,16 +38,21 @@ const RvDetail = () => {
                     nodes={cleanHTML(rvDetail?.content || '', true)}
                 />
             </View>
-            <View className="w-full flex flex-nowrap bg-black bg-opacity-85 p-5 items-center fixed bottom-0">
+            <View className="w-full flex flex-nowrap bg-black bg-opacity-85 p-6 items-center fixed bottom-0">
                 <Button
-                    className="w-52 text-[.8rem] !border border-solid !border-white !bg-transparent !text-white"
+                    className="w-24 text-[.8rem] bg-red-600 text-white !border-solid !border-red-600 !border-2"
                 >
                     现在下订
                 </Button>
                 <Button 
-                    className="w-28 text-[.8rem] bg-red-600 text-white !border-solid !border-red-600 !border-2"
+                    className="w-24 text-[.8rem] !border border-solid !border-white !bg-transparent !text-white"
                 >
-                    立即咨询
+                    在线咨询
+                </Button>
+                <Button 
+                    className="w-24 text-[.8rem] !border border-solid !border-white !bg-transparent !text-white"
+                >
+                    客服电话
                 </Button>
             </View>
         </View>

@@ -67,7 +67,7 @@ const Login = () => {
                     >
                         同意并继续
                     </Button>
-                    <a href="" onClick={() => navigateBack()} className="mt-5 text-sm">不同意，仅浏览</a>
+                    <a href="" onClick={() => navigateBack()} className="mt-5 text-sm">不同意</a>
                 </View>
             </View>
         </View>

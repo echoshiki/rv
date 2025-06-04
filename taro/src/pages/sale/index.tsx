@@ -11,7 +11,7 @@ const Sale = () => {
     return (
         <View className="bg-black min-h-screen py-5">
             <View>
-                <SectionTitle title="新车速递" subtitle="为您展示最新的卫航房车车型" theme='dark' />
+                <SectionTitle title="卫航新车" subtitle="为您展示最新的卫航房车车型" theme='dark' />
                 <MenuScrollBox data={rvList} />
             </View>
 
