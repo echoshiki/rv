@@ -29,7 +29,7 @@ class MenuGroupSeeder extends Seeder
                     'title' => '积分商城',
                     'icon' =>  'origin/icons/point.svg',
                     'link_type' => 'page',
-                    'link_value' => '/pages/point/index',
+                    'link_value' => '/pages/article/detail/index?code=points_mall',
                     'requires_auth' => true,
                 ],
                 [

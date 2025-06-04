@@ -28,6 +28,11 @@ class ArticleSeeder extends Seeder
             'content' => '请在此处填写隐私政策内容...',
         ],
         [
+            'code' => 'points_mall',
+            'title' => '积分商城',
+            'content' => '请在此处填写积分商城内容...',
+        ],
+        [
             'code' => 'points_rules',
             'title' => '积分规则',
             'content' => '请在此处填写积分规则内容...',
