@@ -138,8 +138,11 @@ const MenuFloat = ({ menuList }: MenuList) => {
     }
 
     return (
-        <Drag direction="y" style={{ right: '0px', bottom: '100px' }}>
+        <Drag direction="y" style={{ right: '0px', bottom: '120px' }}>
             <FixedNav
+                style={{
+                    height: "150rpx"
+                }}
                 list={fixedMenu}
                 activeText="服务建议"
                 inactiveText="服务建议"
