@@ -24,8 +24,8 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/sale/index",
-          "pathName": "pages/sale/index",
+          "name": "pages/usage/car/add/index",
+          "pathName": "pages/usage/car/add/index",
           "query": "",
           "scene": null,
           "launchMode": "default"

@@ -170,7 +170,7 @@ const AddMyCar = () => {
                     <Button
                         type="primary"
                         formType="submit"
-                        className="text-[.8rem] w-full !bg-black"
+                        className="text-sm leading-[3] w-full !bg-black"
                         loading={loading}
                     >
                         提交报名信息
