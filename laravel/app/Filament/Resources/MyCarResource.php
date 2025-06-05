@@ -131,7 +131,7 @@ class MyCarResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true), // 默认隐藏，可切换显示
                 Tables\Columns\TextColumn::make('listing_at')
                     ->label('上牌日期')
-                    ->date()
+                    ->date('Y-m-d')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('birthday')
                     ->label('生日')

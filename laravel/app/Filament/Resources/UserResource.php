@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\PointLog;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -15,6 +16,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Services\RegionService;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Forms\Components\Placeholder;
+use Illuminate\Support\Facades\DB;
+use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
 {
@@ -148,6 +153,92 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('manage_points')
+                    ->label('调整积分')
+                    ->icon('heroicon-o-currency-dollar')
+                    ->modalHeading(fn (User $record) => "调整用户 {$record->name} 的积分")
+                    ->modalSubmitActionLabel('确认调整')
+                    ->form(fn (User $record) => [
+                        Placeholder::make('current_points')
+                            ->label('当前积分')
+                            ->content($record->points),
+                        Forms\Components\Select::make('operation_type')
+                            ->label('操作类型')
+                            ->options([
+                                'increase' => '增加积分',
+                                'decrease' => '减少积分',
+                                'reset' => '重置积分',
+                            ])
+                            ->required()
+                            ->live() // live() 用于动态显示/隐藏下面的字段
+                            ->native(false),
+                        Forms\Components\TextInput::make('points_value')
+                            ->label(fn (Get $get): string => match ($get('operation_type')) {
+                                'increase' => '增加数量',
+                                'decrease' => '减少数量',
+                                'reset' => '重置为',
+                                default => '积分值'
+                            })
+                            ->numeric()
+                            ->required()
+                            ->minValue(0) // 对于增加/减少，可能需要大于0，重置可以为0
+                            ->helperText(function (Get $get): ?string {
+                                if ($get('operation_type') === 'decrease') {
+                                    return '减少后的积分不能为负。';
+                                }
+                                return null;
+                            }),
+                        Forms\Components\Textarea::make('remarks')
+                            ->label('备注')
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+                    ])
+                    ->action(function (array $data, User $record) {
+                        $user = $record;
+                        $pointsBefore = $user->points;
+                        $amount = (int) $data['points_value'];
+                        $newPoints = $pointsBefore;
+
+                        DB::transaction(function () use ($user, $data, $pointsBefore, &$newPoints, $amount) {
+                            switch ($data['operation_type']) {
+                                case 'increase':
+                                    $newPoints = $pointsBefore + $amount;
+                                    break;
+                                case 'decrease':
+                                    $newPoints = $pointsBefore - $amount;
+                                    if ($newPoints < 0) {
+                                        Notification::make()
+                                            ->title('操作失败')
+                                            ->body('减少后的积分不能为负数。')
+                                            ->danger()
+                                            ->send();
+                                        return; // 或者可以抛出 ValidationException
+                                    }
+                                    break;
+                                case 'reset':
+                                    $newPoints = $amount; // 重置为指定值
+                                    break;
+                            }
+
+                            $user->points = $newPoints;
+                            $user->save();
+
+                            PointLog::create([
+                                'user_id' => $user->id,
+                                'admin_id' => Auth::id(), // 当前登录的管理员ID
+                                'type' => $data['operation_type'],
+                                'amount' => $data['operation_type'] === 'reset' ? $newPoints : $amount, // 对于重置，记录的是重置后的值，其他是变动值
+                                'points_before' => $pointsBefore,
+                                'points_after' => $newPoints,
+                                'remarks' => $data['remarks'],
+                            ]);
+
+                            Notification::make()
+                                ->title('积分调整成功')
+                                ->success()
+                                ->send();
+                        });
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

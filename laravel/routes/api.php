@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\V1\RvController;
 use App\Http\Controllers\Api\V1\UsedRvController;
 use App\Http\Controllers\Api\V1\MyCarController;
 use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\PointLogController;
 
 // v1
 Route::prefix('v1')->group(function () {
@@ -92,6 +93,11 @@ Route::prefix('v1')->group(function () {
     // DELETE	/my-cars/{my_car}	my-cars.destroy	destroy	删除指定资源
     Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('my-cars', MyCarController::class);
+    });
+
+    // 积分记录
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/user/point-logs/consumption', [PointLogController::class, 'consumptionLogs']);
     });
     
 });
