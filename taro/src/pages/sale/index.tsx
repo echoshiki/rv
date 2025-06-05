@@ -13,9 +13,10 @@ const Sale = () => {
         <View className="bg-black min-h-screen pt-2 pb-5">
             <View>
                 <SectionTitle 
-                    title="卫航新车" 
-                    subtitle="为您展示最新的卫航房车车型" 
+                    title="新车发布" 
+                    subtitle="WEIHANG RV" 
                     theme="dark"
+                    type="row"
                 />
                 <MenuScrollBox data={rvAllData} />
             </View>
@@ -25,6 +26,7 @@ const Sale = () => {
                 subtitle="为您推荐最适合的二手房车"
                 className="pt-0"
                 theme="dark"
+                type="row"
             >
                 <RvList used />
             </PageCard>

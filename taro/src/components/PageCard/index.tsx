@@ -8,10 +8,19 @@ interface PageCardProps {
     link?: string,
     children: React.ReactNode,
     theme?: 'light' | 'dark',
+    type?: 'default' | 'row',
     className?: string
 }
 
-const PageCard = ({ title, subtitle, link, children, theme = 'light', className = '' }: PageCardProps) => {
+const PageCard = ({ 
+    title, 
+    subtitle, 
+    link, 
+    children, 
+    theme = 'light', 
+    type = 'default',
+    className = '' 
+}: PageCardProps) => {
     return (
         <View className={`${theme === 'light' ? 'bg-gray-100' : 'bg-black'} min-h-screen py-5 ${className}`}>
             {title && (
@@ -20,6 +29,7 @@ const PageCard = ({ title, subtitle, link, children, theme = 'light', className 
                     subtitle={subtitle ?? ''}
                     link={link}
                     theme={theme}
+                    type={type}
                 />
             )}
             <View className="px-5">

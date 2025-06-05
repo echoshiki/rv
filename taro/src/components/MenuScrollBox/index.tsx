@@ -3,7 +3,7 @@ import { RvAllData } from '@/types/ui';
 import { View, Text, ScrollView } from '@tarojs/components';
 import AspectRatioImage from '@/components/AspectRatioImage';
 import { mapsTo } from '@/utils/common';
-import { getSystemInfoSync } from '@tarojs/taro';
+import { getWindowInfo } from '@tarojs/taro';
 
 const MenuScrollBox = ({ data }: { data: RvAllData[] }) => {
     // 存储当前高亮菜单项 ID
@@ -30,7 +30,7 @@ const MenuScrollBox = ({ data }: { data: RvAllData[] }) => {
     // 获取系统信息，用于rem转px的计算和动态高度设置
     const getSystemInfo = () => {
         try {
-            const systemInfo = getSystemInfoSync();
+            const systemInfo = getWindowInfo();
             const screenWidth = systemInfo.screenWidth;
             const screenHeight = systemInfo.screenHeight;
             const windowHeight = systemInfo.windowHeight;
@@ -67,7 +67,7 @@ const MenuScrollBox = ({ data }: { data: RvAllData[] }) => {
 
         for (const item of data) {
             // 使用相对单位计算，让高度更加灵活
-            const productCardHeight = containerHeight * 0.4; // 占容器高度的40%
+            const productCardHeight = containerHeight * 0.98; // 占容器高度的40%
             const productSpacing = remToPx * 1.25;
             const singleProductHeight = productCardHeight + productSpacing;
 
@@ -101,7 +101,7 @@ const MenuScrollBox = ({ data }: { data: RvAllData[] }) => {
 
     // 动态计算产品卡片高度
     const getProductCardHeight = () => {
-        return containerHeight ? containerHeight * 0.4 : '10.4rem'; // 默认26rem * 0.4
+        return containerHeight ? containerHeight * 0.98 : '10.4rem'; // 默认26rem * 0.4
     };
 
     return (
@@ -113,17 +113,17 @@ const MenuScrollBox = ({ data }: { data: RvAllData[] }) => {
                     className="h-full"
                     showScrollbar={false}
                 >
-                    <View className="py-2">
+                    <View className="">
                         {data.map((item) => (
                             <View
                                 key={item.category.id}
-                                className={`w-full py-3 px-2 mb-1 rounded-md transition-colors duration-200 ${activeCategoryId === item.category.id
+                                className={`w-full py-2 px-2 mb-[2px] rounded-md transition-colors duration-200 ${activeCategoryId === item.category.id
                                     ? 'bg-[#3c3c3c] text-white'
                                     : 'text-[#6c6c6c] hover:bg-gray-100'
                                     }`}
                                 onClick={() => handleMenuClick(item.category.id)}
                             >
-                                <Text className="font-[Alimama-Vf] font-bold text-sm leading-tight">
+                                <Text className="font-bold text-sm leading-tight">
                                     {item.category.title}
                                 </Text>
                             </View>
@@ -144,7 +144,7 @@ const MenuScrollBox = ({ data }: { data: RvAllData[] }) => {
                     enhanced={true}
                     bounces={false}
                 >
-                    <View className="flex flex-col space-y-5 px-1 pb-5 pt-2">
+                    <View className="flex flex-col space-y-5 px-1 pb-5">
                         {data.map((item) => (
                             <View
                                 key={item.category.id}

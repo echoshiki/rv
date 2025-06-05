@@ -88,6 +88,7 @@ interface SectionTitle {
     subtitle?: string,
     link?: string,
     theme?: 'light' | 'dark',
+    type?: 'default' | 'row',
     className?: string
 }
 
