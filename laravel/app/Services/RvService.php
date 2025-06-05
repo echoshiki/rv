@@ -54,9 +54,9 @@ class RvService
     }
 
     // 通过底盘标识获取房车列表
-    public function getRvListByCategoryCode(string $categoryCode, int $page = 1, int $limit = 10)
+    public function getRvListByCategoryCode(string $categoryCode, string $orderBy = 'sort', int $page = 1, int $limit = 10)
     {
-        return $this->getRvList(['category_code' => $categoryCode], 'published_at', 'desc', $page, $limit);
+        return $this->getRvList(['category_code' => $categoryCode], $orderBy, 'desc', $page, $limit);
     }
 
     // 获取所有顶级底盘列表

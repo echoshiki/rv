@@ -1,5 +1,5 @@
 import { http } from "@/utils/request";
-import { ApiResponse, RvDetail, RvList } from "@/types/api";
+import { ApiResponse, RvDetail, RvList, RvAllData } from "@/types/api";
 
 const RV_API = `/api/v1/rvs/`;
 const USED_RV_API = `/api/v1/used-rvs/`;
@@ -22,7 +22,16 @@ const getRvDetail = (id: string, used: boolean): Promise<ApiResponse<RvDetail>> 
     return used ? http.get(`${USED_RV_API}${id}`) : http.get(`${RV_API}${id}`);
 };
 
+/**
+ * 获取房车列表（底盘+列表）
+ * @returns 
+ */
+const getRvAllData = (): Promise<ApiResponse<RvAllData[]>> => {
+    return http.get(`${RV_API}all`);
+};
+
 export {
     getRvList,
-    getRvDetail
+    getRvDetail,
+    getRvAllData
 };

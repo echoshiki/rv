@@ -3,11 +3,7 @@ import { mapsTo } from '@/utils/common';
 import { SectionTitle as SectionTitleProps } from '@/types/ui'; // 假设你的类型定义在这个路径
 import RightArrowIcon from '@/assets/icons/right-arrow.svg'; // 假设你的图标路径
 
-interface ThemedSectionTitleProps extends SectionTitleProps {
-    theme?: 'light' | 'dark'; 
-}
-
-const SectionTitle = ({ title, subtitle, link, theme = 'light' }: ThemedSectionTitleProps) => {
+const SectionTitle = ({ title, subtitle, link, theme = 'light', className }: SectionTitleProps) => {
     // 根据主题设置文本颜色类名
     const titleTextColorClass = theme === 'dark' ? 'text-white' : 'text-black';
     const subtitleTextColorClass = theme === 'dark' ? 'text-gray-400' : 'text-gray-400'; // 副标题在深色模式下可能也需要调整
@@ -17,7 +13,7 @@ const SectionTitle = ({ title, subtitle, link, theme = 'light' }: ThemedSectionT
     const iconFilterStyle = theme === 'dark' ? { filter: 'invert(1)' } : {};
 
     return (
-        <View className={`px-5 py-5 flex justify-between items-center bg-transparent`}>
+        <View className={`p-5 flex justify-between items-center bg-transparent ${className}`}>
             <View className="flex flex-col">
                 <Text className={`${titleTextColorClass} font-semibold text-lg`}>{title}</Text>
                 <Text className={`${subtitleTextColorClass} text-xs`}>{subtitle}</Text>

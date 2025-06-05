@@ -1,27 +1,42 @@
 import { useState, useEffect, useRef } from 'react';
-import { RvItem } from '@/types/ui';
+import { RvAllData } from '@/types/ui';
 import { View, Text, ScrollView } from '@tarojs/components';
 import AspectRatioImage from '@/components/AspectRatioImage';
 import { mapsTo } from '@/utils/common';
+import { getSystemInfoSync } from '@tarojs/taro';
 
-const MenuScrollBox = ({ data }: { data: RvItem[] }) => {
+const MenuScrollBox = ({ data }: { data: RvAllData[] }) => {
     // 存储当前高亮菜单项 ID
-    const [activeId, setActiveId] = useState<string>('');
+    const [activeCategoryId, setActiveCategoryId] = useState<string>('');
     // 用于控制滚动到右侧指定 ID 的位置
     const [scrollIntoView, setScrollIntoView] = useState<string>('');
     // 用于判断是否是菜单项触发的滚动
     const isScrollingFromMenu = useRef(false);
 
     // 处理左侧菜单的点击
-    const handleMenuClick = (id: string) => {
+    const handleMenuClick = (categoryId: string) => {
         isScrollingFromMenu.current = true; // 设置标志，表示由菜单点击触发
-        setActiveId(id); // 更新激活状态，点亮左侧菜单
-        setScrollIntoView(`item-${id}`); // 设置右侧滚动到对应元素
+        setActiveCategoryId(categoryId); // 更新激活状态，点亮左侧菜单
+        setScrollIntoView(`category-${categoryId}`); // 设置右侧滚动到对应元素
 
         // 延迟重置标志位，避免在滚动动画期间被 handleContentScroll 再次触发
         setTimeout(() => {
             isScrollingFromMenu.current = false;
         }, 500);
+    };
+
+    // 获取系统信息，用于rem转px的计算
+    const getSystemInfo = () => {
+        try {
+            const systemInfo = getSystemInfoSync();
+            const screenWidth = systemInfo.screenWidth;
+            // 通常设计稿按750px宽度，1rem = screenWidth/20 px
+            const remToPx = screenWidth / 20;
+            return remToPx;
+        } catch (error) {
+            // 如果获取失败，使用默认值（以iPhone为基准）
+            return 18.75; // 375/20 = 18.75px per rem
+        }
     };
 
     // 处理右侧内容区域的滑动
@@ -31,48 +46,62 @@ const MenuScrollBox = ({ data }: { data: RvItem[] }) => {
 
         const { scrollTop } = e.detail; // 获取滚动条距离顶部的距离
 
-        // 根据滚动位置估算当前应该激活的菜单项
-        // 这里简化处理，实际项目中可能需要更精确的计算
-        const itemHeight = 320; // 假设每个商品卡片高度大约为 300px
-        const itemsPerRow = 1; // 假设每行1个商品
-        const currentIndex = Math.floor(scrollTop / (itemHeight / itemsPerRow));
+        // 计算当前滚动位置对应的分类
+        let currentCategoryId = '';
+        let accumulatedHeight = 0;
 
-        if (data[currentIndex] && data[currentIndex].id !== activeId) {
-            setActiveId(data[currentIndex].id); // 更新点亮激活的菜单项
+        // 获取rem转px的比例
+        const remToPx = getSystemInfo();
+
+        for (const item of data) {
+
+            const productCardHeight = 22 * remToPx;
+            const productSpacing = 1.25 * remToPx;
+            const singleProductHeight = productCardHeight + productSpacing;
+
+            // 计算出右侧整个分类数据的高度
+            const categoryHeight = item.rvs.list.length * singleProductHeight;
+            // 判断当前滚动位置是否在当前分类范围内
+            if (scrollTop >= accumulatedHeight && scrollTop < accumulatedHeight + categoryHeight) {
+                currentCategoryId = item.category.id;
+                break;
+            }
+            accumulatedHeight += categoryHeight;
+        }
+
+        if (currentCategoryId && currentCategoryId !== activeCategoryId) {
+            setActiveCategoryId(currentCategoryId);
         }
     };
 
     // 初始化默认激活第一个菜单
     useEffect(() => {
-        if (data.length > 0 && !activeId) {
-            setActiveId(data[0].id);
+        if (data.length > 0 && !activeCategoryId) {
+            setActiveCategoryId(data[0].category.id);
         }
-    }, [data, activeId]);
+    }, [data, activeCategoryId]);
 
     return (
-        <View className="flex h-96 bg-black">
+        <View className="flex h-[26rem] bg-black">
             {/* 左侧菜单 */}
-            <View className="w-[7.5rem]">
+            <View className="w-[7rem] px-2">
                 <ScrollView
                     scrollY
                     className="h-full"
                 >
-                    <View className="px-2">
-                        <View className="space-y-2">
-                            {data.map((item) => (
-                                <View key={item.id} className="mb-2">
-                                    <View
-                                        onClick={() => handleMenuClick(item.id)}
-                                        className={`w-full py-3 px-4 rounded-lg transition-colors duration-200 ${activeId === item.id
-                                                ? 'bg-[#3c3c3c] text-white'
-                                                : 'text-[#6c6c6c] hover:bg-gray-100'
-                                            }`}
-                                    >
-                                        <Text className="font-bold text-sm">{item.name}</Text>
-                                    </View>
-                                </View>
-                            ))}
-                        </View>
+                    <View>
+                        {data.map((item) => (
+                            <View
+                                key={item.category.id}
+                                className={`w-full py-2 px-2 rounded-md transition-colors duration-200 ${activeCategoryId === item.category.id
+                                    ? 'bg-[#3c3c3c] text-white'
+                                    : 'text-[#6c6c6c] hover:bg-gray-100'
+                                    }`}
+                                onClick={() => handleMenuClick(item.category.id)}
+                            >
+                                <Text className="font-[Alimama-Vf] font-bold text-sm">{item.category.title}</Text>
+                            </View>
+                        ))}
                     </View>
                 </ScrollView>
             </View>
@@ -86,28 +115,36 @@ const MenuScrollBox = ({ data }: { data: RvItem[] }) => {
                     className="h-full"
                     scrollWithAnimation
                 >
-                    <View className="flex flex-col space-y-8 px-2 pb-5">
+                    <View className="flex flex-col space-y-5 px-1 pb-5">
                         {data.map((item) => (
                             <View
-                                key={item.id}
-                                id={`item-${item.id}`}
-                                onClick={() => mapsTo(`/pages/sale/detail/index?id=${item.id}`)}
-                                className="bg-white rounded-lg shadow-md h-[22.5rem] relative overflow-hidden"
+                                key={item.category.id}
+                                id={`category-${item.category.id}`}
+                                className="flex flex-col space-y-5"
                             >
-                                <AspectRatioImage
-                                    src={item.cover}
-                                    ratio={1.5}
-                                    rounded="lg"
-                                />
-
-                                <View className="absolute right-5 bottom-5 text-white flex flex-col">
-                                    <View>
-                                        <Text className="font-light text-base">¥{item.price} 起</Text>
+                                {item.rvs.list.map((rv) => (
+                                    <View
+                                        key={rv.id}
+                                        onClick={() => mapsTo(`/pages/sale/detail/index?id=${rv.id}`)}
+                                        className="bg-white rounded-md shadow-md h-[26rem] relative overflow-hidden"
+                                    >
+                                        <AspectRatioImage
+                                            src={rv.cover}
+                                            ratio={1.8}
+                                        />
+                                        <View className="absolute right-5 bottom-5 text-white flex flex-col text-right opacity-90">
+                                            <View>
+                                                <Text className="font-semibold text-xl opacity-85">{rv.name}</Text>
+                                            </View>
+                                            <View>
+                                                <Text className="font-light text-xs">¥{rv.price} 起</Text>
+                                            </View>
+                                            <View>
+                                                <Text className="font-bold text-xs">点击查看详情</Text>
+                                            </View>
+                                        </View>
                                     </View>
-                                    <View className="text-right">
-                                        <Text className="font-bold text-xs">点击查看详情</Text>
-                                    </View>
-                                </View>
+                                ))}
                             </View>
                         ))}
                     </View>

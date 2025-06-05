@@ -53,6 +53,11 @@ interface ArticleDetail extends ArticleItem {
     is_single_page: boolean
 }
 
+interface RvAllData {
+    category: Category,
+    rvs: RvList
+}
+
 interface ActivityList {
     list: ActivityItem[]
 }
@@ -82,6 +87,8 @@ interface SectionTitle {
     title: string,
     subtitle?: string,
     link?: string,
+    theme?: 'light' | 'dark',
+    className?: string
 }
 
 interface BannerItem {
@@ -199,5 +206,7 @@ export {
     RvItem,
     RvList,
     RvDetail,
+    RvAllData,
+    MyCarItem,
     MyCarList
 }

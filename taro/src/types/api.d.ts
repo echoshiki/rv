@@ -256,6 +256,11 @@ interface RvDetail extends RvItem {
     content: string
 } 
 
+interface RvAllData {
+    category: Category,
+    rvs: RvList
+}
+
 interface MyCarSubmission {
     name: string,
     phone: string,
@@ -308,6 +313,7 @@ export {
     RvItem,
     RvList,
     RvDetail,
+    RvAllData,
     MyCarSubmission,
     MyCarItem,
     MyCarList

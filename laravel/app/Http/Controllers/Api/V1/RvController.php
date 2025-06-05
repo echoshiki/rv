@@ -72,4 +72,25 @@ class RvController extends Controller
             return $this->errorResponse('房车底盘列表获取失败：' . $e->getMessage(), 500);
         }
     }
+
+    /**
+     * 获取所有的房车数据（底盘划分）
+     */
+    public function all(Request $request) 
+    {
+        try {
+            $categories = $this->rvService->getRvCategoryList();
+            $rvs = $categories->map(function ($category) {
+                $rvs = $this->rvService->getRvListByCategoryCode($category->code);
+                return [
+                    'category' => $category,
+                    'rvs' => new RvResourceCollection($rvs)
+                ];
+            });
+
+            return $this->successResponse($rvs);
+        } catch (\Throwable $e) {
+            return $this->errorResponse('房车列表获取失败：' . $e->getMessage(), 500);
+        }
+    }
 }

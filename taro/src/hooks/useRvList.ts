@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { RvItem } from "@/types/ui";
-import { getRvList } from "@/api/rv";
+import { RvItem, RvAllData } from "@/types/ui";
+import { getRvList, getRvAllData } from "@/api/rv";
 
 /**
  * 房车列表数据管理 Hook
@@ -42,7 +42,7 @@ const useRvList = (used?: boolean) => {
             setPage(responseData.current_page);
             setHasMore(responseData.has_more_pages);
         } catch (e) {
-            setError(e.message || 'Failed to fetch articles.');
+            setError(e.message || 'Failed to fetch rvs.');
         } finally {
             setLoading(false);
         }
@@ -77,6 +77,40 @@ const useRvList = (used?: boolean) => {
     }
 }
 
+const useRvAllData = () => {
+    const [rvAllData, setRvAllData] = useState<RvAllData[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const fetchRvAllData = useCallback(async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const { data: responseData } = await getRvAllData();
+            // 剔除没有数据的分类
+            const filteredData = responseData.filter(item => item.rvs.list.length > 0);
+            setRvAllData(filteredData);
+        } catch (e) {
+            setError(e.message || 'Failed to fetch rvs.');
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchRvAllData();
+    }, []);
+
+    return {
+        rvAllData,
+        loading,
+        error,
+        refetch: fetchRvAllData
+    }
+}
+
 export {
-    useRvList
+    useRvList,
+    useRvAllData
 }
