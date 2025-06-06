@@ -24,11 +24,18 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/user/point/index",
-          "pathName": "pages/user/point/index",
+          "name": "pages/usage/maintenance/add/index",
+          "pathName": "pages/usage/maintenance/add/index",
           "query": "",
           "scene": null,
           "launchMode": "default"
+        },
+        {
+          "name": "pages/user/point/index",
+          "pathName": "pages/user/point/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         },
         {
           "name": "pages/usage/car/add/index",

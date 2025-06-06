@@ -184,17 +184,16 @@ class ActivityRegistrationResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('payment_time')
                     ->label('支付时间')
-                    ->dateTime()
+                    ->dateTime('Y-m-d H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('创建时间')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->dateTime('Y-m-d H:i')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('更新时间')
-                    ->dateTime()
+                    ->dateTime('Y-m-d H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

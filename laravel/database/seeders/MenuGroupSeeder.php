@@ -112,11 +112,11 @@ class MenuGroupSeeder extends Seeder
                     'requires_auth' => true,
                 ],
                 [
-                    'title' => '维保续约',
+                    'title' => '维保预约',
                     'icon' =>  'origin/icons/usage/agreement.svg',
                     'link_type' => 'page',
-                    'link_value' => '/pages/article/index?code=maintain_renewal',
-                    'requires_auth' => false,
+                    'link_value' => '/pages/usage/maintenance/add/index',
+                    'requires_auth' => true,
                 ],
                 [
                     'title' => '售后标准',

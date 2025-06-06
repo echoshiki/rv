@@ -4,7 +4,17 @@
 
 /* 在线链接服务仅供平台体验和调试使用，平台不承诺服务的稳定性，企业客户需下载字体包自行发布使用并做好备份。 */
 @font-face {
-  font-family: "Alimama-Vf";src: url("//at.alicdn.com/wf/webfont/VDz0N7bhaN9b/oaMjLQiSvR7H.woff2") format("woff2"),
-  url("//at.alicdn.com/wf/webfont/VDz0N7bhaN9b/ba0rhgGaMF05.woff") format("woff");
-  font-display: swap;
+	font-family: "Alimama-Vf";
+	src: url("//at.alicdn.com/wf/webfont/VDz0N7bhaN9b/oaMjLQiSvR7H.woff2") format("woff2"),
+		url("//at.alicdn.com/wf/webfont/VDz0N7bhaN9b/ba0rhgGaMF05.woff") format("woff");
+	font-display: swap;
+}
+
+/* 去除表单红色星号 */
+.nut-form-item-label-required {
+	display: none !important;
+}
+
+.nut-form-item-label-left {
+	padding-left: 0px !important;
 }

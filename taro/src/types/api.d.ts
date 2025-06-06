@@ -310,6 +310,28 @@ interface PointLogItem {
     transaction_at: string
 }
 
+interface MaintenanceItem {
+    id: string,
+    name: string,
+    phone: string,
+    province?: string,
+    city?: string,
+    issues: string,
+    created_at: string
+}
+
+interface MaintenanceList {
+    list: MaintenanceItem[]
+}
+
+interface MaintenanceSubmission {
+    name: string,
+    phone: string,
+    province?: string,
+    city?: string,
+    issues: string
+}
+
 export {
     ApiResponse,
     UserInfo,
@@ -336,5 +358,8 @@ export {
     MyCarItem,
     MyCarList,
     PointLogList,
-    PointLogItem
+    PointLogItem,
+    MaintenanceItem,
+    MaintenanceList,
+    MaintenanceSubmission
 }

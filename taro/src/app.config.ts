@@ -8,6 +8,7 @@ export default defineAppConfig({
     'pages/usage/index',
     'pages/usage/car/index',
     'pages/usage/car/add/index',
+    'pages/usage/maintenance/add/index',
     'pages/article/index',
     'pages/article/detail/index',
     'pages/sale/index',

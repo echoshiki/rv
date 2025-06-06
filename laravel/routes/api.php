@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\V1\UsedRvController;
 use App\Http\Controllers\Api\V1\MyCarController;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\PointLogController;
+use App\Http\Controllers\Api\V1\MaintenanceController;
 
 // v1
 Route::prefix('v1')->group(function () {
@@ -98,6 +99,11 @@ Route::prefix('v1')->group(function () {
     // 积分记录
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user/point-logs/consumption', [PointLogController::class, 'consumptionLogs']);
+    });
+
+    // 维保预约
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::apiResource('maintenances', MaintenanceController::class);
     });
     
 });
