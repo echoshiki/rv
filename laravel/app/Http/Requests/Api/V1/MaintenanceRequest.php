@@ -38,5 +38,4 @@ class MaintenanceRequest extends FormRequest
             'issues.max' => '维保事项长度不能超过5000个字符',
         ];
     }
-
 }

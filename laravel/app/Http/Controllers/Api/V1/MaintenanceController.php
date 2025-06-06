@@ -33,9 +33,9 @@ class MaintenanceController extends Controller
     {
         try {
             $data = $request->validated();
-            $car = $this->maintenanceService->createMaintenance($data);
+            $maintenance = $this->maintenanceService->createMaintenance($data);
 
-            return $this->successResponse($car, '已成功添加维保预约。', 201);
+            return $this->successResponse($maintenance, '已成功添加维保预约。', 201);
         } catch (\Throwable $e) {
             return $this->errorResponse('添加失败：' . $e->getMessage(), 500);
         }

@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\V1\MyCarController;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\PointLogController;
 use App\Http\Controllers\Api\V1\MaintenanceController;
+use App\Http\Controllers\Api\V1\SuggestController;
 
 // v1
 Route::prefix('v1')->group(function () {
@@ -104,6 +105,11 @@ Route::prefix('v1')->group(function () {
     // 维保预约
     Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('maintenances', MaintenanceController::class);
+    });
+
+    // 用户建议
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::apiResource('suggests', SuggestController::class);
     });
     
 });
