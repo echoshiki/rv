@@ -292,6 +292,24 @@ interface MyCarList {
     list: MyCarItem[]
 }
 
+interface PointLogList {
+    list: PointLogItem[],
+    total: number,
+    per_page: number,
+    current_page: number,
+    has_more_pages: boolean
+}
+
+interface PointLogItem {
+    id: string,
+    operation_type: string,
+    type_description: string,
+    points_change: string,
+    points_after_change: string,
+    remarks: string,
+    transaction_at: string
+}
+
 export {
     ApiResponse,
     UserInfo,
@@ -316,5 +334,7 @@ export {
     RvAllData,
     MyCarSubmission,
     MyCarItem,
-    MyCarList
+    MyCarList,
+    PointLogList,
+    PointLogItem
 }

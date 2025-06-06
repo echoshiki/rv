@@ -23,8 +23,15 @@ class PointLogController extends Controller
     {
         $user = Auth::user();
 
-        $perPage = $request->query('per_page', 15);
-        $logs = $this->pointLogService->getUserConsumptionLogsLastYear($user, $perPage);
+        // 获取排序字段
+        $orderBy = $request->get('orderBy', 'created_at');
+        // 获取排序方式
+        $sort = $request->get('sort', 'desc');
+        // 获取当前页码
+        $page = $request->get('page', 1);
+        // 获取每页数据量
+        $limit = $request->get('limit', 10);
+        $logs = $this->pointLogService->getUserConsumptionLogsLastYear($user, $orderBy, $sort, $page, $limit);
 
         return $this->successResponse(new PointLogResourceCollection($logs));
     }
@@ -34,9 +41,17 @@ class PointLogController extends Controller
     {
         $user = Auth::user();
 
-        $perPage = $request->query('per_page', 15);
-        $logs = $this->pointLogService->getUserLogsLastYear($user, $perPage);
+        // 获取排序字段
+        $orderBy = $request->get('orderBy', 'created_at');
+        // 获取排序方式
+        $sort = $request->get('sort', 'desc');
+        // 获取当前页码
+        $page = $request->get('page', 1);
+        // 获取每页数据量
+        $limit = $request->get('limit', 10);
+        $logs = $this->pointLogService->getUserLogsLastYear($user, $orderBy, $sort, $page, $limit);
 
         return $this->successResponse(new PointLogResourceCollection($logs));
     }
+    
 }

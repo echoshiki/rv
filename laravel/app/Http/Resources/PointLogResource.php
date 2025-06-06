@@ -22,7 +22,7 @@ class PointLogResource extends JsonResource
             'points_change' => $this->amount,
             'points_after_change' => $this->points_after,
             'remarks' => $this->remarks,
-            'transaction_date' => $this->created_at->format('Y-m-d H:i:s')
+            'transaction_at' => $this->created_at->format('Y-m-d H:i:s')
         ];
     }
 

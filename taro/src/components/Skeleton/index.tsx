@@ -81,7 +81,7 @@ const ArticleItemSkeleton = () => {
 	)
 }
 
-// 文章列表
+// 文章图文列表
 const ArticleListSkeleton = () => {
 	return (
 		<View>
@@ -93,6 +93,7 @@ const ArticleListSkeleton = () => {
 	)
 }
 
+// 文章详情
 const ArticleDetailSkeleton = () => {
 	return (
 		<View className="bg-gray-100 min-h-screen pb-5">
@@ -170,6 +171,7 @@ const BannerSkeleton = () => {
 	)
 }
 
+// 标签栏组件
 const TabSkeleton = () => {
 	return (
 		<View className="w-full py-3">
@@ -185,6 +187,22 @@ const TabSkeleton = () => {
 	)
 }
 
+// 文字条目列表
+const TextListSkeleton = () => {
+	return (
+		<View className="flex flex-col space-y-3">
+			<Skeleton height={80} round={false} animate={true} />
+			<Skeleton height={80} round={false} animate={true} />
+			<Skeleton height={80} round={false} animate={true} />
+			<Skeleton height={80} round={false} animate={true} />
+			<Skeleton height={80} round={false} animate={true} />
+			<Skeleton height={80} round={false} animate={true} />
+			<Skeleton height={80} round={false} animate={true} />
+			<Skeleton height={80} round={false} animate={true} />
+		</View>
+	)
+}
+
 export {
 	Skeleton,
 	ArticleItemSkeleton,
@@ -194,5 +212,6 @@ export {
 	MenuColumnSkeleton,
 	MenuRowSkeleton,
 	BannerSkeleton,
-	TabSkeleton
+	TabSkeleton,
+	TextListSkeleton
 } 

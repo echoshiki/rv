@@ -16,15 +16,22 @@ class PointLogService
      * @param int $perPage
      * @return LengthAwarePaginator
      */
-    public function getUserConsumptionLogsLastYear(User $user, int $perPage = 15): LengthAwarePaginator
+    public function getUserConsumptionLogsLastYear(
+        User $user, 
+        string $orderBy = 'created_at',
+        string $sort = 'desc',
+        int $page = 1,
+        int $limit = 10
+    ): LengthAwarePaginator
     {
         $oneYearAgo = Carbon::now()->subYear();
 
         return PointLog::where('user_id', $user->id)
-            ->where('type', 'decrease') // Assuming 'decrease' means consumption
+            ->where('type', 'decrease')
             ->where('created_at', '>=', $oneYearAgo)
-            ->orderBy('created_at', 'desc')
-            ->paginate($perPage);
+            ->orderBy($orderBy, $sort)
+            ->paginate($limit, ['*'], 'page', $page)
+            ->withQueryString();
     }
 
     /**
@@ -34,13 +41,20 @@ class PointLogService
      * @param int $perPage
      * @return LengthAwarePaginator
      */
-    public function getUserLogsLastYear(User $user, int $perPage = 15): LengthAwarePaginator
+    public function getUserLogsLastYear(
+        User $user, 
+        string $orderBy = 'created_at',
+        string $sort = 'desc',
+        int $page = 1,
+        int $limit = 10
+    ): LengthAwarePaginator
     {
         $oneYearAgo = Carbon::now()->subYear();
 
         return PointLog::where('user_id', $user->id)
             ->where('created_at', '>=', $oneYearAgo)
-            ->orderBy('created_at', 'desc')
-            ->paginate($perPage);
+            ->orderBy($orderBy, $sort)
+            ->paginate($limit, ['*'], 'page', $page)
+            ->withQueryString();
     }
 }
