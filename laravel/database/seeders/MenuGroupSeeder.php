@@ -62,10 +62,10 @@ class MenuGroupSeeder extends Seeder
                     'requires_auth' => true,
                 ],
                 [
-                    'title' => '我的收藏',
+                    'title' => '积分明细',
                     'icon' =>  'origin/icons/favorite.svg',
                     'link_type' => 'page',
-                    'link_value' => '/pages/user/favorite/index',
+                    'link_value' => 'pages/user/point/index',
                     'requires_auth' => true,
                 ],
                 [

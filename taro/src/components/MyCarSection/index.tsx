@@ -58,11 +58,13 @@ const MyCarSection = () => {
     useDidShow(() => {
         // 如果登录且未有我的爱车数据状态时请求        
         if (isLoggedIn() && myCar === null) {
+            console.log('登录状态下且爱车数据为空，请求爱车数据...');
             fetchMyCar();
         }
 
         // 如果未登录且有我的爱车数据状态时清除
         if (!isLoggedIn() && myCar) {
+            console.log('未登录状态下且爱车数据存在，清除爱车数据...');
             setMyCar(null);
         }
     });

@@ -39,20 +39,4 @@ class MaintenanceRequest extends FormRequest
         ];
     }
 
-    /**
-     * 为验证准备数据。
-     * 这个方法会在所有验证规则运行之前被调用。
-     * 它是进行数据清洗（如 htmlspecialchars）的理想位置。
-     */
-    protected function prepareForValidation(): void
-    {
-        // 使用 merge 方法将处理后的数据重新合并到请求中
-        // htmlspecialchars 会将 < > & " ' 等字符转换为 HTML 实体，有效防止 XSS
-        // ENT_QUOTES 参数表示同时转换单引号和双引号
-        // 'UTF-8' 指定字符编码
-        $this->merge([
-            'name' => htmlspecialchars($this->input('name'), ENT_QUOTES, 'UTF-8'),
-            'issues' => htmlspecialchars($this->input('issues'), ENT_QUOTES, 'UTF-8'),
-        ]);
-    }
 }

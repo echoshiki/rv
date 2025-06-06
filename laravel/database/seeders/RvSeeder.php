@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Rv;
+use App\Models\RvCategory;
 
 class RvSeeder extends Seeder
 {
@@ -16,7 +17,10 @@ class RvSeeder extends Seeder
         // 清空房车表
         Rv::truncate();
         $this->command->info('开始生成测试用的房车数据...');
-        Rv::factory(20)->create();
+        // 每个分类里生成
+        foreach (RvCategory::all() as $category) {
+            Rv::factory(5)->create(['category_id' => $category->id]);
+        }
         $this->command->info('生成测试用的房车数据完毕');
     }
 }
