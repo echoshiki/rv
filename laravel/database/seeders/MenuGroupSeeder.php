@@ -65,7 +65,7 @@ class MenuGroupSeeder extends Seeder
                     'title' => '积分明细',
                     'icon' =>  'origin/icons/favorite.svg',
                     'link_type' => 'page',
-                    'link_value' => 'pages/user/point/index',
+                    'link_value' => '/pages/user/point/index',
                     'requires_auth' => true,
                 ],
                 [
@@ -193,7 +193,7 @@ class MenuGroupSeeder extends Seeder
                     'title' => '用户建议',
                     'icon' =>  'origin/icons/usage/float/message.svg',
                     'link_type' => 'page',
-                    'link_value' => '/pages/user/feedback/index',
+                    'link_value' => '/pages/usage/suggest/add/index',
                     'requires_auth' => true,
                 ]
             ]

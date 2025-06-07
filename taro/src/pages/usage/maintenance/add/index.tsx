@@ -4,8 +4,9 @@ import { Form, Input, FormInstance } from '@nutui/nutui-react-taro';
 import AreaPicker from '@/components/AreaPicker';
 import PageCard from '@/components/PageCard';
 import maintenanceApi from '@/api/maintenance';
-import { navigateBack, showToast } from "@tarojs/taro";
-import { parseAddress } from "@/utils/common";
+import { showToast } from "@tarojs/taro";
+import { mapsBack, parseAddress } from "@/utils/common";
+
 
 const AddMaintenance = () => {
 
@@ -52,8 +53,8 @@ const AddMaintenance = () => {
                     title: '预约成功'
                 });
                 setTimeout(() => {
-                    navigateBack();
-                }, 2000);
+                    mapsBack();
+                }, 1000);
             } else {
                 throw new Error(response.message);
             }

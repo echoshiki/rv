@@ -24,11 +24,25 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/usage/index",
-          "pathName": "pages/usage/index",
+          "name": "pages/usage/maintenance/add/index",
+          "pathName": "pages/usage/maintenance/add/index",
           "query": "",
           "scene": null,
           "launchMode": "default"
+        },
+        {
+          "name": "pages/usage/suggest/add/index",
+          "pathName": "pages/usage/suggest/add/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/usage/index",
+          "pathName": "pages/usage/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         },
         {
           "name": "pages/usage/maintenance/add/index",

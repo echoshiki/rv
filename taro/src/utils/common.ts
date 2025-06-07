@@ -66,6 +66,21 @@ const mapsTo = (url: string, isLoginPage = false) => {
 }
 
 /**
+ * 自定义返回函数
+ */
+const mapsBack = () => {
+    // 获取当前页面栈的长度
+    const pages = Taro.getCurrentPages();
+
+    // 如果页面栈长度大于1，说明前面还有页面，可以返回
+    if (pages.length > 1) {
+        Taro.navigateBack();
+    } else {
+        mapsTo('/pages/index/index');
+    }
+}
+
+/**
  * 格式化富文本中的图片
  * @param html 
  * @returns 
@@ -102,6 +117,7 @@ export {
     isTabBarPage,
     getCurrentPageUrl,
     mapsTo,
+    mapsBack,
     cleanHTML,
     parseAddress
 };

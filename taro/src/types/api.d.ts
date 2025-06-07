@@ -332,6 +332,11 @@ interface MaintenanceSubmission {
     issues: string
 }
 
+interface SuggestSubmission {
+    name: string,
+    content: string
+}
+
 export {
     ApiResponse,
     UserInfo,
@@ -361,5 +366,6 @@ export {
     PointLogItem,
     MaintenanceItem,
     MaintenanceList,
-    MaintenanceSubmission
+    MaintenanceSubmission,
+    SuggestSubmission
 }
