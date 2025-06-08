@@ -12,7 +12,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // 在这里配置 CSRF 排除项
+        $middleware->validateCsrfTokens(except: [
+            // 将你的微信回调路由加到这里
+            'api/v1/payments/notify/wechat',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\PointLogController;
 use App\Http\Controllers\Api\V1\MaintenanceController;
 use App\Http\Controllers\Api\V1\SuggestController;
+use App\Http\Controllers\Api\V1\WebhookController;
 
 // v1
 Route::prefix('v1')->group(function () {
@@ -111,7 +112,10 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('suggests', SuggestController::class);
     });
-    
+
+    // 微信回调处理
+    Route::post('/payments/notify/wechat', [WebhookController::class, 'handlePaymentNotify']);
+   
 });
 
 // 测试API
