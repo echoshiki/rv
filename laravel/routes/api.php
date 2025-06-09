@@ -17,6 +17,8 @@ use App\Http\Controllers\Api\V1\PointLogController;
 use App\Http\Controllers\Api\V1\MaintenanceController;
 use App\Http\Controllers\Api\V1\SuggestController;
 use App\Http\Controllers\Api\V1\WebhookController;
+use App\Http\Controllers\Api\V1\RvOrderController;
+use App\Http\Controllers\Api\V1\PaymentController;
 
 // v1
 Route::prefix('v1')->group(function () {
@@ -115,6 +117,13 @@ Route::prefix('v1')->group(function () {
 
     // 微信回调处理
     Route::post('/payments/notify/wechat', [WebhookController::class, 'handlePaymentNotify']);
+
+    // 房车预定相关
+    Route::middleware('auth:sanctum')->prefix('rv-orders')->group(function () {
+        Route::post('/', [RvOrderController::class, 'store']);
+        // 为指定的房车订单发起支付
+        Route::post('/rv-orders/{order}/pay', [PaymentController::class, 'createForRvOrder']);
+    });
    
 });
 
