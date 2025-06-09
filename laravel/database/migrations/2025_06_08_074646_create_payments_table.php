@@ -23,7 +23,7 @@ return new class extends Migration
             // 商户订单号，我们生成，用于与微信支付系统交互
             $table->string('out_trade_no')->comment('支付网关订单号');
             // 唯一交易号，微信返回
-            $table->string('transaction_id')->comment('支付网关交易号');
+            $table->string('transaction_id')->nullable()->comment('支付网关交易号');
             $table->decimal('amount', 10, 2)->comment('实际支付金额');
             $table->string('payment_gateway')->default('wechat')->comment('支付网关');
             // 支付单状态，枚举

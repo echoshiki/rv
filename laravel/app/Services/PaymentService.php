@@ -91,6 +91,11 @@ class PaymentService
 
                 // 通过多态关联，更新业务订单状态
                 $payable = $payment->payable;
+
+                if ($payable === null) {
+                    throw new \Exception('Payable object not found');
+                }
+
                 $payable->update(['status' => OrderStatus::Paid]);
 
                 // 触发事件

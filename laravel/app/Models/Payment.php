@@ -28,6 +28,11 @@ class Payment extends Model
         'gateway_payload'
     ];
 
+    protected $attributes = [
+        // 创建时默认为空，只有微信返回信息后才会更新
+        'transaction_id' => null,
+    ];
+
     protected $casts = [
         'amount' => 'decimal:2',
         'status' => PaymentStatus::class,
