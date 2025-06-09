@@ -261,6 +261,27 @@ interface RvAllData {
     rvs: RvList
 }
 
+interface RvOrderItem {
+    id: string,
+    order_no: string,
+    deposit_amount: string,
+    status: {
+        label: string,
+        value: string,
+        color: string
+    },
+    created_at: string,
+    rv: RvItem
+}
+
+interface RvOrderList {
+    list: RvOrderItem[],
+    total: number,
+    per_page: number,
+    current_page: number,
+    has_more_pages: boolean
+}
+
 interface MyCarSubmission {
     name: string,
     phone: string,
@@ -359,6 +380,8 @@ export {
     RvList,
     RvDetail,
     RvAllData,
+    RvOrderItem,
+    RvOrderList,
     MyCarSubmission,
     MyCarItem,
     MyCarList,

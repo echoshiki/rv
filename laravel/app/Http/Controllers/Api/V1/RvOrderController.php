@@ -48,7 +48,7 @@ class RvOrderController extends Controller
     /**
      * 创建一个新的房车预订订单。
      */
-    public function store(RvOrderRequest $request): RvOrderResource
+    public function store(RvOrderRequest $request)
     {
         // 验证已由 RvOrderRequest 自动完成
         $validated = $request->validated();
@@ -60,7 +60,7 @@ class RvOrderController extends Controller
         $order = $this->rvOrderService->createRvOrder($request->user(), $rv);
 
         // 4. 使用 API Resource 格式化输出，并返回 201 Created 状态码
-        return new RvOrderResource($order);
+        return $this->successResponse(new RvOrderResource($order), '预定成功，请及时付款。', 201);
     }
 
     /**

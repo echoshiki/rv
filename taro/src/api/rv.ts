@@ -1,8 +1,16 @@
 import { http } from "@/utils/request";
-import { ApiResponse, RvDetail, RvList, RvAllData } from "@/types/api";
+import { 
+    ApiResponse, 
+    RvDetail, 
+    RvList, 
+    RvAllData,
+    RvOrderItem,
+    RvOrderList
+} from "@/types/api";
 
 const RV_API = `/api/v1/rvs/`;
 const USED_RV_API = `/api/v1/used-rvs/`;
+const RV_ORDER_API = `/api/v1/rv-orders/`;
 
 /**
  * 获取房车列表
@@ -30,8 +38,32 @@ const getRvAllData = (): Promise<ApiResponse<RvAllData[]>> => {
     return http.get(`${RV_API}all`);
 };
 
+/**
+ * 创建房车订单
+ */
+const createRvOrder = (rvId: string): Promise<ApiResponse<RvOrderItem>> => {
+    return http.post(`${RV_ORDER_API}`, { rv_id: rvId });
+};
+
+/**
+ * 获取房车订单列表
+ */
+const getRvOrderList = (): Promise<ApiResponse<RvOrderList>> => {
+    return http.get(`${RV_ORDER_API}`);
+};
+
+/**
+ * 获取房车订单详情
+ */
+const getRvOrderDetail = (id: string): Promise<ApiResponse<RvOrderItem>> => {
+    return http.get(`${RV_ORDER_API}${id}`);
+};
+
 export {
     getRvList,
     getRvDetail,
-    getRvAllData
+    getRvAllData,
+    createRvOrder,
+    getRvOrderList,
+    getRvOrderDetail
 };

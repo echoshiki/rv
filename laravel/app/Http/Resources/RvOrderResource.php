@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Enums\OrderStatus;
+use App\Settings\GeneralSettings;
 
 class RvOrderResource extends JsonResource
 {
@@ -15,9 +16,11 @@ class RvOrderResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $siteSettings = app(GeneralSettings::class);
+        $defaultCover = asset('storage/' . $siteSettings->default_cover);
+        
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
             'order_no' => $this->order_no,
             'deposit_amount' => $this->deposit_amount,
             'status' => $this->formatStatus(),
@@ -25,6 +28,9 @@ class RvOrderResource extends JsonResource
             'rv' => [ // 可选：关联返回一些房车信息
                 'id' => $this->rv->id,
                 'name' => $this->rv->name,
+                'cover' => $this->rv->cover ? asset('storage/' . $this->rv->cover) : $defaultCover,
+                'price' => $this->rv->price,
+                'order_price' => $this->rv->order_price,
             ],
         ];
     }

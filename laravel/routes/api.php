@@ -118,8 +118,13 @@ Route::prefix('v1')->group(function () {
     // 微信回调处理
     Route::post('/payments/notify/wechat', [WebhookController::class, 'handlePaymentNotify']);
 
-    // 房车预定相关
+    // 房车订单相关
     Route::middleware('auth:sanctum')->prefix('rv-orders')->group(function () {
+        // 房车订单列表
+        Route::get('/', [RvOrderController::class, 'index']);
+        // 房车订单详情
+        Route::get('/{id}', [RvOrderController::class, 'show']);
+        // 创建一个新的房车订单
         Route::post('/', [RvOrderController::class, 'store']);
         // 为指定的房车订单发起支付
         Route::post('/{rvOrder}/pay', [PaymentController::class, 'createForRvOrder']);
