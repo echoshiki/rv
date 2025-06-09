@@ -37,22 +37,10 @@ class RvOrderService
             return RvOrder::create([
                 'user_id' => $user->id,
                 'rv_id' => $rv->id,
-                'order_no' => $this->generateUniqueOrderNo(),
+                'order_no' => 'RV' . now()->format('YmdHisu') . Str::random(6),
                 'deposit_amount' => $rv->order_price,
                 'status' => OrderStatus::Pending,
             ]);
         });
-    }
-
-    /**
-     * 生成唯一的业务订单号
-     */
-    public function generateUniqueOrderNo()
-    {
-        do {
-            $no = 'RV' . now()->format('Ymd') . Str::upper(Str::random(6));
-        } while (RvOrder::where('order_no', $no)->exists());
-
-        return $no;
     }
 }

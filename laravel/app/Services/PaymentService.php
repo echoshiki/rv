@@ -10,6 +10,7 @@ use App\Enums\PaymentStatus;
 use Illuminate\Support\Facades\DB;
 use App\Events\PaymentSucceeded;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use App\Enums\OrderStatus;
 
 /**
@@ -43,7 +44,7 @@ class PaymentService
                 'payable_type' => $payable->getMorphClass(),
                 // 这里的 deposit_amount 是不是需要多个模型字段对应？
                 'amount'       => $payable->deposit_amount,
-                'out_trade_no' => $this->generateUniqueOutTradeNo(),
+                'out_trade_no' => 'PAY' . now()->format('YmdHisu') . Str::random(6),
                 'status'       => PaymentStatus::Pending,
             ]);
 
@@ -58,18 +59,6 @@ class PaymentService
             // 03. 返回前端参数
             return $frontendParams;
         });
-    }
-
-    /**
-     * 生成唯一的支付单号
-     */
-    public function generateUniqueOutTradeNo()
-    {
-        do {
-            $no = 'PAY' . now()->format('YmdHis') . mt_rand(10000, 99999);
-        } while (Payment::where('out_trade_no', $no)->exists());
-
-        return $no;
     }
 
     /**

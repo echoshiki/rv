@@ -15,7 +15,7 @@ class RvSeeder extends Seeder
     public function run(): void
     {
         // 清空房车表
-        Rv::truncate();
+        Rv::query()->delete();
         $this->command->info('开始生成测试用的房车数据...');
         // 每个分类里生成
         foreach (RvCategory::all() as $category) {
