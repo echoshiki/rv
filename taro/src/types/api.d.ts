@@ -1,5 +1,3 @@
-import { extend } from "@tarojs/runtime";
-
 /**
  * API 响应泛用类型
  */
@@ -224,15 +222,6 @@ interface PaymentData {
 }
 
 /**
- * 支付结果？
- */
-interface PaymentResult {
-    payment_id: string;
-    status: 'success' | 'failed' | 'pending';
-    transaction_id?: string;
-}
-
-/**
  * 返回的房车数据
  */
 interface RvItem {
@@ -358,6 +347,73 @@ interface SuggestSubmission {
     content: string
 }
 
+/**
+ * 支付状态
+ */
+interface PaymentStatus {
+    status: 'pending' | 'paid' | 'failed';
+    paidAt?: string;
+    transactionId?: string;
+    outTradeNo: string;
+    amount: number;
+    description?: string;
+}
+
+/**
+ * 微信返回的用于拉起支付的参数
+ */
+interface PaymentParam {
+    appId: string,
+    nonceStr: string,
+    package: string,
+    signType: string,
+    paySign: string,
+    timestamp: string
+}
+
+/**
+ * 支付历史
+ */
+interface PaymentHistory {
+    id: string;
+    outTradeNo: string;
+    amount: number;
+    status: PaymentStatus['status'];
+    paidAt?: string;
+    description: string;
+    createdAt: string;
+}
+
+/**
+ * 支付详情
+ */
+interface PaymentDetail extends PaymentHistory {
+    transactionId?: string;
+    payerId?: string;
+    payerName?: string;
+    paymentMethod: 'wechat' | 'alipay';
+    refundStatus?: 'pending' | 'success' | 'failed';
+    refundAmount?: number;
+    refundTime?: string;
+}
+
+export enum PaymentMethod {
+    WECHAT = 'wechat',
+    ALIPAY = 'alipay'
+}
+
+export enum PaymentStatusEnum {
+    PENDING = 'pending',
+    PAID = 'paid',
+    FAILED = 'failed'
+}
+  
+export enum RefundStatus {
+    PENDING = 'pending',
+    SUCCESS = 'success',
+    FAILED = 'failed'
+}
+
 export {
     ApiResponse,
     UserInfo,
@@ -375,7 +431,6 @@ export {
     RegistrationSubmission,
     RegistrationStatus,
     PaymentData,
-    PaymentResult,
     RvItem,
     RvList,
     RvDetail,
@@ -390,5 +445,9 @@ export {
     MaintenanceItem,
     MaintenanceList,
     MaintenanceSubmission,
-    SuggestSubmission
+    SuggestSubmission,
+    PaymentStatus,
+    PaymentParam,
+    PaymentHistory,
+    PaymentDetail
 }

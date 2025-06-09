@@ -1,3 +1,5 @@
+import { PaymentStatus, PaymentParam } from './api';
+
 interface UserInfo {
     id: string,
     name: string,
@@ -165,7 +167,7 @@ interface RvList {
 interface RvDetail extends RvItem {
     photos: string[],
     content: string
-} 
+}
 
 interface MyCarItem {
     id: string,
@@ -210,6 +212,20 @@ interface BaseQueryParams {
     limit?: number;
 }
 
+interface PaymentOptions {
+    orderId: string | number;
+    orderType: 'rv' | 'activity';
+    amount: number;
+    description?: string;
+}
+
+interface UsePaymentReturn {
+    isPaying: boolean;
+    paymentError: string | null;
+    startPayment: (options: PaymentOptions) => Promise<PaymentParam>;
+    checkPaymentStatus: (outTradeNo: string) => Promise<PaymentStatus>;
+}
+
 export {
     SectionTitle,
     MenuItem,
@@ -237,5 +253,7 @@ export {
     MyCarList,
     PointLogList,
     PointLogItem,
-    BaseQueryParams
+    BaseQueryParams,
+    PaymentOptions,
+    UsePaymentReturn
 }

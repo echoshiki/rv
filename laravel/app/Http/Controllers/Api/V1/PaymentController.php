@@ -8,6 +8,7 @@ use App\Models\RvOrder;
 use App\Services\PaymentService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Payment;
 
 class PaymentController extends Controller
 {
@@ -19,7 +20,9 @@ class PaymentController extends Controller
     }
 
     /**
-     * 为一个已存在的房车订单创建支付。
+     * 为一个已存在的房车订单创建支付
+     * @param RvOrder $rvOrder
+     * @return JsonResponse
      */
     public function createForRvOrder(RvOrder $rvOrder): JsonResponse
     {
@@ -37,5 +40,16 @@ class PaymentController extends Controller
 
         // 直接返回 JSSDK 所需的参数
         return $this->successResponse($paymentParams);
+    }
+
+    /**
+     * 轮询查询支付状态
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function pollPaymentStatus(Request $request): JsonResponse
+    {
+        $payment = Payment::where('out_trade_no', $request->input('out_trade_no'))->first();
+        return $this->successResponse($this->paymentService->getPaymentStatus($payment));
     }
 }

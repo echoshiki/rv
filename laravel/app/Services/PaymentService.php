@@ -56,7 +56,7 @@ class PaymentService
                 $user->wechatUser->openid
             );
 
-            // 03. 返回前端参数
+            // 03. 返回前端参数: prepay_id、timestamp、nonceStr、signType、paySign
             return $frontendParams;
         });
     }
@@ -112,4 +112,18 @@ class PaymentService
             return $payment;
         });
     }
+
+    /**
+     * 以供前端轮询查询支付状态
+     */
+    public function getPaymentStatus(Payment $payment): array
+    {
+        return [
+            'status' => $payment->status,
+            'paid_at' => $payment->paid_at,
+            'transaction_id' => $payment->transaction_id,
+        ];
+    }
+
+    
 }
