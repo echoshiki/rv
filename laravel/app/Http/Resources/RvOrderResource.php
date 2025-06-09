@@ -17,6 +17,7 @@ class RvOrderResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'user_id' => $this->user_id,
             'order_no' => $this->order_no,
             'deposit_amount' => $this->deposit_amount,
             'status' => $this->formatStatus(),

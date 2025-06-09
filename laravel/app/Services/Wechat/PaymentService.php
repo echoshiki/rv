@@ -106,7 +106,7 @@ class PaymentService extends BaseWechatService
      * 
      * @return \EasyWeChat\Pay\Server
      */
-    public function getServer(): ServerRequestInterface
+    public function getServer(): \EasyWeChat\Pay\Server
     {
         return $this->appInstance->getServer();
     }

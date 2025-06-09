@@ -122,9 +122,8 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->prefix('rv-orders')->group(function () {
         Route::post('/', [RvOrderController::class, 'store']);
         // 为指定的房车订单发起支付
-        Route::post('/rv-orders/{order}/pay', [PaymentController::class, 'createForRvOrder']);
+        Route::post('/{rvOrder}/pay', [PaymentController::class, 'createForRvOrder']);
     });
-   
 });
 
 // 测试API
