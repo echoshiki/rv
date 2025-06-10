@@ -2,7 +2,10 @@
 
 namespace App\Enums;
 
-enum OrderStatus: string
+use Filament\Support\Contracts\HasLabel;
+use Filament\Support\Contracts\HasColor;
+
+enum OrderStatus: string implements HasLabel, HasColor
 {
     case Pending = 'pending';           // 待支付
     case Paid = 'paid';                 // 已支付
@@ -61,5 +64,23 @@ enum OrderStatus: string
             self::Cancelled => 'danger',
             self::Completed => 'primary',
         };
+    }
+
+    /**
+     * 实现 filament 接口
+     * 在后台管理页面展示标签文本
+     */
+    public function getLabel(): string
+    {
+        return $this->label();
+    }
+
+    /**
+     * 实现 filament 接口
+     * 在后台管理页面展示标签颜色
+     */
+    public function getColor(): string
+    {
+        return $this->color();
     }
 }

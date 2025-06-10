@@ -2,7 +2,10 @@
 
 namespace App\Enums;
 
-enum RegistrationStatus: string
+use Filament\Support\Contracts\HasLabel;
+use Filament\Support\Contracts\HasColor;
+
+enum RegistrationStatus: string implements HasLabel, HasColor
 {
     case Pending = 'pending';           // 待支付
     case Approved = 'approved';         // 已通过
@@ -41,5 +44,23 @@ enum RegistrationStatus: string
     public static function getValues(): array
     {
         return array_column(self::cases(), 'value');
+    }
+
+    /**
+     * 实现 filament 接口
+     * 在后台管理页面展示标签文本
+     */
+    public function getLabel(): string
+    {
+        return $this->label();
+    }
+
+    /**
+     * 实现 filament 接口
+     * 在后台管理页面展示标签颜色
+     */
+    public function getColor(): string
+    {
+        return $this->color();
     }
 }
