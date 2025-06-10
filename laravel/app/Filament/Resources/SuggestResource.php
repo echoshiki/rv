@@ -27,6 +27,8 @@ class SuggestResource extends Resource
 
     protected static ?string $pluralModelLabel = '建议列表';
 
+    protected static ?int $navigationSort = 5;
+
     public static function form(Form $form): Form
     {
         return $form

@@ -3,15 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\MaintenanceResource\Pages;
-use App\Filament\Resources\MaintenanceResource\RelationManagers;
 use App\Models\Maintenance;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Services\RegionService;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
@@ -29,6 +26,8 @@ class MaintenanceResource extends Resource
     protected static ?string $modelLabel = '维保预约';
 
     protected static ?string $pluralModelLabel = '预约列表';
+
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {

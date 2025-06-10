@@ -60,10 +60,11 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->navigationGroups([
-                '用户管理',
+                '互动管理',
                 '房车管理',
                 '活动管理',
                 '内容管理',
+                '用户管理',
                 '系统设置',
             ]);
     }
