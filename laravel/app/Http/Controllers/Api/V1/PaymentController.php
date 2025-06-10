@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\RvOrder;
+use App\Models\ActivityRegistration;
 use App\Services\PaymentService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Payment;
+use App\Http\Resources\PaymentStatusResource;
 
 class PaymentController extends Controller
 {
@@ -34,8 +36,30 @@ class PaymentController extends Controller
         try {
             $paymentParams = $this->paymentService->createJsApiPayment(
                 $rvOrder,
-                Auth::user(),
-                "房车预订定金-订单号:{$rvOrder->order_no}" // 支付描述
+                Auth::user()
+            );
+            return $this->successResponse($paymentParams);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    /**
+     * 为一个已存在的活动报名创建支付
+     * @param ActivityRegistration $registration
+     * @return JsonResponse 返回前端参数: appId、timeStamp、nonceStr、package、signType、paySign、out_trade_no
+     */
+    public function createForRegistration(ActivityRegistration $registration): JsonResponse
+    {
+        // 确保当前登录用户是这个订单的所有者
+        if ($registration->user_id !== Auth::id()) {
+            abort(403, '无权操作此订单。');
+        }
+
+        try {
+            $paymentParams = $this->paymentService->createJsApiPayment(
+                $registration,
+                Auth::user()
             );
             return $this->successResponse($paymentParams);
         } catch (\Exception $e) {
@@ -51,11 +75,19 @@ class PaymentController extends Controller
     public function pollPaymentStatus(Request $request): JsonResponse
     {
         try {
-            $payment = Payment::where('out_trade_no', $request->input('out_trade_no'))->first();
+            $request->validate(['out_trade_no' => 'required|string']);
+            $payment = $this->paymentService->findByOutTradeNo($request->input('out_trade_no'));
+
             if (!$payment) {
                 return $this->errorResponse('支付单不存在');
             }
-            return $this->successResponse($this->paymentService->getPaymentStatus($payment));
+
+            // 确保当前登录用户是这个订单的所有者
+            if ($payment->user_id !== Auth::id()) {
+                abort(403, '无权操作此订单。');
+            }
+
+            return $this->successResponse(new PaymentStatusResource($payment));
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
         }

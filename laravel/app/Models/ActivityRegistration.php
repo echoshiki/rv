@@ -78,6 +78,15 @@ class ActivityRegistration extends Model implements Payable
     }
 
     /**
+     * 实现 Payable 接口
+     * 支付成功后对业务订单的标记
+     */
+    public function markAsPaid(): void
+    {
+        $this->update(['status' => RegistrationStatus::Approved]);
+    }
+
+    /**
      * 模型创建时自动生成唯一报名编号
      */
     protected static function booted()

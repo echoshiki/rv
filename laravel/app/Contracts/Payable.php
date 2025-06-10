@@ -13,6 +13,11 @@ interface Payable
      * 获取支付描述。
      */
     public function getPayableDescription(): string;
+
+    /**
+     * 统一标记
+     */
+    public function markAsPaid(): void;
 }
 
 

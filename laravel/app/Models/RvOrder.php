@@ -71,4 +71,13 @@ class RvOrder extends Model implements Payable
     {
         return "房车预订定金-订单号:{$this->order_no}";
     }
+
+    /**
+     * 实现 Payable 接口
+     * 支付成功后对业务订单的标记
+     */
+    public function markAsPaid(): void
+    {
+        $this->update(['status' => OrderStatus::Paid]);
+    }
 }

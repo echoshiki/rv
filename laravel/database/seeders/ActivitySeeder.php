@@ -24,7 +24,7 @@ class ActivitySeeder extends Seeder
         }
 
         $this->command->info('开始创建活动...');
-        Activity::factory()->count(50)->create();
+        Activity::factory()->count(100)->create();
         $this->command->info('活动创建完毕');
     }
 }

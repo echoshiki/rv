@@ -8,7 +8,7 @@ import {
 
 const PAYMENT_API = '/api/v1/payments';
 const RV_ORDER_API = '/api/v1/rv-orders';
-const ACTIVITY_API = '/api/v1/activities';
+const REGISTRATION_API = '/api/v1/registrations';
 
 const paymentApi = {
     // 支付状态查询
@@ -26,7 +26,7 @@ const paymentApi = {
 
     // 活动报名支付
     initiateActivityPayment: (orderId: string): Promise<ApiResponse<PaymentParam>> => {
-        return http.post(`${ACTIVITY_API}/${orderId}/pay`);
+        return http.post(`${REGISTRATION_API}/${orderId}/pay`);
     },
 
     // 获取支付详情

@@ -1,9 +1,8 @@
 import { useState, useCallback } from "react";
 import { ActivityDetail, RegistrationItem, RegistrationFormData } from "@/types/ui";
-import { PaymentResult } from "@/types/api";
 import registrationApi from "@/api/registration";
-import { requestPayment } from "@tarojs/taro";
 import { parseAddress } from "@/utils/common";
+import usePayment from "@/hooks/usePayment";
 
 /**
  * 报名状态码
@@ -45,7 +44,6 @@ export enum RegistrationStep {
 interface LoadingState {
     checking: boolean;
     submitting: boolean;
-    paying: boolean;
     canceling: boolean;
 }
 
@@ -53,7 +51,6 @@ interface UseRegistrationOptions {
     activityDetail: ActivityDetail;
     onCheckedSuccess?: (statusCode: RegistrationStatusCode) => void;
     onSuccess?: (registration: RegistrationItem, message?: string) => void;
-    onPaymentSuccess?: (payment: PaymentResult, message?: string) => void;
     onError?: (error: any, context?: { action: string; message?: string }) => void;
 }
 
@@ -63,21 +60,18 @@ interface UseRegistrationOptions {
  * @param activityDetail - 活动详情
  * @param onCheckedSuccess - 检测成功后的回调
  * @param onSuccess - 报名成功后的回调
- * @param onPaymentSuccess - 支付成功后的回调
  * @param onError - 发生错误后的回调    
  */
 const useRegistration = ({
     activityDetail,
     onCheckedSuccess,
     onSuccess,
-    onPaymentSuccess,
     onError
 }: UseRegistrationOptions) => {
     // 加载状态集合
     const [loadingState, setLoadingState] = useState<LoadingState>({
         checking: false,
         submitting: false,
-        paying: false,
         canceling: false
     });
     
@@ -108,7 +102,7 @@ const useRegistration = ({
         }
 
         // 活动已经结束
-        if (endTime && now > endTime) {
+        if (endTime && endTime.getTime() > 0 && now > endTime) {
             return {
                 statusCode: RegistrationStatusCode.ACTIVITY_ENDED,
                 canRegister: false
@@ -116,7 +110,10 @@ const useRegistration = ({
         }
 
         // 活动已经满员
-        if (activityDetail.current_participants >= activityDetail.max_participants) {
+        if (
+            activityDetail.max_participants > 0 && 
+            activityDetail.current_participants >= activityDetail.max_participants
+        ) {
             return {
                 statusCode: RegistrationStatusCode.ACTIVITY_FULL,
                 canRegister: false
@@ -145,7 +142,7 @@ const useRegistration = ({
             const { data } = await registrationApi.status(activityDetail.id);
 
             let statusCode: RegistrationStatusCode;
-            
+
             if (data?.value === 'approved') {
                 statusCode = RegistrationStatusCode.ALREADY_REGISTERED;
             } else if (data?.value === 'pending') {
@@ -212,90 +209,6 @@ const useRegistration = ({
         }
     }, [activityDetail, parseAddress, onSuccess, onError, updateLoadingState]);
 
-    // 发起支付
-    const initiatePayment = useCallback(async (amount: number) => {
-        if (!registration?.id) {
-            throw new Error('请先完成报名');
-        }
-
-        if (amount <= 0) {
-            throw new Error('支付金额必须大于0');
-        }
-
-        updateLoadingState('paying', true);
-        try {
-            // 构造（支付订单号、金额）数据以供后端去请求微信支付接口
-            const paymentData = {
-                registration_id: registration.id,
-                amount
-            };
-            // 请求创建支付接口
-            const response = await registrationApi.createPayment(paymentData);
-            if (response.success) {
-                // 成功后返回在页面内发起微信支付所需要的参数
-                const paymentResult = response.data;
-                // 执行发起微信支付的方法
-                await handleWechatPay(paymentResult);
-                return paymentResult;
-            } else {
-                throw new Error(response.message || '支付发起失败');
-            }
-        } catch (error: any) {
-            onError?.(error, { action: 'initiatePayment', message: '支付失败，请重试' });
-            throw error;
-        } finally {
-            updateLoadingState('paying', false);
-        }
-    }, [registration, onError, updateLoadingState]);
-
-    // 调用微信支付
-    const handleWechatPay = useCallback(async (paymentResult: PaymentResult) => {
-        try {
-            // 类型安全的支付参数提取
-            const paymentParams = paymentResult as any;
-            
-            // 基本的参数验证
-            if (!paymentParams.timeStamp || !paymentParams.nonceStr) {
-                throw new Error('支付参数不完整');
-            }
-
-            await requestPayment({
-                timeStamp: paymentParams.timeStamp,
-                nonceStr: paymentParams.nonceStr,
-                package: paymentParams.package,
-                signType: paymentParams.signType,
-                paySign: paymentParams.paySign
-            });
-
-            onPaymentSuccess?.(paymentResult, '支付成功！');
-        } catch (error: any) {
-            const isCanceled = error.errMsg?.includes('cancel');
-            const message = isCanceled ? '支付已取消' : '支付失败';
-            
-            if (!isCanceled) {
-                onError?.(error, { action: 'wechatPay', message });
-            }
-            throw error;
-        }
-    }, [onPaymentSuccess, onError]);
-
-    // 查询支付状态
-    const checkPaymentStatus = useCallback(async (paymentId: string) => {
-        updateLoadingState('checking', true);
-        try {
-            const response = await registrationApi.getPaymentStatus(paymentId);
-            if (response.success) {
-                return response.data;
-            }
-            throw new Error(response.message || '查询支付状态失败');
-        } catch (error) {
-            onError?.(error, { action: 'checkPaymentStatus' });
-            throw error;
-        } finally {
-            updateLoadingState('checking', false);
-        }
-    }, [onError, updateLoadingState]);
-
     // 取消报名
     const cancelRegistration = useCallback(async () => {
         if (!registration?.id) {
@@ -327,8 +240,6 @@ const useRegistration = ({
         // 方法
         checkStatus,
         submitRegistration,
-        initiatePayment,
-        checkPaymentStatus,
         cancelRegistration,
 
         // 工具方法
@@ -349,6 +260,7 @@ interface UseRegistrationFlowOptions {
 const useRegistrationFlow = ({ activityDetail }: UseRegistrationFlowOptions) => {
     // 当前阶段
     const [currentStep, setCurrentStep] = useState<RegistrationStep>(RegistrationStep.INITIAL);
+
     // 已完成步骤
     const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set());
 
@@ -357,8 +269,21 @@ const useRegistrationFlow = ({ activityDetail }: UseRegistrationFlowOptions) => 
         setCompletedSteps(prev => new Set([...prev, step]));
     }, []);
 
-    // 调用基础操作 hook
-    const registrationHook = useRegistration({
+    // 实例化支付 hook
+    const {
+        startPayment,
+        isPaying,
+        paymentError
+    } = usePayment();
+
+    // 实例化基础操作 hook
+    const {
+        registration,
+        checkStatus,
+        submitRegistration,
+        checking: isChecking,
+        submitting: isSubmitting
+    } = useRegistration({
         activityDetail,
         // 检测成功后执行
         onCheckedSuccess: (statusCode) => {
@@ -378,39 +303,44 @@ const useRegistrationFlow = ({ activityDetail }: UseRegistrationFlowOptions) => 
                 setCurrentStep(RegistrationStep.PAYMENT);
             } else {
                 // 直接报名成功
+                markStepCompleted('payment');
                 setCurrentStep(RegistrationStep.SUCCESS);
             }
-        },
-        // 支付成功后执行
-        onPaymentSuccess: () => {
-            // 完成支付阶段
-            markStepCompleted('payment');
-            // 报名成功
-            setCurrentStep(RegistrationStep.SUCCESS);
         }
     });
 
     // 检测报名资格
     const handleCheckStatus = useCallback(async () => {
-        const statusCode = await registrationHook.checkStatus();
+        const statusCode = await checkStatus();
         return statusCode;
-    }, [registrationHook.checkStatus]);
+    }, [checkStatus]);
 
     // 处理表单提交
     const handleFormSubmit = useCallback(async (formData: RegistrationFormData) => {
-        return await registrationHook.submitRegistration(formData);
-    }, [registrationHook.submitRegistration]);
+        return await submitRegistration(formData);
+    }, [submitRegistration]);
 
     // 处理支付
     const handlePayment = useCallback(async () => {
-        if (activityDetail.registration_fee === "0.00") {
-            throw new Error('当前活动无需支付');
+        // 验证报名信息
+        if (!registration?.id) {
+            throw new Error('未找到报名信息，无法支付');
         }
-        if (parseFloat(activityDetail.registration_fee) <= 0) {
-            throw new Error('支付金额配置错误');
+
+        // 调用通用支付 Hook 的核心方法
+        const result = await startPayment({
+            orderId: registration.id,
+            orderType: 'activity'
+        });
+
+        if (result.success) {
+            markStepCompleted('payment');
+            setCurrentStep(RegistrationStep.SUCCESS);
+        } else {
+            // 错误处理已在 usePayment Hook 内部完成（如 toast 提示）
+            // 这里可以根据需要做一些额外的UI处理，比如不清空支付页面
         }
-        return await registrationHook.initiatePayment(parseFloat(activityDetail.registration_fee));
-    }, [registrationHook.initiatePayment, activityDetail.registration_fee]);
+    }, [startPayment, registration, markStepCompleted, setCurrentStep]);
 
     // 重置流程
     const resetFlow = useCallback(() => {
@@ -419,10 +349,20 @@ const useRegistrationFlow = ({ activityDetail }: UseRegistrationFlowOptions) => 
     }, []);
 
     return {
-        // 状态
+        // 流程状态
         currentStep,
         completedSteps,
-        ...registrationHook,
+
+        // 报名相关
+        registration,
+        isChecking,
+        isSubmitting,
+
+        // 支付相关
+        isPaying,
+        paymentError,
+
+        // 支付相关
         requirePayment: parseFloat(activityDetail.registration_fee) > 0,
         paymentAmount: activityDetail.registration_fee,
         

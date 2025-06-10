@@ -2,7 +2,7 @@ import { View, Text, Button } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import Card from '@/components/Card';
 import Loading from "@/components/Loading";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { checkLogin } from '@/utils/auth';
 import RegistrationButton from './RegistrationButton';
 import RegistrationForm from './RegistrationForm';
@@ -26,9 +26,9 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
     // 使用报名流程 Hook 注入活动详情
     const {
         currentStep,
-        checking,
-        submitting,
-        paying,
+        isChecking,
+        isSubmitting,
+        isPaying,
         handleCheckStatus,
         handleFormSubmit,
         handlePayment,
@@ -130,10 +130,6 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
     const handlePaymentWithFeedback = async () => {
         try {
             await handlePayment();
-            Taro.showToast({
-                icon: 'success',
-                title: '支付成功！'
-            });
         } catch (error) {
             console.error('支付失败:', error);
             // 支付取消不显示错误提示
@@ -156,7 +152,7 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
                         <RegistrationButton
                             disabled={buttonDisabled}
                             visible={true}
-                            loading={checking}
+                            loading={isChecking}
                             onClick={handleRegistrationButton}
                         />
                         {/* 过渡加载效果 */}
@@ -171,7 +167,7 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
                 return (
                     <RegistrationForm
                         onSubmit={handleFormSubmitWithFeedback}
-                        loading={submitting}
+                        loading={isSubmitting}
                         isVisible={true}
                     />
                 );
@@ -194,7 +190,7 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
                                 <Button
                                     type="primary"
                                     className="text-[.8rem] w-full"
-                                    loading={paying}
+                                    loading={isPaying}
                                     onClick={handlePaymentWithFeedback}
                                 >
                                     立即支付
@@ -228,6 +224,26 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
                 return null;
         }
     }
+
+    useEffect(() => {
+        if (currentStep === RegistrationStep.SUCCESS) {
+            const successTitle = parseFloat(activityDetail.registration_fee) > 0 ? '支付成功' : '报名成功';
+            Taro.showToast({
+                icon: 'success',
+                title: successTitle,
+                duration: 2000,
+            });
+
+            const timer = setTimeout(() => {
+                Taro.redirectTo({ // 使用 redirectTo 关闭当前页，体验更好
+                    // 跳转到您的订单详情或报名详情页
+                    url: `/pages/registration/index`
+                });
+            }, 2000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [currentStep, registration?.id]);
 
     return (
         <Card className="mt-5">

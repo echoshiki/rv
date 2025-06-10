@@ -102,7 +102,7 @@ class PaymentService
                     throw new \Exception('Payable object not found');
                 }
 
-                $payable->update(['status' => OrderStatus::Paid]);
+                $payable->markAsPaid();
 
                 // 触发事件
                 // 将后续操作（如发短信、加积分）与支付核心逻辑解耦。
@@ -120,17 +120,13 @@ class PaymentService
     }
 
     /**
-     * 以供前端轮询查询支付状态
+     * 根据 out_trade_no 查找支付单
+     * @param string $outTradeNo
+     * @return Payment|null
      */
-    public function getPaymentStatus(Payment $payment): array
+    public function findByOutTradeNo(string $outTradeNo): ?Payment
     {
-        return [
-            'out_trade_no' => $payment->out_trade_no,
-            'amount' => $payment->amount,
-            'status' => $payment->status,
-            'paid_at' => $payment->paid_at,
-            'transaction_id' => $payment->transaction_id,
-        ];
+        return Payment::where('out_trade_no', $outTradeNo)->first();
     }
 
     /**

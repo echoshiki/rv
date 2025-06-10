@@ -74,6 +74,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/my', [RegistrationController::class, 'index']);
         Route::get('/{activityId}/status', [RegistrationController::class, 'status']);
         Route::get('/{registration}', [RegistrationController::class, 'show']);
+        Route::post('/{registration}/pay', [PaymentController::class, 'createForRegistration']);
     });
 
     // 房车相关API
