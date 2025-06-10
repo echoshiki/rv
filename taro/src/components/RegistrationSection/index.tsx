@@ -119,7 +119,7 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
         } catch (error) {
             Taro.showToast({
                 icon: 'none',
-                title: '报名遇到一些问题，请稍后再试',
+                title: error.data.message || '报名遇到一些问题，请稍后再试',
                 duration: 3000
             });
             console.error('提交报名失败:', error);

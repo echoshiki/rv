@@ -33,7 +33,6 @@ const pollPaymentStatus = (outTradeNo: string, maxAttempts = 10, interval = 2000
     });
 };
 
-
 interface PaymentOptions {
     orderId: string;
     orderType: 'rv' | 'activity';

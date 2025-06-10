@@ -135,6 +135,7 @@ const useRegistration = ({
         try {
             // 1. 先检查活动状态，返回一个报名资格的布尔值和状态码
             const activityCheck = checkActivityStatus();
+
             if (!activityCheck.canRegister) {
                 // 无法报名，直接返回原因状态码
                 return activityCheck.statusCode;
@@ -142,11 +143,15 @@ const useRegistration = ({
                 
             // 2. 活动状态正常，检查用户报名单状态
             const { data } = await registrationApi.status(activityDetail.id);
+
             let statusCode: RegistrationStatusCode;
+            
             if (data?.value === 'approved') {
                 statusCode = RegistrationStatusCode.ALREADY_REGISTERED;
             } else if (data?.value === 'pending') {
                 statusCode = RegistrationStatusCode.PENDING_PAYMENT;
+            } else if (data?.value === 'rejected' || data?.value === 'cancelled') {
+                statusCode = RegistrationStatusCode.NOT_ELIGIBLE;
             } else {
                 statusCode = RegistrationStatusCode.SUCCESS;
             }
