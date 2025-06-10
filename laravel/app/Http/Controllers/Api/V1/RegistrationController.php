@@ -11,6 +11,7 @@ use App\Services\ActivityService;
 use App\Services\ActivityRegistrationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ActivityRegistration;
 
 class RegistrationController extends Controller
 {
@@ -87,25 +88,13 @@ class RegistrationController extends Controller
     /**
      * 报名详情
      */
-    public function show(Request $request, int $id)
+    public function show(ActivityRegistration $registration)
     {
         try {
-
-            $registration = $this->registrationService->getRegistrationById($id);
-
-            // 检索信息是否存在
-            if (!$registration) {
-                return $this->errorResponse('报名记录未找到。', 404);
+            if ($registration->user_id !== Auth::id()) {
+                return $this->errorResponse('无权查看此报名记录。', 403);
             }
-
-            // 只能查看自己的信息
-            $user = $request->user();
-            
-            if ($registration->user_id !== $user->id) {
-                return $this->errorResponse('无权查看此报名记录。', 404);
-            }
-
-            return $this->successResponse($registration);
+            return $this->successResponse(new RegistrationResource($registration));
         } catch (\Throwable $e) {
             return $this->errorResponse('报名详情获取失败：' . $e->getMessage(), 500);
         }
@@ -114,20 +103,10 @@ class RegistrationController extends Controller
     /**
      * 取消报名
      */
-    public function cancel(Request $request, $id)
+    public function cancel(ActivityRegistration $registration)
     {
         try {
-            $user = $request->user();
-            if (!$user) {
-                return $this->errorResponse('未经授权。', 401);
-            }
-
-            $registration = $this->registrationService->userCancelRegistration(
-                (int)$id,
-                $user->id,
-                $request->input('remarks')
-            );
-
+            $registration = $this->registrationService->userCancelRegistration($registration);
             return $this->successResponse($registration, '报名已成功取消。');
         } catch (\Throwable $e) {
             return $this->errorResponse('报名取消失败：' . $e->getMessage(), 500);
@@ -139,25 +118,15 @@ class RegistrationController extends Controller
      */
     public function status(Request $request, int $activityId)
     {
-        try {
-            $user = $request->user();
-            $registration = $this->registrationService->getUserRegistrations(
-                $user->id,
-                ['activity_id' => $activityId],
-                'created_at',
-                'desc',
-                1,
-                1,
-                ['id', 'status']
-            );
-            return $this->successResponse($registration->first() ? new RegistrationStatusResource($registration->first()) : null);
-        } catch (\Throwable $e) {
-            return $this->errorResponse('活动报名状态获取失败：' . $e->getMessage(), 500);
-        }
-    }
+        $registration = $this->registrationService->findUserRegistrationForActivity(
+            $request->user()->id,
+            $activityId
+        );
 
-    /**
-     * 支付记录
-     */
-    public function recordPayment(Request $request, $id) {}
+        if (!$registration) {
+            return $this->successResponse(null, '尚未报名该活动。');
+        }
+
+        return $this->successResponse(new RegistrationStatusResource($registration));
+    }
 }

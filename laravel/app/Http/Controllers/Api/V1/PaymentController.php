@@ -22,7 +22,7 @@ class PaymentController extends Controller
     /**
      * 为一个已存在的房车订单创建支付
      * @param RvOrder $rvOrder
-     * @return JsonResponse
+     * @return JsonResponse 返回前端参数: appId、timeStamp、nonceStr、package、signType、paySign、out_trade_no
      */
     public function createForRvOrder(RvOrder $rvOrder): JsonResponse
     {
@@ -31,15 +31,16 @@ class PaymentController extends Controller
             abort(403, '无权操作此订单。');
         }
 
-        // 创建支付单并获取前端参数
-        $paymentParams = $this->paymentService->createJsApiPayment(
-            $rvOrder,
-            Auth::user(),
-            "房车预订定金-订单号:{$rvOrder->order_no}" // 支付描述
-        );
-
-        // 直接返回 JSSDK 所需的参数
-        return $this->successResponse($paymentParams);
+        try {
+            $paymentParams = $this->paymentService->createJsApiPayment(
+                $rvOrder,
+                Auth::user(),
+                "房车预订定金-订单号:{$rvOrder->order_no}" // 支付描述
+            );
+            return $this->successResponse($paymentParams);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     /**
@@ -49,7 +50,29 @@ class PaymentController extends Controller
      */
     public function pollPaymentStatus(Request $request): JsonResponse
     {
-        $payment = Payment::where('out_trade_no', $request->input('out_trade_no'))->first();
-        return $this->successResponse($this->paymentService->getPaymentStatus($payment));
+        try {
+            $payment = Payment::where('out_trade_no', $request->input('out_trade_no'))->first();
+            if (!$payment) {
+                return $this->errorResponse('支付单不存在');
+            }
+            return $this->successResponse($this->paymentService->getPaymentStatus($payment));
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    /**
+     * 获取支付单详情
+     * @param Payment $payment
+     * @return JsonResponse
+     */
+    public function getPaymentDetail(Payment $payment): JsonResponse
+    {
+        try {
+            $paymentDetail = $this->paymentService->getPaymentDetail($payment);
+            return $this->successResponse($paymentDetail);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
     }
 }

@@ -351,12 +351,11 @@ interface SuggestSubmission {
  * 支付状态
  */
 interface PaymentStatus {
-    status: 'pending' | 'paid' | 'failed';
-    paidAt?: string;
-    transactionId?: string;
-    outTradeNo: string;
-    amount: number;
-    description?: string;
+    status: 'pending' | 'paid' | 'failed',
+    paid_at?: string,
+    transaction_id?: string,
+    out_trade_no: string,
+    amount: number
 }
 
 /**
@@ -364,37 +363,25 @@ interface PaymentStatus {
  */
 interface PaymentParam {
     appId: string,
+    timeStamp: string,
     nonceStr: string,
     package: string,
-    signType: string,
+    signType: 'MD5' | 'HMAC-SHA256' | 'RSA',
     paySign: string,
-    timestamp: string
-}
-
-/**
- * 支付历史
- */
-interface PaymentHistory {
-    id: string;
-    outTradeNo: string;
-    amount: number;
-    status: PaymentStatus['status'];
-    paidAt?: string;
-    description: string;
-    createdAt: string;
+    out_trade_no: string
 }
 
 /**
  * 支付详情
  */
-interface PaymentDetail extends PaymentHistory {
-    transactionId?: string;
-    payerId?: string;
-    payerName?: string;
-    paymentMethod: 'wechat' | 'alipay';
-    refundStatus?: 'pending' | 'success' | 'failed';
-    refundAmount?: number;
-    refundTime?: string;
+interface PaymentDetail {
+    out_trade_no: string,
+    amount: number,
+    status: PaymentStatus['status'],
+    paid_at?: string,
+    transaction_id?: string,
+    created_at: string,
+    updated_at: string,
 }
 
 export enum PaymentMethod {
@@ -448,6 +435,5 @@ export {
     SuggestSubmission,
     PaymentStatus,
     PaymentParam,
-    PaymentHistory,
     PaymentDetail
 }

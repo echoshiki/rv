@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use App\Contracts\Payable;
+use App\Enums\RegistrationStatus;
 
-class ActivityRegistration extends Model
+class ActivityRegistration extends Model implements Payable
 {
     /** @use HasFactory<\Database\Factories\ActivityRegistrationFactory> */
     use HasFactory;
@@ -21,18 +24,15 @@ class ActivityRegistration extends Model
         'city',
         'registration_no',
         'status',
-        'paid_amount',
-        'payment_method',
-        'payment_no',
-        'payment_time',
+        'fee',
         'form_data',
         'admin_remarks',
         'remarks',
     ];
 
     protected $casts = [
-        'paid_amount' => 'decimal:2',
-        'payment_time' => 'datetime',
+        'status' => RegistrationStatus::class,
+        'fee' => 'decimal:2',
     ];
 
     /**
@@ -52,17 +52,39 @@ class ActivityRegistration extends Model
     }
 
     /**
+     * 一个报名记录对应多条支付记录
+     */
+    public function payments(): MorphMany
+    {
+        return $this->morphMany(Payment::class, 'payable');
+    }
+
+    /**
+     * 实现 Payable 接口
+     * 获取应支付的金额
+     */
+    public function getPayableAmount(): float
+    {
+        return $this->fee;
+    }
+
+    /**
+     * 实现 Payable 接口
+     * 获取支付描述
+     */
+    public function getPayableDescription(): string 
+    {
+        return "活动报名费-订单号:{$this->registration_no}";
+    }
+
+    /**
      * 模型创建时自动生成唯一报名编号
      */
     protected static function booted()
     {
         static::creating(function ($registration) {
-            // 自动生成唯一报名编号
-            $registration->registration_no = self::generateUniqueRegistrationNo();
-
-            // 默认状态（可选）
-            if (!$registration->status) {
-                $registration->status = 'pending';
+            if (empty($registration->registration_no)) {
+                $registration->registration_no = self::generateUniqueRegistrationNo();
             }
         });
     }
@@ -78,22 +100,5 @@ class ActivityRegistration extends Model
 
         return $no;
     }
-    
-    /**
-     * 获取报名状态列表
-     */
-    public static function getStatuses(): array
-    {
-        return [
-            'pending' => '待支付',
-            'approved' => '已报名',
-            'rejected' => '已拒绝',
-            'cancelled' => '已取消'
-        ];
-    }
 
-    public function getStatusLabelAttribute()
-    {
-        return self::getStatuses()[$this->status] ?? '未知';
-    }
 }

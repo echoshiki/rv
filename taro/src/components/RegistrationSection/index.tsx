@@ -100,7 +100,7 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
             console.log('检查报名状态失败', error);
             Taro.showToast({
                 icon: 'error',
-                title: '检查失败，请重试'
+                title: '检查失败'
             });
         }
     }
@@ -140,7 +140,7 @@ const RegistrationSection = ({ activityDetail }: RegistrationSectionProps) => {
             if (!error.errMsg?.includes('cancel')) {
                 Taro.showToast({
                     icon: 'error',
-                    title: '支付失败，请重试'
+                    title: '支付失败'
                 });
             }
         }

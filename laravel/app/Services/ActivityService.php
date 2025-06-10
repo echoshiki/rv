@@ -81,9 +81,9 @@ class ActivityService
     }
 
     // 获取活动详情
-    public function getActivityById(int $id): Activity
+    public function getActivityById(int $id): ?Activity
     {
-        return Activity::with(['category'])->findOrFail($id);
+        return Activity::with(['category'])->find($id);
     }
 
     // 获取活动顶级分类列表

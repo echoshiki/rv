@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Services\RegionService;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use App\Enums\RegistrationStatus;
 
 class ActivityRegistrationResource extends Resource
 {
@@ -105,23 +106,15 @@ class ActivityRegistrationResource extends Resource
                         Forms\Components\Select::make('status')
                             ->label('状态')
                             ->options(function () {
-                                return ActivityRegistration::getStatuses();
+                                return RegistrationStatus::getLabels();
                             })
-                            ->default('pending')
+                            ->default(RegistrationStatus::Pending->value)
                             ->native(false)
                             ->required(),
-                        Forms\Components\TextInput::make('paid_amount')
+                        Forms\Components\TextInput::make('fee')
                             ->label('支付金额')
                             ->numeric()
-                            ->default(0.00),
-                        Forms\Components\TextInput::make('payment_method')
-                            ->label('支付方式')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('payment_no')
-                            ->label('支付单号')
-                            ->maxLength(255),
-                        Forms\Components\DateTimePicker::make('payment_time')
-                            ->label('支付时间'),
+                            ->default(0.00)
                     ]),
                 Forms\Components\Section::make()
                     ->columns(2)
@@ -161,32 +154,12 @@ class ActivityRegistrationResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->label('状态')
                     ->badge()
-                    ->formatStateUsing(function ($state) {
-                        return match ($state) {
-                            'pending' => '待支付',
-                            'approved' => '已报名',
-                            'rejected' => '未通过',
-                            'cancelled' => '已取消'
-                        };
-                    })
-                    ->color(fn(string $state): string => match ($state) {
-                        'pending' => 'warning',
-                        'approved' => 'success',
-                        'rejected' => 'danger',
-                        'cancelled' => 'gray',
-                    })
+                    ->formatStateUsing(fn (RegistrationStatus $state): string => $state->label())
+                    ->color(fn (RegistrationStatus $state): string => $state->color())
                     ->searchable(),
-                Tables\Columns\TextColumn::make('paid_amount')
+                Tables\Columns\TextColumn::make('fee')
                     ->label('支付金额')
-                    ->tooltip(function ($record) {
-                        return "方式: {$record->payment_method}\n单号: {$record->payment_no}\n时间: " . ($record->payment_time?->format('Y-m-d H:i') ?? '-');
-                    })
                     ->sortable(),
-                Tables\Columns\TextColumn::make('payment_time')
-                    ->label('支付时间')
-                    ->dateTime('Y-m-d H:i')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('创建时间')
                     ->dateTime('Y-m-d H:i')
@@ -199,9 +172,14 @@ class ActivityRegistrationResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
+                Tables\Filters\SelectFilter::make('status')
+                    ->label('报名状态')
+                    ->options(RegistrationStatus::getLabels())
+                    ->multiple(), // 允许用户同时筛选多个状态
+
                 Tables\Filters\SelectFilter::make('activity_id')
                     ->relationship('activity', 'title')
-                    ->label('对应活动')
+                    ->label('对应活动'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\RegistrationStatus;
 
 return new class extends Migration
 {
@@ -20,11 +21,8 @@ return new class extends Migration
             $table->string('province')->nullable()->comment('省份');
             $table->string('city')->nullable()->comment('城市');
             $table->string('registration_no')->unique()->comment('报名编号');
-            $table->enum('status', ['pending', 'approved', 'rejected', 'cancelled'])->default('pending')->comment('报名状态');
-            $table->decimal('paid_amount', 10, 2)->default(0)->comment('已支付金额');
-            $table->string('payment_method')->nullable()->comment('支付方式');
-            $table->string('payment_no')->nullable()->comment('支付单号');
-            $table->timestamp('payment_time')->nullable()->comment('支付时间');
+            $table->string('status')->default(RegistrationStatus::Pending->value)->comment('报名状态');
+            $table->decimal('fee', 10, 2)->default(0)->comment('报名费');
             $table->json('form_data')->nullable()->comment('表单原始数据');
             $table->text('admin_remarks')->nullable()->comment('管理员备注');
             $table->text('remarks')->nullable()->comment('备注');

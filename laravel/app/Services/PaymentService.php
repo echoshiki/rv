@@ -12,6 +12,7 @@ use App\Events\PaymentSucceeded;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use App\Enums\OrderStatus;
+use App\Contracts\Payable;
 
 /**
  * 通用支付处理
@@ -29,35 +30,40 @@ class PaymentService
     /**
      * 创建一个支付流程，获取前端需要的支付调用参数
      * 
-     * @param Model $payable 业务模型实例
+     * @param Model $payable 业务模型实例（实现 Payable 接口， 统一支付金额和描述）
      * @param User $user 支付用户
-     * @param string $description 支付描述
      * @return array
      */
-    public function createJsApiPayment(Model $payable, User $user, string $description): array
+    public function createJsApiPayment(Payable $payable, User $user): array
     {
-        return DB::transaction(function () use ($payable, $user, $description) {
-            // 01. 创建内部支付单
+        // 检查模型是否实现了 Payable 接口
+        if (!$payable instanceof Payable && !$payable instanceof Model) {
+            throw new \InvalidArgumentException('Payable 模型必须实现 Payable 接口和继承 Model 类');
+        }
+
+        return DB::transaction(function () use ($payable, $user) {
+            // 创建内部支付单
             $payment = Payment::create([
                 'user_id'      => $user->id,
                 'payable_id'   => $payable->id,
                 'payable_type' => $payable->getMorphClass(),
-                // 这里的 deposit_amount 是不是需要多个模型字段对应？
-                'amount'       => $payable->deposit_amount,
+                'amount'       => $payable->getPayableAmount(),
                 'out_trade_no' => 'PAY' . now()->format('YmdHisu') . Str::random(6),
                 'status'       => PaymentStatus::Pending,
             ]);
 
-            // 02. 调用支付网关服务来获取前端参数
+            // 调用支付网关服务来获取前端参数, SDK 返回参数: appId、timeStamp、nonceStr、package、signType、paySign
             $frontendParams = $this->wechatGateway->createJsApiTransaction(
                 $payment->out_trade_no,
                 (int) ($payment->amount * 100),
-                $description,
+                $payable->getPayableDescription(),
                 $user->wechatUser->openid
             );
 
-            // 03. 返回前端参数: prepay_id、timestamp、nonceStr、signType、paySign
-            return $frontendParams;
+            return array_merge($frontendParams, [
+                // 添加进 out_trade_no 字段用于前端轮询
+                'out_trade_no' => $payment->out_trade_no,
+            ]);
         });
     }
 
@@ -119,11 +125,28 @@ class PaymentService
     public function getPaymentStatus(Payment $payment): array
     {
         return [
+            'out_trade_no' => $payment->out_trade_no,
+            'amount' => $payment->amount,
             'status' => $payment->status,
             'paid_at' => $payment->paid_at,
             'transaction_id' => $payment->transaction_id,
         ];
     }
 
+    /**
+     * 获取支付单详情
+     */
+    public function getPaymentDetail(Payment $payment): array
+    {
+        return [
+            'out_trade_no' => $payment->out_trade_no,
+            'amount' => $payment->amount,
+            'status' => $payment->status,
+            'paid_at' => $payment->paid_at,
+            'transaction_id' => $payment->transaction_id,
+            'created_at' => $payment->created_at,
+            'updated_at' => $payment->updated_at,
+        ];
+    }
     
 }

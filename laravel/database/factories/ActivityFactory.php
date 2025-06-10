@@ -54,9 +54,9 @@ class ActivityFactory extends Factory
 
         $categoryId = ActivityCategory::inRandomOrder()->first()?->id;
 
-        $registrationStartAt = fake()->dateTimeBetween('now', '+1 month');
-        $registrationEndAt = fake()->dateTimeBetween($registrationStartAt, Carbon::instance($registrationStartAt)->addWeeks(2));
-        $startedAt = fake()->dateTimeBetween($registrationEndAt, Carbon::instance($registrationEndAt)->addWeeks(1));
+        $registrationStartAt = fake()->dateTimeBetween('-1 month', '+1 month');
+        $registrationEndAt = fake()->dateTimeBetween($registrationStartAt, Carbon::instance($registrationStartAt)->addWeeks(4));
+        $startedAt = fake()->dateTimeBetween($registrationEndAt, Carbon::instance($registrationEndAt)->addWeeks(2));
         $endedAt = fake()->dateTimeBetween($startedAt, Carbon::instance($startedAt)->addDays(fake()->numberBetween(1, 7)));
         $publishedAt = fake()->dateTimeBetween('-2 years', 'now'); // 80% 几率有发布时间
 

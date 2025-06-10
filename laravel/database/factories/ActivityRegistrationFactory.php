@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use App\Enums\RegistrationStatus;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ActivityRegistration>
@@ -32,29 +33,18 @@ class ActivityRegistrationFactory extends Factory
         $activity = Activity::inRandomOrder()->first() ?? Activity::factory()->create();
         $user = User::inRandomOrder()->first() ?? User::factory()->create();
 
-        $status = fake()->randomElement(['pending', 'approved', 'rejected', 'cancelled']);
-        $paidAmount = 0.00;
-        $paymentMethod = null;
-        $paymentNo = null;
-        $paymentTime = null;
+        $status = fake()->randomElement(RegistrationStatus::getValues());
+        $fee = 0.00;
 
         // 如果状态是 approved，或者30%的几率已支付
-        if ($status === 'approved' || fake()->boolean(30)) {
+        if ($status === RegistrationStatus::Approved->value || fake()->boolean(30)) {
             // 如果活动有注册费，则使用注册费，否则随机生成一个支付金额
-            $paidAmount = $activity->registration_fee > 0 ? $activity->registration_fee : fake()->randomFloat(2, 50, 300);
-            if ($paidAmount > 0) {
-                $paymentMethod = fake()->randomElement(['wechat_pay', 'alipay', 'bank_transfer', 'cash']);
-                $paymentNo = Str::upper(Str::random(16));
-                $paymentTime = fake()->dateTimeBetween($activity->created_at, 'now');
-            }
+            $fee = $activity->registration_fee > 0 ? $activity->registration_fee : fake()->randomFloat(2, 50, 300);
         }
 
         // 如果活动免费，则支付金额为0
         if ($activity->registration_fee == 0) { 
-            $paidAmount = 0.00;
-            $paymentMethod = null;
-            $paymentNo = null;
-            $paymentTime = null;
+            $fee = 0.00;
         }
 
         $provinces = ['北京市', '上海市', '广东省', '江苏省', '浙江省', '四川省', '山东省'];
@@ -78,10 +68,7 @@ class ActivityRegistrationFactory extends Factory
             'province' => $province,
             'city' => $city,
             'status' => $status,
-            'paid_amount' => $paidAmount,
-            'payment_method' => $paymentMethod,
-            'payment_no' => $paymentNo,
-            'payment_time' => $paymentTime,
+            'fee' => $fee,
             'form_data' => json_encode([ // 示例表单数据
                 'id_card' => fake()->optional(0.7)->ean13(), // 70% 几率有身份证号 (用ean13模拟)
                 'emergency_contact_name' => fake()->optional(0.8)->name(),
@@ -104,23 +91,11 @@ class ActivityRegistrationFactory extends Factory
     {
         return $this->state(function (array $attributes, Factory $factory) {
             $activity = Activity::find($attributes['activity_id'] ?? Activity::factory()->create()->id);
-            $paidAmount = $activity->registration_fee > 0 ? $activity->registration_fee : fake()->randomFloat(2, 50, 300);
-            $paymentMethod = null;
-            $paymentNo = null;
-            $paymentTime = null;
-
-            if ($paidAmount > 0) {
-                $paymentMethod = fake()->randomElement(['wechat_pay', 'alipay', 'bank_transfer']);
-                $paymentNo = Str::upper(Str::random(16));
-                $paymentTime = Carbon::parse($attributes['created_at'] ?? 'now')->addMinutes(rand(5, 60));
-            }
+            $fee = $activity->registration_fee > 0 ? $activity->registration_fee : fake()->randomFloat(2, 50, 300);
 
             return [
-                'status' => 'approved',
-                'paid_amount' => $paidAmount,
-                'payment_method' => $paymentMethod,
-                'payment_no' => $paymentNo,
-                'payment_time' => $paymentTime,
+                'status' => RegistrationStatus::Approved->value,
+                'fee' => $fee
             ];
         });
     }
@@ -134,10 +109,7 @@ class ActivityRegistrationFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'paid_amount' => 0.00,
-                'payment_method' => null,
-                'payment_no' => null,
-                'payment_time' => null,
+                'fee' => 0.00,
             ];
         });
     }

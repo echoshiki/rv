@@ -1,129 +1,164 @@
 import { useState, useCallback } from 'react';
 import Taro from '@tarojs/taro';
-import { http } from '@/utils/request';
+import paymentApi from '@/api/payment';
+
+/**
+ * 轮询支付状态
+ * @param outTradeNo 商户订单号
+ * @param maxAttempts 最大轮询次数
+ * @param interval 轮询间隔时间
+ * @returns 支付状态
+ */
+const pollPaymentStatus = (outTradeNo: string, maxAttempts = 10, interval = 2000): Promise<boolean> => {
+    // 轮询次数
+    let attempts = 0;
+    return new Promise((resolve, reject) => {
+        const executePoll = async () => {
+            // 轮询次数递增
+            attempts++;
+            try {
+                const { data } = await paymentApi.checkPaymentStatus(outTradeNo);
+                if (data.status === 'paid') {
+                    return resolve(true); // 支付成功，停止轮询
+                } else if (attempts >= maxAttempts) {
+                    return reject(new Error('支付结果确认超时')); // 达到最大次数
+                } else {
+                    setTimeout(executePoll, interval); // 继续轮询
+                }
+            } catch (error) {
+                return reject(error); // API查询失败
+            }
+        };
+        executePoll();
+    });
+};
+
 
 interface PaymentOptions {
-  orderId: string | number;
-  orderType: 'rv' | 'activity'; // 订单类型
-  amount: number;
-  description?: string;
+    orderId: string;
+    orderType: 'rv' | 'activity';
 }
 
-interface PaymentStatus {
-  status: 'pending' | 'paid' | 'failed';
-  paidAt?: string;
-  transactionId?: string;
+interface PaymentResult {
+    success: boolean;
+    orderId?: string;
 }
 
 interface UsePaymentReturn {
-  isPaying: boolean;
-  paymentError: string | null;
-  startPayment: (options: PaymentOptions) => Promise<void>;
-  checkPaymentStatus: (outTradeNo: string) => Promise<PaymentStatus>;
+    isPaying: boolean;
+    paymentError: string | null;
+    // 返回一个最终结果的 Promise
+    startPayment: (options: PaymentOptions) => Promise<PaymentResult>;
 }
 
-export const usePayment = (): UsePaymentReturn => {
-  const [isPaying, setIsPaying] = useState(false);
-  const [paymentError, setPaymentError] = useState<string | null>(null);
+const usePayment = (): UsePaymentReturn => {
+    const [isPaying, setIsPaying] = useState(false);
+    const [paymentError, setPaymentError] = useState<string | null>(null);
 
-  // 开始支付流程
-  const startPayment = useCallback(async (options: PaymentOptions) => {
-    try {
-      setIsPaying(true);
-      setPaymentError(null);
+    // 开始支付流程
+    const startPayment = useCallback(async (options: PaymentOptions): Promise<PaymentResult> => {
+        setIsPaying(true);
+        setPaymentError(null);
 
-      // 根据订单类型构建支付请求
-      const endpoint = options.orderType === 'rv' 
-        ? `/api/v1/rv-orders/${options.orderId}/pay`
-        : `/api/v1/activities/${options.orderId}/pay`;
+        Taro.showLoading({ title: '正在准备支付...', mask: true });
 
-      // 获取支付参数
-      const { data: paymentParams } = await http.post(endpoint);
+        try {
+            // 根据订单类型构建支付请求
+            const paymentParamsResponse = await (options.orderType === 'rv'
+                ? paymentApi.initiateRvOrderPayment(options.orderId)
+                : paymentApi.initiateActivityPayment(options.orderId));
+            
+            const paymentParams = paymentParamsResponse.data;
+            if (!paymentParams?.paySign) throw new Error('获取支付参数失败');
+                
+            Taro.hideLoading();
 
-      // 调用微信支付
-      await Taro.requestPayment({
-        ...paymentParams,
-        success: () => {
-          // 支付成功后的处理
-          Taro.showToast({
-            title: '支付成功',
-            icon: 'success',
-            duration: 2000
-          });
-        },
-        fail: (err) => {
-          // 支付失败的处理
-          setPaymentError(err.errMsg || '支付失败');
-          Taro.showToast({
-            title: '支付失败',
-            icon: 'error',
-            duration: 2000
-          });
-        }
-      });
-    } catch (error) {
-      setPaymentError(error.message || '支付过程发生错误');
-      Taro.showToast({
-        title: '支付失败',
-        icon: 'error',
-        duration: 2000
-      });
-    } finally {
-      setIsPaying(false);
-    }
-  }, []);
+            // 拉起微信支付
+            await Taro.requestPayment({
+                timeStamp: paymentParams.timeStamp,
+                nonceStr: paymentParams.nonceStr,
+                package: paymentParams.package,
+                signType: paymentParams.signType,
+                paySign: paymentParams.paySign
+            });
 
-  // 轮询检查支付状态
-  const checkPaymentStatus = useCallback(async (outTradeNo: string): Promise<PaymentStatus> => {
-    try {
-      const { data } = await http.get('/api/v1/payments/status', {
-        params: { out_trade_no: outTradeNo }
-      });
-      return data;
-    } catch (error) {
-      throw new Error('查询支付状态失败');
-    }
-  }, []);
+            // 内置轮询，确认后端支付状态
+            Taro.showLoading({ title: '正在确认支付结果...', mask: true });
 
-  return {
-    isPaying,
-    paymentError,
-    startPayment,
-    checkPaymentStatus
-  };
+            const outTradeNo = paymentParams.out_trade_no;
+            if (!outTradeNo) throw new Error('支付参数缺少商户订单号');
+
+            // 轮询支付状态
+            await pollPaymentStatus(outTradeNo);
+
+            setIsPaying(false);
+            Taro.hideLoading();
+            return { success: true, orderId: options.orderId };
+
+        } catch (error) {
+            setIsPaying(false);
+            Taro.hideLoading();
+            setPaymentError(error);
+
+            // 统一处理所有错误（API错误、用户取消、轮询超时）
+            const isCancel = error.errMsg?.includes('cancel');
+            if (!isCancel) {
+                Taro.showToast({ title: error.message || '支付失败', icon: 'none' });
+            } else {
+                Taro.showToast({ title: '支付已取消', icon: 'none' });
+            }
+
+            return { success: false, orderId: options.orderId };
+        } 
+    }, []);
+
+    return {
+        isPaying,
+        paymentError,
+        startPayment
+    };
 };
 
-// 使用示例：
-/*
-const PaymentComponent = () => {
-  const { isPaying, paymentError, startPayment, checkPaymentStatus } = usePayment();
+export default usePayment;
 
-  const handlePayment = async () => {
-    try {
-      await startPayment({
-        orderId: '123',
-        orderType: 'rv',
-        amount: 1000,
-        description: '房车预订定金'
-      });
 
-      // 支付成功后，可以开始轮询检查支付状态
-      const status = await checkPaymentStatus('out_trade_no');
-      if (status.status === 'paid') {
-        // 处理支付成功后的业务逻辑
-      }
-    } catch (error) {
-      console.error('支付失败:', error);
-    }
-  };
-
-  return (
-    <View>
-      <Button loading={isPaying} onClick={handlePayment}>
-        立即支付
-      </Button>
-      {paymentError && <Text>{paymentError}</Text>}
-    </View>
-  );
-};
-*/
+// // 使用示例：
+// const PaymentComponent = () => {
+//     // Hook 的返回值中不再需要 checkPaymentStatus，因为它已经被内部消化了
+//     const { isPaying, paymentError, startPayment } = usePayment();
+  
+//     const handlePayment = async () => {
+//       try {
+//         // 只需调用 startPayment 并等待它的最终结果
+//         const result = await startPayment({
+//           orderId: '123',
+//           orderType: 'rv'
+//         });
+  
+//         // result.success 为 true 时，已经是后端确认过的最终成功状态
+//         if (result.success) {
+//           Taro.showModal({
+//             title: '成功',
+//             content: '您的订单已支付成功！',
+//             showCancel: false,
+//             success: () => {
+//               // 跳转到成功页或订单详情页
+//             }
+//           });
+//         }
+//       } catch (error) {
+//         // 实际上，hook 内部已经处理了大部分错误提示，这里可以留空或做额外日志记录
+//         console.error('支付流程最终失败:', error);
+//       }
+//     };
+  
+//     return (
+//       <View>
+//         <Button loading={isPaying} onClick={handlePayment}>
+//           {isPaying ? '处理中...' : '立即支付'}
+//         </Button>
+//         {/* paymentError 可以在需要时展示更详细的错误信息 */}
+//         {paymentError && <Text>错误: {paymentError.message}</Text>}
+//       </View>
+//     );
+//   };

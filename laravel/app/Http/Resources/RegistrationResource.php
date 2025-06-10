@@ -4,7 +4,6 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Services\ActivityRegistrationService;
 
 class RegistrationResource extends JsonResource
 {
@@ -23,10 +22,7 @@ class RegistrationResource extends JsonResource
             'phone' => $this->phone,
             'province' => $this->province,
             'city' => $this->city,
-            'status' => [
-                'label' => (new ActivityRegistrationService())->getStatusName($this->status),
-                'value' => $this->status,
-            ],
+            'status' => $this->formatStatus(),
             'paid_amount' => $this->paid_amount,
             'payment_method' => $this->payment_method,
             'payment_time' => $this->payment_time,
@@ -39,6 +35,22 @@ class RegistrationResource extends JsonResource
                  }
                  return null;
             })
+        ];
+    }
+
+    /**
+     * 格式化状态信息
+     */
+    private function formatStatus(): ?array
+    {
+        if (!$this->status) {
+            return null;
+        }
+
+        return [
+            'label' => $this->status->label(),
+            'value' => $this->status->value,
+            'color' => $this->status->color(),
         ];
     }
 }

@@ -25,7 +25,7 @@ class RvOrderResource extends JsonResource
             'deposit_amount' => $this->deposit_amount,
             'status' => $this->formatStatus(),
             'created_at' => $this->created_at->toDateTimeString(),
-            'rv' => [ // 可选：关联返回一些房车信息
+            'rv' => [
                 'id' => $this->rv->id,
                 'name' => $this->rv->name,
                 'cover' => $this->rv->cover ? asset('storage/' . $this->rv->cover) : $defaultCover,

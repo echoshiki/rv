@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Services\ActivityRegistrationService;
+use App\Enums\RegistrationStatus;
 
 class RegistrationStatusResource extends JsonResource
 {
@@ -16,8 +16,9 @@ class RegistrationStatusResource extends JsonResource
     public function toArray(Request $request): array
     {   
         return [ 
-            'label' => (new ActivityRegistrationService())->getStatusName($this->status),
-            'value' => $this->status,
+            'label' => $this->status->label(),
+            'value' => $this->status->value,
+            'color' => $this->status->color(),
         ];
     }
 }

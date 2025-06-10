@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\OrderStatus;
+use App\Contracts\Payable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class RvOrder extends Model
+class RvOrder extends Model implements Payable
 {
     /** @use HasFactory<\Database\Factories\RvOrderFactory> */
     use HasFactory;
@@ -53,4 +54,21 @@ class RvOrder extends Model
         return $this->morphMany(Payment::class, 'payable');
     }
 
+    /**
+     * 实现 Payable 接口
+     * 获取应支付的金额
+     */
+    public function getPayableAmount(): float
+    {
+        return $this->deposit_amount;
+    }
+
+    /**
+     * 实现 Payable 接口
+     * 获取支付描述
+     */
+    public function getPayableDescription(): string
+    {
+        return "房车预订定金-订单号:{$this->order_no}";
+    }
 }

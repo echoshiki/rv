@@ -70,10 +70,10 @@ Route::prefix('v1')->group(function () {
     // 报名相关API
     Route::middleware('auth:sanctum')->prefix('registrations')->group(function () {
         Route::post('/', [RegistrationController::class, 'store']);
-        // Route::post('/{id}/cancel', [RegistrationController::class, 'cancel']);
+        // Route::post('/{registration}/cancel', [RegistrationController::class, 'cancel']);
         Route::get('/my', [RegistrationController::class, 'index']);
         Route::get('/{activityId}/status', [RegistrationController::class, 'status']);
-        Route::get('/{id}', [RegistrationController::class, 'show']);
+        Route::get('/{registration}', [RegistrationController::class, 'show']);
     });
 
     // 房车相关API
@@ -91,11 +91,6 @@ Route::prefix('v1')->group(function () {
     });
 
     // 我的爱车相关API
-    // GET	/my-cars	my-cars.index	index	获取所有资源
-    // POST	/my-cars	my-cars.store	store	创建新资源
-    // GET	/my-cars/{my_car}	my-cars.show	show	获取指定资源
-    // PUT/PATCH	/my-cars/{my_car}	my-cars.update	update	更新指定资源
-    // DELETE	/my-cars/{my_car}	my-cars.destroy	destroy	删除指定资源
     Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('my-cars', MyCarController::class);
     });
@@ -117,6 +112,9 @@ Route::prefix('v1')->group(function () {
 
     // 微信回调处理
     Route::post('/payments/notify/wechat', [WebhookController::class, 'handlePaymentNotify']);
+
+    // 查询支付状态
+    Route::get('/payments/status', [PaymentController::class, 'pollPaymentStatus']);
 
     // 房车订单相关
     Route::middleware('auth:sanctum')->prefix('rv-orders')->group(function () {

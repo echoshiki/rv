@@ -17,6 +17,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use PHPUnit\Framework\Attributes\DataProvider;
+use App\Contracts\Payable;
 
 class PaymentServiceTest extends TestCase
 {
@@ -27,7 +28,7 @@ class PaymentServiceTest extends TestCase
     protected $mockWechatGateway;
     protected User $user;
     protected Rv $rv;
-    protected Model $payable;
+    protected Payable & Model $payable;
     protected RvOrderService $rvOrderService;
 
     /**
@@ -78,9 +79,9 @@ class PaymentServiceTest extends TestCase
     public function test_create_jsapi_payment_success()
     {
         // === 准备阶段 ===
-        // 我们期望获得用于前端拉起支付的参数（假数据）
-        $description = '测试订单支付';
-        $expectedFrontendParams = [
+
+        // 我们期望获得用于前端拉起支付的参数，不包含 out_trade_no（假数据）
+        $wechatGatewayResult = [
             'appId' => 'wx1234567890',
             'timeStamp' => '1234567890',
             'nonceStr' => 'random_string',
@@ -91,6 +92,7 @@ class PaymentServiceTest extends TestCase
 
         // 获取实际的 payable 金额（从 deposit_amount 字段）
         $expectedAmountInCents = (int) ($this->payable->deposit_amount * 100);
+        $expectedDescription = $this->payable->getPayableDescription();
 
         // 设置 Mock 期望 - 模拟微信网关返回成功的前端参数
         $this->mockWechatGateway
@@ -100,38 +102,45 @@ class PaymentServiceTest extends TestCase
             ->with(
                 Mockery::pattern('/^PAY\d{20}\w{6}$/'), // 验证订单号格式：PAY + 11位时间戳 + 6位随机字符
                 $expectedAmountInCents, // 使用实际的金额（分为单位）
-                $description,
+                $expectedDescription,
                 $this->user->wechatUser->openid
             )
             // 返回捏造的数据
-            ->andReturn($expectedFrontendParams); 
+            ->andReturn($wechatGatewayResult); 
 
         // === 执行阶段 ===
         $result = $this->paymentService->createJsApiPayment(
             $this->payable,
-            $this->user,
-            $description
+            $this->user
         );
 
         // === 验证阶段 ===
         
-        // 1. 验证返回值
-        $this->assertEquals($expectedFrontendParams, $result);
+        // 验证返回值是否是一个数组，是否包含了我们期望所有的键
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('appId', $result);
+        $this->assertArrayHasKey('paySign', $result);
+        $this->assertArrayHasKey('out_trade_no', $result);
 
-        // 2. 验证数据库中创建了支付记录
+        // 验证返回值是否正确
+        $this->assertEquals('wx1234567890', $result['appId']);
+        $this->assertMatchesRegularExpression('/^PAY\d{20}\w{6}$/', $result['out_trade_no']);
+
+        // 验证数据库中创建了支付记录
         $this->assertDatabaseHas('payments', [
             'user_id' => $this->user->id,
             'payable_id' => $this->payable->id,
             'payable_type' => $this->payable->getMorphClass(),
-            'amount' => $this->payable->deposit_amount,
+            'amount' => $this->payable->getPayableAmount(),
             'status' => PaymentStatus::Pending,
         ]);
 
-        // 3. 验证支付记录的详细信息
+        // 验证支付记录的详细信息
         $payment = Payment::first();
         $this->assertNotNull($payment);
         $this->assertMatchesRegularExpression('/^PAY\d{20}\w{6}$/', $payment->out_trade_no);
         $this->assertEquals(PaymentStatus::Pending, $payment->status);
+
     }
 
     /**
@@ -157,8 +166,7 @@ class PaymentServiceTest extends TestCase
 
         $this->paymentService->createJsApiPayment(
             $this->payable,
-            $this->user,
-            $description
+            $this->user
         );
 
         // === 验证阶段 ===
