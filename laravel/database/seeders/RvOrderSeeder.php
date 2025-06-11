@@ -13,6 +13,19 @@ class RvOrderSeeder extends Seeder
      */
     public function run(): void
     {
+
+        // 确保 Rv 和 User 表中有数据
+        if (\App\Models\Rv::count() === 0) {
+            $this->call(RvSeeder::class);
+        }
+        if (\App\Models\User::count() === 0) {
+            $this->call(UserSeeder::class);
+        }
+
+        if (!app()->environment('local')) {
+            return;
+        }
+
         $this->command->info('开始填充房车预订测试数据...');
 
         // 创建20个待支付的订单

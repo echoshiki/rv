@@ -20,6 +20,8 @@ class RvOrderFactory extends Factory
             'order_no' => 'RV' . now()->format('YmdHis') . Str::upper(Str::random(6)),
             'deposit_amount' => $this->faker->randomFloat(2, 500, 2000),
             'status' => OrderStatus::Pending,
+            'created_at' => fake()->dateTimeBetween('-1 month', 'now'),
+            'updated_at' => fn (array $attributes) => $attributes['created_at'],
         ];
     }
 

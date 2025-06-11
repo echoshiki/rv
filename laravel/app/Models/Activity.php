@@ -85,9 +85,6 @@ class Activity extends Model
             }
         });
 
-        static::addGlobalScope('isActive', function ($query) {
-            $query->where('is_active', true);
-        });
     }
 
     /**
