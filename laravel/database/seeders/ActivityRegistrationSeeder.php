@@ -24,24 +24,37 @@ class ActivityRegistrationSeeder extends Seeder
         
         $this->command->info('开始创建多样化的活动报名数据...');
 
-        // 1. 创建 20 个已成功支付的报名记录
+        // 创建 20 个已成功支付的报名记录
         // 工厂会自动处理关联的 Activity, User 和 Payment
         ActivityRegistration::factory()->count(20)->paid()->create();
-        $this->command->line('-> 创建了 20 个已支付的报名记录');
 
-        // 2. 创建 15 个已提交但待支付的报名记录
+        // 创建 15 个已提交但待支付的报名记录
         ActivityRegistration::factory()->count(15)->withPendingPayment()->create();
-        $this->command->line('-> 创建了 15 个待支付的报名记录');
 
-        // 3. 创建 10 个免费活动的报名记录
+        // 创建 10 个免费活动的报名记录
         ActivityRegistration::factory()->count(10)->free()->create();
-        $this->command->line('-> 创建了 10 个免费活动的报名记录');
 
-        // 4. 创建 5 个已取消的报名记录 (使用基础工厂并覆盖状态)
+        // 创建 5 个已取消的报名记录 (使用基础工厂并覆盖状态)
         ActivityRegistration::factory()->count(5)->create([
             'status' => \App\Enums\RegistrationStatus::Cancelled,
         ]);
-        $this->command->line('-> 创建了 5 个已取消的报名记录');
+
+        /**
+         * 指定用户数据，前端测试使用
+         * 已支付，待支付，已取消
+         */
+        ActivityRegistration::factory()->count(5)->paid()->create([
+            'user_id' => 2
+        ]);
+
+        ActivityRegistration::factory()->count(5)->withPendingPayment()->create([
+            'user_id' => 2
+        ]);
+
+        ActivityRegistration::factory()->count(5)->create([
+            'user_id' => 2,
+            'status' => \App\Enums\RegistrationStatus::Cancelled,
+        ]);
 
         $this->command->info('活动报名数据填充完毕！');
     }

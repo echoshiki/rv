@@ -20,5 +20,17 @@
   },
   "projectname": "rv_taro",
   "libVersion": "3.8.6",
-  "condition": {}
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/registration/index",
+          "pathName": "pages/registration/index",
+          "query": "",
+          "scene": null,
+          "launchMode": "default"
+        }
+      ]
+    }
+  }
 }

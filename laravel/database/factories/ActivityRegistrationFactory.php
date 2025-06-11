@@ -17,8 +17,8 @@ class ActivityRegistrationFactory extends Factory
     public function definition(): array
     {
         // 确保关联的模型已创建
-        $activity = Activity::factory()->create();
-        $user = User::factory()->create();
+        $activity = Activity::inRandomOrder()->first() ?? Activity::factory()->create();
+        $user = User::inRandomOrder()->first() ?? User::factory()->create();
 
         return [
             'activity_id' => $activity->id,

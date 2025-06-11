@@ -6,6 +6,7 @@ import {
     RegistrationSubmission,
     RegistrationStatus
 } from "@/types/api";
+import { BaseQueryParams } from "@/types/ui";
 
 const REGISTRATION_API = `/api/v1/registrations/`;
 
@@ -14,8 +15,27 @@ const registrationApi = {
      * 获取当前用户的报名列表
      * @returns 
      */
-    list: (): Promise<ApiResponse<RegistrationList>> => {
-        return http.get(`${REGISTRATION_API}my`);
+    list: ({
+        orderBy,
+        sort,
+        page,
+        limit
+    }: BaseQueryParams): Promise<ApiResponse<RegistrationList>> => {
+        const queryParams = {
+            orderBy,
+            sort,
+            page,
+            limit,
+        };
+
+        // 清理未定义的参数
+        Object.keys(queryParams).forEach(key => {
+            if (queryParams[key] === undefined || queryParams[key] === null) {
+                delete queryParams[key];
+            }
+        });
+
+        return http.get(`${REGISTRATION_API}my`, queryParams);
     },
 
     /**
