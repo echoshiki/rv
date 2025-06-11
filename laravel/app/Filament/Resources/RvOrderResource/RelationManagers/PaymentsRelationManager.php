@@ -45,8 +45,14 @@ class PaymentsRelationManager extends RelationManager
                 Forms\Components\Select::make('status')
                     ->label('支付状态')
                     ->options(PaymentStatus::class)
-                    ->columnSpanFull()
                     ->required()
+                    ->native(false),
+
+                Forms\Components\DateTimePicker::make('paid_at')
+                    ->label('支付时间')
+                    ->required()
+                    ->timezone('Asia/Shanghai')
+                    ->displayFormat('Y-m-d H:i:s')
                     ->native(false),
 
                 Forms\Components\TextInput::make('transaction_id')

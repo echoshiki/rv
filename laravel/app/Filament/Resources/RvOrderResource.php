@@ -18,7 +18,7 @@ class RvOrderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-truck';
 
-    protected static ?string $navigationGroup = '互动管理';
+    protected static ?string $navigationGroup = '房车管理';
 
     protected static ?string $navigationLabel = '房车订单';
 
@@ -70,9 +70,11 @@ class RvOrderResource extends Resource
                             ->options(OrderStatus::class)
                             ->required()
                             ->native(false),
-                        Forms\Components\DatePicker::make('created_at')
+                        Forms\Components\DateTimePicker::make('created_at')
                             ->disabledOn('edit')
-                            ->label('下单时间'),
+                            ->label('下单时间')
+                            ->timezone('Asia/Shanghai')
+                            ->displayFormat('Y-m-d H:i:s'),
                     ]), 
             ]);
     }
@@ -83,6 +85,7 @@ class RvOrderResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('order_no')
                     ->label('订单编号')
+                    ->badge()
                     ->searchable()
                     ->copyable()
                     ->copyMessage('订单号已复制'),
