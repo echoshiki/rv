@@ -61,6 +61,9 @@ class SuggestResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('姓名')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('user.phone')
+                    ->label('电话')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('content')
                     ->label('建议内容')
                     ->limit(60)

@@ -95,10 +95,10 @@ class RvOrderResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label('预订用户')
-                    ->limit(15)
+                Tables\Columns\TextColumn::make('user.phone')
+                    ->label('用户电话')
                     ->searchable()
+                    ->tooltip(fn ($record) => $record->user->name)
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('deposit_amount')

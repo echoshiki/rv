@@ -99,8 +99,8 @@ class PaymentResource extends Resource
                     ->label('支付时间')
                     ->dateTime('Y-m-d H:i:s')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label('用户')
+                Tables\Columns\TextColumn::make('user.phone')
+                    ->label('电话')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('payable_type')

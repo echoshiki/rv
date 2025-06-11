@@ -138,14 +138,8 @@ class ActivityRegistrationResource extends Resource
                     ->label('报名编号')
                     ->badge()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->label('姓名')
-                    ->tooltip(function ($record) {
-                        return $record->phone . "\n" . $record->city;
-                    })
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
-                    ->label('联系电话')
+                    ->label('用户电话')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('activity.title')
                     ->label('所属活动')
