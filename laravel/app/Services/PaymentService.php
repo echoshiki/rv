@@ -57,7 +57,7 @@ class PaymentService
                 $payment->out_trade_no,
                 (int) ($payment->amount * 100),
                 $payable->getPayableDescription(),
-                $user->wechatUser->openid
+                $user->wechat_users->openid
             );
 
             return array_merge($frontendParams, [
