@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
         if ($wechatUser) {
             WechatUser::updateOrCreate(
                 [
-                    'openid' => 'oP0aB4uOgwqioYapbZSI_a42Yo74',     
+                    'openid' => 'oXnG_5NKpblxSGGFCkWUJCI_R7NA',     
                 ],
                 [
                     'user_id' => $wechatUser->id,
