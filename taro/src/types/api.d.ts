@@ -384,6 +384,27 @@ interface PaymentDetail {
     updated_at: string,
 }
 
+interface OrderItem {
+    id: string,
+    order_no: string,
+    deposit_amount: string,
+    status: {
+        label: string,
+        value: string,
+        color: string
+    },
+    created_at: string,
+    rv: RvItem
+}
+
+interface OrderList {
+    list: OrderItem[],
+    total: number,
+    per_page: number,
+    current_page: number,
+    has_more_pages: boolean
+}
+
 export enum PaymentMethod {
     WECHAT = 'wechat',
     ALIPAY = 'alipay'
@@ -435,5 +456,7 @@ export {
     SuggestSubmission,
     PaymentStatus,
     PaymentParam,
-    PaymentDetail
+    PaymentDetail,
+    OrderItem,
+    OrderList
 }

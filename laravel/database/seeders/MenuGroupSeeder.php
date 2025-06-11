@@ -26,18 +26,18 @@ class MenuGroupSeeder extends Seeder
                     'requires_auth' => true,
                 ],
                 [
+                    'title' => '我的预定',
+                    'icon' =>  'origin/icons/order.svg',
+                    'link_type' => 'page',
+                    'link_value' => '/pages/order/index',
+                    'requires_auth' => true,
+                ],
+                [
                     'title' => '积分商城',
                     'icon' =>  'origin/icons/point.svg',
                     'link_type' => 'page',
                     'link_value' => '/pages/article/detail/index?code=points_mall',
                     'requires_auth' => true,
-                ],
-                [
-                    'title' => '积分规则',
-                    'icon' =>  'origin/icons/point-book.svg',
-                    'link_type' => 'page',
-                    'link_value' => '/pages/article/detail/index?code=points_rules',
-                    'requires_auth' => false,
                 ],
                 [
                     'title' => '在线客服',
@@ -62,11 +62,11 @@ class MenuGroupSeeder extends Seeder
                     'requires_auth' => true,
                 ],
                 [
-                    'title' => '积分明细',
+                    'title' => '积分规则',
                     'icon' =>  'origin/icons/favorite.svg',
                     'link_type' => 'page',
-                    'link_value' => '/pages/user/point/index',
-                    'requires_auth' => true,
+                    'link_value' => '/pages/article/detail/index?code=points_rules',
+                    'requires_auth' => false,
                 ],
                 [
                     'title' => '邀请好友',
