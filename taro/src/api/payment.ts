@@ -7,8 +7,6 @@ import {
 } from "@/types/api";
 
 const PAYMENT_API = '/api/v1/payments';
-const RV_ORDER_API = '/api/v1/rv-orders';
-const REGISTRATION_API = '/api/v1/registrations';
 
 const paymentApi = {
     // 支付状态查询
@@ -21,12 +19,12 @@ const paymentApi = {
     // 房车订单支付
     // 返回前端参数: appId、timeStamp、nonceStr、package、signType、paySign
     initiateRvOrderPayment: (orderId: string): Promise<ApiResponse<PaymentParam>> => {
-        return http.post(`${RV_ORDER_API}/${orderId}/pay`);
+        return http.post(`${PAYMENT_API}/rv-orders/${orderId}/pay`);
     },
 
     // 活动报名支付
     initiateActivityPayment: (orderId: string): Promise<ApiResponse<PaymentParam>> => {
-        return http.post(`${REGISTRATION_API}/${orderId}/pay`);
+        return http.post(`${PAYMENT_API}/registrations/${orderId}/pay`);
     },
 
     // 获取支付详情

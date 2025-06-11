@@ -34,6 +34,8 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->prefix('user')->group(function () {
         Route::get('/', [UserController::class, 'index']);
         Route::put('/', [UserController::class, 'update']);
+        // 积分记录 ✅
+        Route::get('/point-logs/consumption', [PointLogController::class, 'consumptionLogs']);
     });
 
     // 轮播图API
@@ -52,29 +54,11 @@ Route::prefix('v1')->group(function () {
         Route::get('/{id}', [ArticleController::class, 'show']);
     });
 
-    // 区域相关API
-    Route::middleware('auth:sanctum')->prefix('regions')->group(function () {
-        Route::get('/provinces', [RegionController::class, 'provinces']);
-        Route::get('/cities/{provinceCode}', [RegionController::class, 'cities']);
-        Route::get('/districts/{cityCode}', [RegionController::class, 'districts']);
-        Route::get('/name/{code}', [RegionController::class, 'name']);
-    });
-
     // 活动相关API
     Route::prefix('activities')->group(function () {
         Route::get('/categories', [ArtivityController::class, 'categories']);
         Route::get('/{id}', [ArtivityController::class, 'show']);
         Route::get('/', [ArtivityController::class, 'index']);
-    });
-
-    // 报名相关API
-    Route::middleware('auth:sanctum')->prefix('registrations')->group(function () {
-        Route::post('/', [RegistrationController::class, 'store']);
-        // Route::post('/{registration}/cancel', [RegistrationController::class, 'cancel']);
-        Route::get('/my', [RegistrationController::class, 'index']);
-        Route::get('/{activityId}/status', [RegistrationController::class, 'status']);
-        Route::get('/{registration}', [RegistrationController::class, 'show']);
-        Route::post('/{registration}/pay', [PaymentController::class, 'createForRegistration']);
     });
 
     // 房车相关API
@@ -91,43 +75,62 @@ Route::prefix('v1')->group(function () {
         Route::get('/{id}', [UsedRvController::class, 'show']);
     });
 
-    // 我的爱车相关API
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::apiResource('my-cars', MyCarController::class);
+    // 区域相关API
+    Route::middleware('auth:sanctum')->prefix('regions')->group(function () {
+        Route::get('/provinces', [RegionController::class, 'provinces']);
+        Route::get('/cities/{provinceCode}', [RegionController::class, 'cities']);
+        Route::get('/districts/{cityCode}', [RegionController::class, 'districts']);
+        Route::get('/name/{code}', [RegionController::class, 'name']);
     });
 
-    // 积分记录
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::get('/user/point-logs/consumption', [PointLogController::class, 'consumptionLogs']);
+    // 报名相关API
+    Route::middleware('auth:sanctum')->prefix('registrations')->group(function () {
+        // 创建一个新的报名 ✅
+        Route::post('/', [RegistrationController::class, 'store']);
+        // 我的报名列表 ✅
+        Route::get('/my', [RegistrationController::class, 'index']);
+        // 获取报名状态 ✅
+        Route::get('/{activityId}/status', [RegistrationController::class, 'status']);
+        // 获取报名详情 ✅
+        Route::get('/{registration}', [RegistrationController::class, 'show']);
+        // 取消报名 ✅
+        // Route::post('/{registration}/cancel', [RegistrationController::class, 'cancel']);
     });
-
-    // 维保预约
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::apiResource('maintenances', MaintenanceController::class);
-    });
-
-    // 用户建议
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::apiResource('suggests', SuggestController::class);
-    });
-
-    // 微信回调处理
-    Route::post('/payments/notify/wechat', [WebhookController::class, 'handlePaymentNotify']);
-
-    // 查询支付状态
-    Route::get('/payments/status', [PaymentController::class, 'pollPaymentStatus']);
 
     // 房车订单相关
     Route::middleware('auth:sanctum')->prefix('rv-orders')->group(function () {
-        // 房车订单列表
+        // 房车订单列表 ✅
         Route::get('/', [RvOrderController::class, 'index']);
-        // 房车订单详情
+        // 房车订单详情 ✅
         Route::get('/{id}', [RvOrderController::class, 'show']);
-        // 创建一个新的房车订单
+        // 创建一个新的房车订单 ✅
         Route::post('/', [RvOrderController::class, 'store']);
-        // 为指定的房车订单发起支付
-        Route::post('/{rvOrder}/pay', [PaymentController::class, 'createForRvOrder']);
     });
+
+    // 支付相关
+    Route::middleware('auth:sanctum')->prefix('payments')->group(function () {
+        // 查询支付状态 ✅
+        Route::get('/status', [PaymentController::class, 'pollPaymentStatus']);
+        // 获取支付单详情 ✅
+        Route::get('/{payment}', [PaymentController::class, 'getPaymentDetail']);
+        // 为指定的房车订单发起支付 （线上测试）
+        Route::post('/rv-orders/{rvOrder}/pay', [PaymentController::class, 'createForRvOrder']);
+        // 为指定的活动报名发起支付 （线上测试）
+        Route::post('/registrations/{registration}/pay', [PaymentController::class, 'createForRegistration']);
+    });
+
+    // 微信回调处理 （线上测试）
+    Route::post('/payments/notify/wechat', [WebhookController::class, 'handlePaymentNotify']);
+
+    Route::middleware('auth:sanctum')->group(function () {
+        // 用户建议 ✅
+        Route::apiResource('suggests', SuggestController::class);
+        // 维保预约 ✅
+        Route::apiResource('maintenances', MaintenanceController::class);
+        // 我的爱车 ✅
+        Route::apiResource('my-cars', MyCarController::class);
+    });
+
 });
 
 // 测试API

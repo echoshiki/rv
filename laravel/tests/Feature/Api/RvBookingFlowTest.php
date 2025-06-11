@@ -92,7 +92,7 @@ class RvBookingFlowTest extends TestCase
         $orderId = $createOrderResponse->json('data.id');
 
         // ----------- 步骤二：用户调用创建支付单接口 -----------
-        $initiatePaymentResponse = $this->actingAs($this->user)->postJson("/api/v1/rv-orders/{$orderId}/pay");
+        $initiatePaymentResponse = $this->actingAs($this->user)->postJson("/api/v1/payments/rv-orders/{$orderId}/pay");
 
         $initiatePaymentResponse
             ->assertStatus(200)

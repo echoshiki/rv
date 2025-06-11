@@ -101,6 +101,11 @@ class PaymentController extends Controller
     public function getPaymentDetail(Payment $payment): JsonResponse
     {
         try {
+            // 确保当前登录用户是这个订单的所有者
+            if ($payment->user_id !== Auth::id()) {
+                abort(403, '无权操作此订单。');
+            }
+
             $paymentDetail = $this->paymentService->getPaymentDetail($payment);
             return $this->successResponse($paymentDetail);
         } catch (\Exception $e) {
