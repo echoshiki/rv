@@ -22,7 +22,10 @@ const CustomTabPanel = ({ item }: CustomTabPanelContentProps) => {
     if (channel === 'article') {
         return (
             <Card>
-                <ArticleList queryParams={queryParams} />
+                <ArticleList 
+                    queryParams={queryParams}
+                    isReachBottomRefresh={true}
+                />
             </Card>
         );
     }
@@ -30,7 +33,10 @@ const CustomTabPanel = ({ item }: CustomTabPanelContentProps) => {
     if (channel === 'activity') {
         return (
             <Card>
-                <ActivityList queryParams={queryParams} />
+                <ActivityList 
+                    queryParams={queryParams}
+                    isReachBottomRefresh={true}
+                />
             </Card>
         );
     }

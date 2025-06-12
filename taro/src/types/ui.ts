@@ -206,6 +206,7 @@ interface PointLogItem {
 }
 
 interface BaseQueryParams {
+    filter?: Record<string, any>;
     orderBy?: string;
     sort?: 'asc' | 'desc';
     page?: number;

@@ -1,6 +1,6 @@
 import registrationApi from "@/api/registration";
 import { RegistrationItem, BaseQueryParams } from "@/types/ui";
-import { usePaginatedList } from "@/hooks/usePaginatedList";
+import { usePaginatedList } from "@/hooks/base/usePaginatedList";
 
 /**
  * 报名列表数据管理 Hook

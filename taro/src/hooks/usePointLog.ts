@@ -1,6 +1,6 @@
 import { PointLogItem, BaseQueryParams } from "@/types/ui";
 import { getPointLogList } from "@/api/point";
-import { usePaginatedList } from "@/hooks/usePaginatedList";
+import { usePaginatedList } from "@/hooks/base/usePaginatedList";
 
 /**
  * 积分日志列表数据管理 Hook

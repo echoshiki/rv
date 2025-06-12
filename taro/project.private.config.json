@@ -24,11 +24,25 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/user/point/index",
-          "pathName": "pages/user/point/index",
+          "name": "pages/activity/index",
+          "pathName": "pages/activity/index",
           "query": "",
           "scene": null,
           "launchMode": "default"
+        },
+        {
+          "name": "pages/article/index",
+          "pathName": "pages/article/index",
+          "query": "code=equipment_use",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/user/point/index",
+          "pathName": "pages/user/point/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

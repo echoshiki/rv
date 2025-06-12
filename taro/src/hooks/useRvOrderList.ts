@@ -1,6 +1,6 @@
 import rvOrderApi from "@/api/order";
 import { BaseQueryParams } from "@/types/ui";
-import { usePaginatedList } from "@/hooks/usePaginatedList";
+import { usePaginatedList } from "@/hooks/base/usePaginatedList";
 import { RvOrderItem } from "@/types/api";
 
 /**
