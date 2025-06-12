@@ -20,7 +20,8 @@ import {
     ArticleDetail,
     RvItem,
     RvDetail,
-    RvAllData
+    RvAllData,
+    BaseQueryParams
 } from './api';
 
 interface MenuItem {
@@ -48,14 +49,6 @@ interface RegistrationFormData {
     name: string,
     phone: string,
     address: string
-}
-
-interface BaseQueryParams {
-    filter?: Record<string, any>;
-    orderBy?: string;
-    sort?: 'asc' | 'desc';
-    page?: number;
-    limit?: number;
 }
 
 interface PaymentOptions {

@@ -1,10 +1,10 @@
 import { View, Text } from '@tarojs/components';
 import { RvItem as RvItemProps } from "@/types/ui";
 import { mapsTo } from '@/utils/common';
-import { useRvList } from '@/hooks/useRvList';
 import Taro from '@tarojs/taro';
 import Loading from '@/components/Loading';
 import AspectRatioImage from '@/components/AspectRatioImage';
+import { useRvList } from '@/hooks/useRvList';
 
 const RvItem = ({ item, used }: { item: RvItemProps, used: boolean }) => {
     return (
@@ -57,7 +57,7 @@ const RvList = ({
         refresh,
         loadMore,
         hasMore,
-    } = useRvList(used);
+    } = useRvList();
 
     // 处理下拉刷新
     const handlePullDownRefresh = async () => {

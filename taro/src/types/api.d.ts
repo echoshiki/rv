@@ -9,6 +9,22 @@ interface ApiResponse<T> {
 }
 
 /**
+ * 基础查询参数
+ * @param filter 过滤条件
+ * @param orderBy 排序字段
+ * @param sort 排序方式
+ * @param page 页码
+ * @param limit 每页数量
+ */
+interface BaseQueryParams {
+    filter?: Record<string, any>;
+    orderBy?: string;
+    sort?: 'asc' | 'desc';
+    page?: number;
+    limit?: number;
+}
+
+/**
  * 用户信息
  * @param id 用户ID
  * @param name 用户昵称
@@ -458,5 +474,6 @@ export {
     PaymentParam,
     PaymentDetail,
     OrderItem,
-    OrderList
+    OrderList,
+    BaseQueryParams
 }

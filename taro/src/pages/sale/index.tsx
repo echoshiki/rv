@@ -1,13 +1,13 @@
 import { View } from '@tarojs/components';
 import MenuScrollBox from '@/components/MenuScrollBox';
-import { useRvAllData } from '@/hooks/useRvList';
+import { useRvListWithCategory } from '@/hooks/useRvListWithCategory';
 import { SectionTitle } from '@/components/SectionTitle';
 import RvList from '@/components/RvList';
 import PageCard from '@/components/PageCard';
 
 const Sale = () => {
 
-    const { rvAllData } = useRvAllData();
+    const { rvAllData } = useRvListWithCategory();
 
     return (
         <View className="bg-black min-h-screen pt-2 pb-5">

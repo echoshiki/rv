@@ -1,6 +1,7 @@
 import { http } from "@/utils/request";
 import { 
     ApiResponse, 
+    BaseQueryParams,
     RvDetail, 
     RvList, 
     RvAllData,
@@ -17,8 +18,8 @@ const RV_ORDER_API = `/api/v1/rv-orders/`;
  * @param used 是否二手车
  * @returns 
  */
-const getRvList = (used: boolean): Promise<ApiResponse<RvList>> => {
-    return used ? http.get(`${USED_RV_API}`) : http.get(`${RV_API}`);
+const getRvList = (initialParams?: BaseQueryParams): Promise<ApiResponse<RvList>> => {
+    return http.get(`${RV_API}`, { params: initialParams });
 };
 
 /**
@@ -59,11 +60,19 @@ const getRvOrderDetail = (id: string): Promise<ApiResponse<RvOrderItem>> => {
     return http.get(`${RV_ORDER_API}${id}`);
 };
 
+/**
+ * 获取二手车列表
+ */
+const getUsedRvList = (initialParams?: BaseQueryParams): Promise<ApiResponse<RvList>> => {
+    return http.get(`${USED_RV_API}`, { params: initialParams });
+};
+
 export {
     getRvList,
     getRvDetail,
     getRvAllData,
     createRvOrder,
     getRvOrderList,
-    getRvOrderDetail
+    getRvOrderDetail,
+    getUsedRvList
 };
