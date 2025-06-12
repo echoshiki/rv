@@ -257,7 +257,7 @@ interface RvOrderItem {
     status: {
         label: string,
         value: string,
-        color: string
+        color: 'warning' | 'success' | 'danger' | 'primary'
     },
     created_at: string,
     rv: RvItem

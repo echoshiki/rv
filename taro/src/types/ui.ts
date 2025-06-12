@@ -227,6 +227,27 @@ interface UsePaymentReturn {
     checkPaymentStatus: (outTradeNo: string) => Promise<PaymentStatus>;
 }
 
+interface RvOrderItem {
+    id: string,
+    order_no: string,
+    deposit_amount: string,
+    status: {
+        label: string,
+        value: string,
+        color: 'warning' | 'success' | 'danger' | 'primary'
+    },
+    created_at: string,
+    rv: RvItem
+}
+
+interface RvOrderList {
+    list: RvOrderItem[],
+    total: number,
+    per_page: number,
+    current_page: number,
+    has_more_pages: boolean
+}
+
 export {
     SectionTitle,
     MenuItem,
@@ -256,5 +277,7 @@ export {
     PointLogItem,
     BaseQueryParams,
     PaymentOptions,
-    UsePaymentReturn
+    UsePaymentReturn,
+    RvOrderItem,
+    RvOrderList
 }

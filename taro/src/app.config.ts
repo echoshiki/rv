@@ -17,6 +17,7 @@ export default defineAppConfig({
     'pages/activity/index',
     'pages/activity/detail/index',
     'pages/registration/index',
+    'pages/order/index',
     'pages/invite/index',
     'pages/404/index',
   ],
