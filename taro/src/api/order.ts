@@ -11,29 +11,17 @@ const ORDER_API = `/api/v1/rv-orders/`;
 const orderApi = {
     /**
      * 获取当前用户的订单列表
+     * @param params - 查询参数
      * @returns 
      */
-    list: ({
-        orderBy,
-        sort,
-        page,
-        limit
-    }: BaseQueryParams): Promise<ApiResponse<OrderList>> => {
-        const queryParams = {
-            orderBy,
-            sort,
-            page,
-            limit,
-        };
-
+    list: (params: BaseQueryParams): Promise<ApiResponse<OrderList>> => {
         // 清理未定义的参数
-        Object.keys(queryParams).forEach(key => {
-            if (queryParams[key] === undefined || queryParams[key] === null) {
-                delete queryParams[key];
+        Object.keys(params).forEach(key => {
+            if (params[key] === undefined || params[key] === null) {
+                delete params[key];
             }
         });
-
-        return http.get(`${ORDER_API}`, queryParams);
+        return http.get(`${ORDER_API}`, params);
     },
 
     /**

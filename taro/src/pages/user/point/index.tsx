@@ -7,7 +7,7 @@ import Loading from "@/components/Loading";
 
 const Point = () => {
     const {
-        pointLogs,
+        pointLogList,
         loadMore,
         hasMore,
         loading,
@@ -40,7 +40,7 @@ const Point = () => {
     usePullDownRefresh(handlePullDownRefresh);
     useReachBottom(handleReachBottom);
 
-    if (loading && pointLogs.length === 0) {
+    if (loading && pointLogList.length === 0) {
         return (
             <View className="bg-gray-100 min-h-screen">
                 <PageCard
@@ -60,7 +60,7 @@ const Point = () => {
                 subtitle="这里能够查询您近一年的积分兑换记录"
             >
                 <View className="flex flex-col space-y-3">
-                    {pointLogs.map(item => (
+                    {pointLogList.map(item => (
                         <View key={item.id} className="flex justify-between items-center pb-3 border-b border-dotted border-gray-300">
                             <View className="flex flex-col space-y-1">
                                 <Text className="text-sm">{item.type_description}</Text>
@@ -75,7 +75,7 @@ const Point = () => {
                 </View>
 
                 <View className="flex justify-center items-center h-24">
-                    {loading && pointLogs.length > 0 ? (
+                    {loading && pointLogList.length > 0 ? (
                         // 正在加载更多
                         <Loading />
                     ) : hasMore ? (

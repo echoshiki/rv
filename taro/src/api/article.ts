@@ -1,20 +1,17 @@
 import { http } from "@/utils/request";
 import { ApiResponse, ArticleList, ArticleDetail } from "@/types/api";
+import { BaseQueryParams } from "@/types/ui";
 
 const ARTICLE_API = `/api/v1/articles/`;
 
 // 文章列表查询参数
-interface ArticleListQueryParams {
+interface ArticleListQueryParams extends BaseQueryParams {
     filter: {
         user_id?: number | string;
         category_id?: number | string;
         category_code?: string;
         search?: string;
-    };
-    orderBy?: string;
-    sort?: 'asc' | 'desc';
-    page?: number;
-    limit?: number;
+    }
 }
 
 // 文章详情查询参数
@@ -28,30 +25,24 @@ interface ArticleDetailQueryParams {
  * @param params - 包含筛选、排序和分页选项的对象。
  * @returns Promise<ArticleList> - 返回一个 Promise，它会解析为文章列表数据。
  */
-const getArticleList = ({
-    filter,
-    orderBy,
-    sort,
-    page,
-    limit
-}: ArticleListQueryParams): Promise<ApiResponse<ArticleList>> => {
-    // 条件字段
-    const queryParams: any = {
-        ...filter,
-        orderBy,
-        sort,
-        page,
-        limit,
+const getArticleList = (params: ArticleListQueryParams): Promise<ApiResponse<ArticleList>> => {
+    // 将条件字段扁平化后构成新的条件对象
+    const combinedParams: Record<string, any> = {
+        ...(params.filter || {}),
+        orderBy: params.orderBy,
+        sort: params.sort,
+        page: params.page,
+        limit: params.limit,
     };
 
     // 清理未定义的参数
-    Object.keys(queryParams).forEach(key => {
-        if (queryParams[key] === undefined || queryParams[key] === null) {
-            delete queryParams[key];
+    Object.keys(combinedParams).forEach(key => {
+        if (combinedParams[key] === undefined || combinedParams[key] === null) {
+            delete combinedParams[key];
         }
     });
 
-    return http.get(ARTICLE_API, queryParams);
+    return http.get(ARTICLE_API, combinedParams);
 };
 
 /**
