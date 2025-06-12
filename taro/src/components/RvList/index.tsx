@@ -6,21 +6,21 @@ import Taro from '@tarojs/taro';
 import Loading from '@/components/Loading';
 import AspectRatioImage from '@/components/AspectRatioImage';
 
-const RvItem = ({ id, name, price, cover, used }: RvItemProps) => {
+const RvItem = ({ item, used }: { item: RvItemProps, used: boolean }) => {
     return (
         <View
             className="flex flex-nowrap items-center space-x-3 py-3 border-b border-gray-300 border-dashed"
-            onClick={() => mapsTo(`/pages/sale/detail/index?id=${id}${used ? '&used=1' : ''}`)}
+            onClick={() => mapsTo(`/pages/sale/detail/index?id=${item.id}${used ? '&used=1' : ''}`)}
         >
             <View className="w-24">
                 <AspectRatioImage
-                    src={cover}
+                    src={item.cover}
                     ratio={.8}
                 />
             </View>
             <View className="flex-1 flex flex-col space-y-2">
                 <View className="text-sm text-ellipsis overflow-hidden line-clamp-2 h-10">
-                    <Text>{name}</Text>
+                    <Text>{item.name}</Text>
                 </View>
                 <View className="flex flex-nowrap justify-between items-center">
                     <View>
@@ -30,7 +30,7 @@ const RvItem = ({ id, name, price, cover, used }: RvItemProps) => {
                     </View>
                     <View>
                         <Text className="text-red-500 text-xs font-semibold">
-                            ¥{price}起
+                            ¥{item.price}起
                         </Text>
                     </View>
                 </View>
@@ -89,10 +89,7 @@ const RvList = ({
         <View>
             {rvList.map(item => (
                 <RvItem
-                    id={item.id}
-                    name={item.name}
-                    cover={item.cover}
-                    price={item.price}
+                    item={item}
                     used={used}
                 />
             ))}

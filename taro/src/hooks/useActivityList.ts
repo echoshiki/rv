@@ -2,11 +2,6 @@ import { ActivityItem, Category } from "@/types/ui";
 import { getActivityList, type ActivityListQueryParams } from "@/api/activity";
 import { useResourceList } from "@/hooks/base/useResourceList";
 
-// 格式化活动列表
-const transformActivityList = (list: any[]): ActivityItem[] => {
-    return list.map(item => ({ ...item, date: item.published_at }));
-};
-
 // 从列表里提取出分类
 const activityCategoryExtractor = (list: any[], params: ActivityListQueryParams): Category | null => {
     if (params.filter?.category_id !== undefined) {
@@ -26,7 +21,6 @@ const useActivityList = (
         initialParams,
         {
             ...options,
-            transformFn: transformActivityList,
             categoryExtractor: activityCategoryExtractor,
         }
     );

@@ -8,26 +8,26 @@ import Taro from '@tarojs/taro';
 import AspectRatioImage from '@/components/AspectRatioImage';
 import { ArticleListSkeleton } from '@/components/Skeleton';
 
-const ArticleItem = ({ id, title, date, cover }: ArticleItemProps) => {
+const ArticleItem = ({ item }: { item: ArticleItemProps }) => {
     return (
         <View
             className="flex flex-nowrap items-center space-x-3 py-3 border-b border-gray-300 border-dashed"
-            onClick={() => mapsTo(`/pages/article/detail/index?id=${id}`)}
+            onClick={() => mapsTo(`/pages/article/detail/index?id=${item.id}`)}
         >
             <View className="w-24">
                 <AspectRatioImage
-                    src={cover ? cover : DefaultCover}
+                    src={item.cover ? item.cover : DefaultCover}
                     ratio={.8}
                 />
             </View>
             <View className="flex-1 flex flex-col space-y-2">
                 <View className="text-sm text-ellipsis overflow-hidden line-clamp-2">
-                    <Text>{title}</Text>
+                    <Text>{item.title}</Text>
                 </View>
                 <View>
                     <View>
                         <Text className="text-gray-400 text-xs">
-                            {date}
+                            {item.published_at}
                         </Text>
                     </View>
                 </View>
@@ -102,12 +102,7 @@ const ArticleList = ({
     return (
         <View>
             {articleList.map(item => (
-                <ArticleItem
-                    id={item.id}
-                    title={item.title}
-                    cover={item.cover}
-                    date={item.date}
-                />
+                <ArticleItem key={item.id} item={item} />
             ))}
 
             {articleList.length === 0 && !loading && (

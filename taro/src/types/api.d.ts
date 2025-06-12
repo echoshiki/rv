@@ -255,11 +255,7 @@ interface RvOrderItem {
     id: string,
     order_no: string,
     deposit_amount: string,
-    status: {
-        label: string,
-        value: string,
-        color: 'warning' | 'success' | 'danger' | 'primary'
-    },
+    status: StatusItem,
     created_at: string,
     rv: RvItem
 }
@@ -429,6 +425,9 @@ export {
     UserInfoSubmission,
     BannerItem,
     MenuItem,
+    ActivityItem,
+    RegistrationActivity,
+    ArticleItem,
     ArticleList,
     ArticleDetail,
     ActivityList,
