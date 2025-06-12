@@ -401,11 +401,7 @@ interface OrderItem {
     id: string,
     order_no: string,
     deposit_amount: string,
-    status: {
-        label: string,
-        value: string,
-        color: string
-    },
+    status: StatusItem,
     created_at: string,
     rv: RvItem
 }

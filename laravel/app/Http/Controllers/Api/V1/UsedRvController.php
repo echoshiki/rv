@@ -23,7 +23,15 @@ class UsedRvController extends Controller
     public function index(Request $request)
     {
         try {
-            $usedRvs = $this->usedRvService->getUsedRvList();
+            // 获取排序字段
+            $orderBy = $request->get('orderBy', 'created_at');
+            // 获取排序方式
+            $sort = $request->get('sort', 'desc');
+            // 获取当前页码
+            $page = $request->get('page', 1);
+            // 获取每页数据量
+            $limit = $request->get('limit', 10);
+            $usedRvs = $this->usedRvService->getUsedRvList($orderBy, $sort, $page, $limit);
             return $this->successResponse(new UsedRvResourceCollection($usedRvs));
         } catch (\Throwable $e) {
             return $this->errorResponse('二手车列表获取失败：' . $e->getMessage(), 500);

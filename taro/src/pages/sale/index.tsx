@@ -28,7 +28,10 @@ const Sale = () => {
                 theme="dark"
                 type="row"
             >
-                <RvList used />
+                <RvList 
+                    used 
+                    isReachBottomRefresh
+                />
             </PageCard>
         </View>
     )

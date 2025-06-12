@@ -63,8 +63,13 @@ const getRvOrderDetail = (id: string): Promise<ApiResponse<RvOrderItem>> => {
 /**
  * 获取二手车列表
  */
-const getUsedRvList = (initialParams?: BaseQueryParams): Promise<ApiResponse<RvList>> => {
-    return http.get(`${USED_RV_API}`, { params: initialParams });
+const getUsedRvList = (params: BaseQueryParams): Promise<ApiResponse<RvList>> => {
+    Object.keys(params).forEach(key => {
+        if (params[key] === undefined || params[key] === null) {
+            delete params[key];
+        }
+    });
+    return http.get(`${USED_RV_API}`, params);
 };
 
 export {
