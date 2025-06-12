@@ -113,7 +113,7 @@ interface RegistrationItem {
     phone: string,
     province: string,
     city: string,
-    status: RegistrationStatus,
+    status: StatusItem,
     paid_amount: string,
     payment_method: string,
     payment_time: string,
@@ -123,9 +123,10 @@ interface RegistrationItem {
     activity: RegistrationActivity,
 }
 
-interface RegistrationStatus {
+interface StatusItem {
     label: string,
-    value: string
+    value: string,
+    color: 'warning' | 'success' | 'danger' | 'primary'
 }
 
 interface RegistrationActivity {
@@ -231,11 +232,7 @@ interface RvOrderItem {
     id: string,
     order_no: string,
     deposit_amount: string,
-    status: {
-        label: string,
-        value: string,
-        color: 'warning' | 'success' | 'danger' | 'primary'
-    },
+    status: StatusItem,
     created_at: string,
     rv: RvItem
 }
@@ -250,6 +247,7 @@ interface RvOrderList {
 
 export {
     SectionTitle,
+    StatusItem,
     MenuItem,
     MenuList,
     UserInfo,
@@ -263,7 +261,6 @@ export {
     BannerItem,
     RegistrationItem,
     RegistrationList,
-    RegistrationStatus,
     RegistrationActivity,
     RegistrationFormData,
     RegionItem,

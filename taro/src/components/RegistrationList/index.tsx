@@ -4,7 +4,7 @@ import { RegistrationItem as RegistrationItemProps } from '@/types/ui';
 import { useRegistrationList } from '@/hooks/useRegistrationList';
 import Taro from '@tarojs/taro';
 import Loading from '@/components/Loading';
-import { StatusBadge } from '@/components/CustomBadge';
+import { Tag } from '@nutui/nutui-react-taro';
 import { Dialog } from '@nutui/nutui-react-taro'
 import { useState } from 'react';
 import Card from '@/components/Card';
@@ -77,7 +77,7 @@ const RegistrationItem = ({
                 </View>
                 <View className="flex flex-row items-center space-x-2">
                     <View>
-                        <StatusBadge status={item.status} />
+                        <Tag type={item.status.color}>{item.status.label}</Tag>
                     </View>
                     <View>
                         <Text className="text-gray-400 text-xs">

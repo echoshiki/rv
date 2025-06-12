@@ -165,7 +165,7 @@ interface RegistrationItem {
     phone: string,
     province: string,
     city: string,
-    status: RegistrationStatus,
+    status: StatusItem,
     paid_amount: string,
     payment_method: string,
     payment_time: string,
@@ -184,9 +184,10 @@ interface RegistrationActivity {
     ended_at: string,
 }
 
-interface RegistrationStatus {
+interface StatusItem {
     label: string,
-    value: string
+    value: string,
+    color: 'warning' | 'success' | 'danger' | 'primary'
 }
 
 /**
@@ -437,7 +438,7 @@ export {
     RegistrationItem,
     RegistrationList,
     RegistrationSubmission,
-    RegistrationStatus,
+    StatusItem,
     PaymentData,
     RvItem,
     RvList,

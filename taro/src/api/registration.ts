@@ -4,7 +4,7 @@ import {
     RegistrationList, 
     RegistrationItem, 
     RegistrationSubmission,
-    RegistrationStatus
+    StatusItem
 } from "@/types/api";
 import { BaseQueryParams } from "@/types/ui";
 
@@ -61,7 +61,7 @@ const registrationApi = {
      * @param activityId - 活动ID
      * @returns 
      */
-    status: (activityId: string): Promise<ApiResponse<RegistrationStatus | null>> => {
+    status: (activityId: string): Promise<ApiResponse<StatusItem | null>> => {
         return http.get(`${REGISTRATION_API}${activityId}/status`);
     },
 

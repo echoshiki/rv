@@ -3,7 +3,6 @@ import DefaultCover from '@/assets/images/cover.jpg';
 import { useRvOrderList } from '@/hooks/useRvOrderList';
 import Taro from '@tarojs/taro';
 import Loading from '@/components/Loading';
-import { StatusBadge } from '@/components/CustomBadge';
 import { Tag } from '@nutui/nutui-react-taro';
 import { Dialog } from '@nutui/nutui-react-taro'
 import { useState } from 'react';
