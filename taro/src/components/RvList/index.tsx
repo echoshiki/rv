@@ -77,10 +77,12 @@ const RvList = ({
         }
     };
 
-    // 注册下拉刷新与触底加载
+    // 注册下拉刷新
     if (isPullDownRefresh) {
         Taro.usePullDownRefresh(handlePullDownRefresh);
     }
+
+    // 注册触底加载
     if (isReachBottomRefresh) {
         Taro.useReachBottom(handleReachBottom);
     }
