@@ -1,0 +1,91 @@
+# 工作流名称
+name: Deploy Laravel to Windows Server
+
+# 触发条件: 当有代码推送到 main 分支，并且更改发生在 laravel 目录内时
+on:
+  push:
+    branches:
+      - main  # 请确保这是你用于 Windows 部署的分支
+    paths:
+      - 'laravel/**'
+
+jobs:
+  deploy:
+    # 运行此任务的虚拟机环境
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 检出你的代码
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. 设置 Node.js 环境 (在 GitHub Runner 上)
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20' # 使用与你项目兼容的 Node.js 版本
+          cache: 'npm'
+          cache-dependency-path: 'laravel/package-lock.json'
+
+      # 3. 安装前端依赖 (在 GitHub Runner 上)
+      - name: Install Node dependencies
+        run: npm ci
+        working-directory: ./laravel
+
+      # 4. 构建前端资源 (在 GitHub Runner 上)
+      - name: Build frontend assets
+        run: npm run build
+        working-directory: ./laravel
+
+      # 5. 同步文件到 Windows 服务器
+      # 我们使用 SFTP (SSH File Transfer Protocol) 来同步文件，它安全且高效。
+      # 它会把本地 laravel 目录的内容，同步到服务器的目标路径。
+      - name: Sync files to server
+        uses: appleboy/sftp-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "./laravel/" # 源目录：只同步 laravel 文件夹里的内容
+          target: "D:/wwwroot/mini.weihangrv.com" # 目标目录：你的网站根目录
+          strip_components: 1 # 去掉源目录中的第一层(laravel)，避免在服务器上创建多余的 laravel 文件夹
+          exclude: | # 需要排除的文件和目录列表
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .env
+
+      # 6. 在服务器上执行最终的部署命令
+      - name: Run final deployment commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            # 进入网站根目录
+            cd D:/wwwroot/mini.weihangrv.com
+
+            # 安装 Composer 依赖 (生产环境建议加上 --no-dev)
+            echo "Installing Composer dependencies..."
+            composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+
+            # 运行数据库迁移
+            echo "Running database migrations..."
+            php artisan migrate --force
+
+            # 清理并缓存配置和路由，优化性能
+            echo "Optimizing application..."
+            php artisan optimize
+
+            # 检查并创建 storage 软链接
+            if not exist "public\\storage" (
+                echo "Creating storage link..."
+                php artisan storage:link
+            )
+
+            # 重启 Nginx 服务以应用更改
+            echo "Restarting Nginx service..."
+            Restart-Service -Name "nginx" -Force
+
+            echo "Deployment finished successfully!"
