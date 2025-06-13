@@ -27,19 +27,6 @@ const Articles = () => {
         return params;
     }, [router?.params?.code, router?.params?.id]);
 
-    // 检查是否有必要的查询参数
-    const hasValidParams = useMemo(() => {
-        return !!(queryParams.filter?.category_id || queryParams.filter?.category_code);
-    }, [queryParams.filter?.category_id, queryParams.filter?.category_code]);
-
-    Taro.useDidShow(() => {
-        if (!hasValidParams) {
-            Taro.navigateTo({
-                url: '/pages/404/index'
-            });
-        }
-    });
-
     return (
         <PageCard>
             <ArticleList 

@@ -19,14 +19,6 @@ const Detail = () => {
         loading
     } = useArticleDetail(queryParams);
 
-    Taro.useDidShow(() => {
-        if (!queryParams.id && !queryParams.code) {
-            Taro.navigateTo({
-                url: '/pages/404/index'
-            });
-        }
-    });
-
     if (loading) {
         return (
             <ArticleDetailSkeleton />

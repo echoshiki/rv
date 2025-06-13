@@ -20,14 +20,6 @@ const Detail = () => {
         loading
     } = useActivityDetail(id);
 
-    Taro.useDidShow(() => {
-        if (!id) {
-            Taro.navigateTo({
-                url: '/pages/404/index'
-            });
-        }
-    });
-
     // 如果正在加载，显示加载状态
     if (loading) {
         return (
