@@ -33,7 +33,6 @@ const useActivityDetail = (
             const { data: responseData } = await getActivityDetail(id);
             setActivityDetail({
                 ...responseData,
-                date: responseData.published_at,
                 category: responseData.category || undefined
             });
             // 执行加载完成后的回调

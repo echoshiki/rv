@@ -65,7 +65,7 @@ const Detail = () => {
                                 {articleDetail.title}
                             </Text>
                             <View className="flex flex-nowrap space-x-3 mt-3 text-xs font-light">
-                                <Text className="text-gray-500">{articleDetail.date}</Text>
+                                <Text className="text-gray-500">{articleDetail.published_at}</Text>
                                 <Text className="underline">{articleDetail.category?.title}</Text>
                             </View>
                         </View>

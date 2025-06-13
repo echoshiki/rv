@@ -1,12 +1,17 @@
 import { View, Text, Image } from "@tarojs/components";
 import { mapsTo } from "@/utils/common";
-import { MenuItem, MenuList } from '@/types/ui';
+import { MenuItem } from '@/types/ui';
 import RightArrowIcon from '@/assets/icons/right-arrow.svg';
 import { FixedNav, FixedNavItem, Drag } from '@nutui/nutui-react-taro';
 import { useState } from 'react';
 import Card from '@/components/Card';
 import AspectRatioImage from '@/components/AspectRatioImage';
 import { MenuMatrixSkeleton, MenuColumnSkeleton, MenuRowSkeleton } from '@/components/Skeleton';
+
+interface MenuList {
+    menuList: MenuItem[];
+    isLoading: boolean;
+}
 
 // 处理菜单项的点击
 const handleItemClick = (item: MenuItem) => {
@@ -74,37 +79,6 @@ const MenuRow = ({ menuList, isLoading }: MenuList) => {
                 ))}
             </View>
         </Card>
-    )
-}
-
-/**
- * 频道页竖向菜单
- * @param menuList 菜单数据
- */
-const MenuPage = ({ menuList }: MenuList) => {
-    return (
-        <View className="flex flex-col space-y-3">
-            {menuList.map((item, index) => (
-                <View
-                    key={index}
-                    className="flex flex-row items-center justify-between bg-white rounded-md px-3 py-4"
-                    onClick={() => handleItemClick(item)}
-                >
-                    <View className="flex flex-row items-center">
-                        <View className="flex flex-row items-center mr-5">
-                            <Image src={item.icon} className="w-12 h-12" />
-                        </View>
-                        <View className="leading-none">
-                            <Text className="text-base font-bold block">{item.title}</Text>
-                            <Text className="text-xs text-gray-500">{item.description}</Text>
-                        </View>
-                    </View>
-                    <View className="flex flex-row items-center">
-                        <Image src={RightArrowIcon} className="w-5 h-5" />
-                    </View>
-                </View>
-            ))}
-        </View>
     )
 }
 
@@ -211,7 +185,6 @@ const MenuMatrix = ({ menuList, isLoading }: MenuList) => {
 export {
     MenuColumn,
     MenuRow,
-    MenuPage,
     MenuFloat,
     MenuMatrix
 };

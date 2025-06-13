@@ -62,7 +62,7 @@ const Detail = () => {
                             {activityDetail.title}
                         </Text>
                         <View className="flex flex-nowrap items-center space-x-3 mt-3 text-xs font-light">
-                            <Text className="text-gray-500">{activityDetail.date}</Text>
+                            <Text className="text-gray-500">{activityDetail.published_at}</Text>
                             <Tag type='info'>{activityDetail.category.title}</Tag>
                         </View>
                     </View>

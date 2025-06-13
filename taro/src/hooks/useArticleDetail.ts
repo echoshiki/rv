@@ -32,8 +32,7 @@ const useArticleDetail = (
             const { data: responseData } = await getArticleDetail(params);
             setArticleDetail({
                 ...responseData,
-                date: responseData.published_at,
-                category: responseData.category || undefined
+                category: responseData.category || null
             });
             // 执行加载完成后的回调
             if (onLoaded && articleDetail) {
