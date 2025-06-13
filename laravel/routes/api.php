@@ -20,7 +20,7 @@ use App\Http\Controllers\Api\V1\WebhookController;
 use App\Http\Controllers\Api\V1\RvOrderController;
 use App\Http\Controllers\Api\V1\PaymentController;
 
-// v1
+// 服务接口 v1 版本
 Route::prefix('v1')->group(function () {
     // 小程序静默登录
     Route::post('/login-silence', [AuthController::class, 'miniLoginInSilence']);
