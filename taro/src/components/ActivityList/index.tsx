@@ -1,13 +1,13 @@
 import { View, Text } from '@tarojs/components';
 import DefaultCover from '@/assets/images/cover.jpg';
 import { ActivityItem as ActivityItemProps } from '@/types/ui';
-import { type ActivityListQueryParams } from '@/api/activity';
 import { mapsTo } from '@/utils/common';
 import { Tag } from '@nutui/nutui-react-taro';
 import { useActivityList } from '@/hooks/useActivityList';
 import Taro from '@tarojs/taro';
 import AspectRatioImage from '@/components/AspectRatioImage';
 import { ArticleListSkeleton } from '@/components/Skeleton';
+import { ActivityListQueryParams } from '@/types/query';
 
 const ActivityItem = ({ item }: { item: ActivityItemProps }) => {
     return (

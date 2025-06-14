@@ -1,8 +1,6 @@
 import { http } from "@/utils/request";
-import { 
-    ApiResponse, 
-    SuggestSubmission
-} from "@/types/api";
+import { ApiResponse } from "@/types/api";
+import { SuggestSubmission } from "@/types/query";
 
 const SUGGEST_API = `/api/v1/suggests/`;
 

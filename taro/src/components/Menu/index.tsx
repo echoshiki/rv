@@ -8,9 +8,9 @@ import Card from '@/components/Card';
 import AspectRatioImage from '@/components/AspectRatioImage';
 import { MenuMatrixSkeleton, MenuColumnSkeleton, MenuRowSkeleton } from '@/components/Skeleton';
 
-interface MenuList {
+interface MenuProps {
     menuList: MenuItem[];
-    isLoading: boolean;
+    isLoading?: boolean;
 }
 
 // 处理菜单项的点击
@@ -26,7 +26,7 @@ const handleItemClick = (item: MenuItem) => {
  * 用户中心竖向菜单
  * @param menuList 菜单数据
  */
-const MenuColumn = ({ menuList, isLoading }: MenuList) => {
+const MenuColumn = ({ menuList, isLoading }: MenuProps) => {
     // 载入骨架屏
     if (isLoading) {
         return (
@@ -57,7 +57,7 @@ const MenuColumn = ({ menuList, isLoading }: MenuList) => {
  * 横向带图标的菜单
  * @param menuList 菜单数据
  */
-const MenuRow = ({ menuList, isLoading }: MenuList) => {
+const MenuRow = ({ menuList, isLoading }: MenuProps) => {
     if (isLoading) {
         return (
             <MenuRowSkeleton />
@@ -86,7 +86,7 @@ const MenuRow = ({ menuList, isLoading }: MenuList) => {
  * 悬浮菜单
  * @param menuList 菜单数据
  */
-const MenuFloat = ({ menuList }: MenuList) => {
+const MenuFloat = ({ menuList }: MenuProps) => {
     // 将菜单数据格式化成 NutUI 需要的格式
     const fixedMenu = menuList.map((item, index) => {
         return {
@@ -133,7 +133,7 @@ const MenuFloat = ({ menuList }: MenuList) => {
  * 首页图片矩阵菜单
  * @param menuList 菜单数据
  */
-const MenuMatrix = ({ menuList, isLoading }: MenuList) => {
+const MenuMatrix = ({ menuList, isLoading }: MenuProps) => {
 
     // 渲染左侧矩形图片菜单
     const renderLeftMenu = (item: MenuItem) => {

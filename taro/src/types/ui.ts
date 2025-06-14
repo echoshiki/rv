@@ -1,6 +1,4 @@
-import { 
-    PaymentStatus, 
-    PaymentParam,
+import {
     UserInfo,
     BannerItem,
     Category as ApiCategory,
@@ -20,10 +18,18 @@ import {
     ArticleDetail,
     RvItem,
     RvDetail,
-    RvAllData,
-    BaseQueryParams
+    RvAllData
 } from './api';
 
+/**
+ * 页面内的菜单项
+ * 由菜单接口原始数据转换而来
+ * @param title 菜单标题
+ * @param icon 菜单图标
+ * @param description 菜单副标题
+ * @param link 菜单链接
+ * @param onClick 菜单点击事件
+ */
 interface MenuItem {
     title: string,
     icon: string,
@@ -32,43 +38,30 @@ interface MenuItem {
     onClick?: (item: MenuItem) => void,
 }
 
+/**
+ * 分类项
+ * 同于 Tab 组件，由接口分类原始数据转换而来
+ * @param channel 频道
+ */
 interface Category extends ApiCategory {
     channel?: string
 }
 
-interface SectionTitle {
-    title: string,
-    subtitle?: string,
-    link?: string,
-    theme?: 'light' | 'dark',
-    type?: 'default' | 'row',
-    className?: string
-}
-
+/**
+ * 用户报名表单初始提交数据
+ * @param name 称呼
+ * @param phone 手机号
+ * @param address 地址（未格式化）
+ */
 interface RegistrationFormData {
     name: string,
     phone: string,
     address: string
 }
 
-interface PaymentOptions {
-    orderId: string | number;
-    orderType: 'rv' | 'activity';
-    amount: number;
-    description?: string;
-}
-
-interface UsePaymentReturn {
-    isPaying: boolean;
-    paymentError: string | null;
-    startPayment: (options: PaymentOptions) => Promise<PaymentParam>;
-    checkPaymentStatus: (outTradeNo: string) => Promise<PaymentStatus>;
-}
-
 export {
     UserInfo,
     BannerItem,
-    SectionTitle,
     StatusItem,
     MenuItem,
     ArticleItem,
@@ -87,9 +80,6 @@ export {
     MyCarList,
     PointLogList,
     PointLogItem,
-    BaseQueryParams,
-    PaymentOptions,
-    UsePaymentReturn,
     RvOrderItem,
     RvOrderList
 }

@@ -2,7 +2,7 @@ import { View, Text, RichText } from "@tarojs/components";
 import DefaultCover from '@/assets/images/cover.jpg';
 import { useArticleDetail } from "@/hooks/useArticleDetail";
 import Taro from "@tarojs/taro";
-import { type ArticleDetailQueryParams } from "@/api/article";
+import { ArticleDetailQueryParams } from "@/types/query";
 import { ArticleDetailSkeleton } from '@/components/Skeleton';
 import { cleanHTML } from '@/utils/common';
 import Card from '@/components/Card';

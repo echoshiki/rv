@@ -1,6 +1,6 @@
 import { http } from "@/utils/request";
 import { ApiResponse, PointLogList } from "@/types/api";
-import { BaseQueryParams } from "@/types/ui";
+import { BaseQueryParams } from "@/types/query";
 
 const POINT_LOG_API = `/api/v1/user/point-logs/consumption`;
 

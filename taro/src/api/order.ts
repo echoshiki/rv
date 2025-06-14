@@ -4,7 +4,7 @@ import {
     OrderList, 
     OrderItem, 
 } from "@/types/api";
-import { BaseQueryParams } from "@/types/ui";
+import { BaseQueryParams } from "@/types/query";
 
 const ORDER_API = `/api/v1/rv-orders/`;
 

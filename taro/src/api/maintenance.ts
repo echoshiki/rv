@@ -2,9 +2,9 @@ import { http } from "@/utils/request";
 import { 
     ApiResponse, 
     MaintenanceList, 
-    MaintenanceItem,
-    MaintenanceSubmission
+    MaintenanceItem
 } from "@/types/api";
+import { MaintenanceSubmission } from "@/types/query";
 
 const MAINTENANCE_API = `/api/v1/maintenances/`;
 

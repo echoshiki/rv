@@ -12,7 +12,7 @@ import PageCard from '@/components/PageCard';
 const Usage = () => {
 
     // 菜单数据
-    const { rawMenuItems } = useMenu('usage_row_menu');
+    const { rawMenuItems, loading: rowLoading } = useMenu('usage_row_menu');
     const { rawMenuItems: floatMenuItems } = useMenu('usage_float_menu');
 
     // 用车常识列表
@@ -29,7 +29,7 @@ const Usage = () => {
 
             {/* 宫格菜单 */}
             <View className="px-5 mt-4">
-                <MenuRow menuList={rawMenuItems} />
+                <MenuRow menuList={rawMenuItems} isLoading={rowLoading} />
             </View>
             
             {/* 用车常识 */}

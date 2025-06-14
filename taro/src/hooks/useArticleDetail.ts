@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { ArticleDetail } from "@/types/ui";
-import { getArticleDetail, type ArticleDetailQueryParams } from "@/api/article";
+import { getArticleDetail } from "@/api/article";
+import { ArticleDetailQueryParams } from "@/types/query";
 
 interface UseArticleDetailOptions {
     autoLoad?: boolean;

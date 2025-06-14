@@ -1,5 +1,6 @@
 import { http } from "@/utils/request";
-import { ApiResponse, UserInfo, UserInfoSubmission } from "@/types/api";
+import { ApiResponse, UserInfo } from "@/types/api";
+import { UserInfoSubmission } from "@/types/query";
 
 const USER_API = `/api/v1/user/`;
 

@@ -9,22 +9,6 @@ interface ApiResponse<T> {
 }
 
 /**
- * 基础查询参数
- * @param filter 过滤条件
- * @param orderBy 排序字段
- * @param sort 排序方式
- * @param page 页码
- * @param limit 每页数量
- */
-interface BaseQueryParams {
-    filter?: Record<string, any>;
-    orderBy?: string;
-    sort?: 'asc' | 'desc';
-    page?: number;
-    limit?: number;
-}
-
-/**
  * 用户信息
  * @param id 用户ID
  * @param name 用户昵称
@@ -53,16 +37,6 @@ interface UserInfo {
         name: string
     },
     points: number,
-}
-
-interface UserInfoSubmission {
-    name: string,
-    avatar?: string,
-    birthday?: string,
-    sex?: string,
-    province?: string,
-    city?: string,
-    address?: string
 }
 
 /**
@@ -218,19 +192,6 @@ interface RegistrationList {
 }
 
 /**
- * 报名表单数据
- */
-interface RegistrationSubmission {
-    activity_id: string,
-    name: string,
-    phone: string,
-    province: string,
-    city: string,
-    form_data?: Record<string, any>;
-    remarks?: string
-}
-
-/**
  * 发起支付的数据？
  */
 interface PaymentData {
@@ -284,19 +245,6 @@ interface RvOrderList {
     has_more_pages: boolean
 }
 
-interface MyCarSubmission {
-    name: string,
-    phone: string,
-    province?: string,
-    city?: string,
-    brand: string,
-    vin: string,
-    licence_plate: string,
-    listing_at?: string | null,
-    birthday?: string | null,
-    address?: string
-}
-
 interface MyCarItem {
     id: string,
     name: string,
@@ -345,19 +293,6 @@ interface MaintenanceItem {
 
 interface MaintenanceList {
     list: MaintenanceItem[]
-}
-
-interface MaintenanceSubmission {
-    name: string,
-    phone: string,
-    province?: string,
-    city?: string,
-    issues: string
-}
-
-interface SuggestSubmission {
-    name: string,
-    content: string
 }
 
 /**
@@ -434,7 +369,6 @@ export enum RefundStatus {
 export {
     ApiResponse,
     UserInfo,
-    UserInfoSubmission,
     BannerItem,
     MenuItem,
     ActivityItem,
@@ -448,7 +382,6 @@ export {
     RegionItem,
     RegistrationItem,
     RegistrationList,
-    RegistrationSubmission,
     StatusItem,
     PaymentData,
     RvItem,
@@ -457,19 +390,15 @@ export {
     RvAllData,
     RvOrderItem,
     RvOrderList,
-    MyCarSubmission,
     MyCarItem,
     MyCarList,
     PointLogList,
     PointLogItem,
     MaintenanceItem,
     MaintenanceList,
-    MaintenanceSubmission,
-    SuggestSubmission,
     PaymentStatus,
     PaymentParam,
     PaymentDetail,
     OrderItem,
-    OrderList,
-    BaseQueryParams
+    OrderList
 }

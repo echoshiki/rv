@@ -1,8 +1,25 @@
 import { View, Text, Image } from '@tarojs/components';
 import { mapsTo } from '@/utils/common';
-import { SectionTitle as SectionTitleProps } from '@/types/ui'; // 假设你的类型定义在这个路径
-import RightArrowIcon from '@/assets/icons/right-arrow.svg'; // 假设你的图标路径
+import RightArrowIcon from '@/assets/icons/right-arrow.svg';
 
+interface SectionTitleProps {
+    title: string,
+    subtitle?: string,
+    link?: string,
+    theme?: 'light' | 'dark',
+    type?: 'default' | 'row',
+    className?: string
+}
+
+/**
+ * 页面卡片区域标题组件参数
+ * @param title 标题
+ * @param subtitle 副标题
+ * @param link 链接
+ * @param theme 主题
+ * @param type 类型
+ * @param className 类名
+ */
 const SectionTitle = ({ 
     title, 
     subtitle, 

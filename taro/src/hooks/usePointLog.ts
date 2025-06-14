@@ -1,4 +1,5 @@
-import { PointLogItem, BaseQueryParams } from "@/types/ui";
+import { PointLogItem } from "@/types/ui";
+import { BaseQueryParams } from "@/types/query";
 import { getPointLogList } from "@/api/point";
 import { usePaginatedList } from "@/hooks/base/usePaginatedList";
 

@@ -1,7 +1,7 @@
 import Taro from "@tarojs/taro";
 import ArticleList from '@/components/ArticleList';
 import { useMemo } from "react";
-import { type ArticleListQueryParams } from "@/api/article";
+import { ArticleListQueryParams } from "@/types/query";
 import PageCard from "@/components/PageCard";
 
 const Articles = () => {

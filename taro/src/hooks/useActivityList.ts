@@ -1,5 +1,6 @@
 import { ActivityItem, Category } from "@/types/ui";
-import { getActivityList, type ActivityListQueryParams } from "@/api/activity";
+import { getActivityList } from "@/api/activity";
+import { ActivityListQueryParams } from "@/types/query";
 import { useResourceList } from "@/hooks/base/useResourceList";
 
 // 从列表里提取出分类

@@ -1,5 +1,5 @@
 import { useResourceList } from "@/hooks/base/useResourceList";
-import { BaseQueryParams } from "@/types/ui";
+import { BaseQueryParams } from "@/types/query";
 
 // 定义 API 函数必须遵守的格式和返回的数据结构
 // T 是列表项的类型

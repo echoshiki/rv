@@ -4,9 +4,8 @@ import { persist } from 'zustand/middleware';
 import { http } from "@/utils/request";
 import { mapsTo } from "@/utils/common";
 import { userApi } from "@/api/user";
-
 import { UserInfo as UserInfoProps } from "@/types/ui";
-import { UserInfoSubmission } from "@/types/api";
+import { UserInfoSubmission } from "@/types/query";
 
 interface AuthStoreProps{
     openid: string | null;

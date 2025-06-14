@@ -1,31 +1,17 @@
 import { http } from "@/utils/request";
 import { ApiResponse, ArticleList, ArticleDetail } from "@/types/api";
-import { BaseQueryParams } from "@/types/ui";
+import { ArticleListQueryParams, ArticleDetailQueryParams } from "@/types/query";
 
 const ARTICLE_API = `/api/v1/articles/`;
-
-// 文章列表查询参数
-interface ArticleListQueryParams extends BaseQueryParams {
-    filter: {
-        user_id?: number | string;
-        category_id?: number | string;
-        category_code?: string;
-        search?: string;
-    }
-}
-
-// 文章详情查询参数
-interface ArticleDetailQueryParams {
-    id?: string,
-    code?: string,
-}
 
 /**
  * 用于从后端获取文章列表
  * @param params - 包含筛选、排序和分页选项的对象。
  * @returns Promise<ArticleList> - 返回一个 Promise，它会解析为文章列表数据。
  */
-const getArticleList = (params: ArticleListQueryParams): Promise<ApiResponse<ArticleList>> => {
+const getArticleList = (
+    params: ArticleListQueryParams
+): Promise<ApiResponse<ArticleList>> => {
     // 将条件字段扁平化后构成新的条件对象
     const combinedParams: Record<string, any> = {
         ...(params.filter || {}),
@@ -49,7 +35,9 @@ const getArticleList = (params: ArticleListQueryParams): Promise<ApiResponse<Art
  * 获取文章详情
  * @param params - 查询参数（id 或 code）
  */
-const getArticleDetail = (params: ArticleDetailQueryParams): Promise<ApiResponse<ArticleDetail>> => {
+const getArticleDetail = (
+    params: ArticleDetailQueryParams
+): Promise<ApiResponse<ArticleDetail>> => {
     if (params.id) {
         return http.get(`${ARTICLE_API}${params.id}`);
     } else if (params.code) {
@@ -62,7 +50,5 @@ const getArticleDetail = (params: ArticleDetailQueryParams): Promise<ApiResponse
 
 export {
     getArticleList,
-    type ArticleListQueryParams,
-    getArticleDetail,
-    type ArticleDetailQueryParams
+    getArticleDetail
 };

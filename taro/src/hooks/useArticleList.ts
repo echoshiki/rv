@@ -1,5 +1,6 @@
 import { ArticleItem, Category } from "@/types/ui";
-import { getArticleList, type ArticleListQueryParams } from "@/api/article";
+import { getArticleList } from "@/api/article";
+import { ArticleListQueryParams } from "@/types/query";
 import { useResourceList } from "@/hooks/base/useResourceList";
 
 const articleCategoryExtractor = (list: any[], params: ArticleListQueryParams): Category | null => {

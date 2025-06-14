@@ -1,13 +1,13 @@
 import { http } from "@/utils/request";
 import { 
-    ApiResponse, 
-    BaseQueryParams,
+    ApiResponse,
     RvDetail, 
     RvList, 
     RvAllData,
     RvOrderItem,
     RvOrderList
 } from "@/types/api";
+import { BaseQueryParams } from "@/types/query";
 
 const RV_API = `/api/v1/rvs/`;
 const USED_RV_API = `/api/v1/used-rvs/`;

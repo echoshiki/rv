@@ -1,5 +1,6 @@
 import registrationApi from "@/api/registration";
-import { RegistrationItem, BaseQueryParams } from "@/types/ui";
+import { RegistrationItem } from "@/types/ui";
+import { BaseQueryParams } from "@/types/query";
 import { usePaginatedList } from "@/hooks/base/usePaginatedList";
 
 /**

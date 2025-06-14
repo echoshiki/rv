@@ -1,4 +1,5 @@
-import { RvItem, BaseQueryParams } from "@/types/ui";
+import { RvItem } from "@/types/ui";
+import { BaseQueryParams } from "@/types/query";
 import { getUsedRvList, getRvList } from "@/api/rv";
 import { usePaginatedList } from "@/hooks/base/usePaginatedList";
 

@@ -2,9 +2,9 @@ import { http } from "@/utils/request";
 import { 
     ApiResponse, 
     MyCarList, 
-    MyCarItem,
-    MyCarSubmission
+    MyCarItem
 } from "@/types/api";
+import { MyCarSubmission } from "@/types/query";
 
 const MY_CAR_API = `/api/v1/my-cars/`;
 

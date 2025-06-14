@@ -1,7 +1,7 @@
 import { View, Text } from '@tarojs/components';
 import DefaultCover from '@/assets/images/cover.jpg';
 import { ArticleItem as ArticleItemProps } from '@/types/ui';
-import { ArticleListQueryParams } from '@/api/article';
+import { ArticleListQueryParams } from '@/types/query';
 import { mapsTo } from '@/utils/common';
 import { useArticleList } from '@/hooks/useArticleList';
 import Taro from '@tarojs/taro';

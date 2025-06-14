@@ -2,11 +2,10 @@ import { http } from "@/utils/request";
 import { 
     ApiResponse, 
     RegistrationList, 
-    RegistrationItem, 
-    RegistrationSubmission,
+    RegistrationItem,
     StatusItem
 } from "@/types/api";
-import { BaseQueryParams } from "@/types/ui";
+import { BaseQueryParams, RegistrationSubmission } from "@/types/query";
 
 const REGISTRATION_API = `/api/v1/registrations/`;
 
