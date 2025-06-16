@@ -9,15 +9,18 @@ import { Dialog } from '@nutui/nutui-react-taro'
 import { useState } from 'react';
 import Card from '@/components/Card';
 import AspectRatioImage from '@/components/AspectRatioImage';
+import usePayment from '@/hooks/usePayment';
 
 const RegistrationDialog = ({
     item,
     visible,
+    loading,
     onConfirm,
     onCancel
 }: {
     item: RegistrationItemProps | null;
     visible: boolean;
+    loading: boolean;
     onConfirm: () => void;
     onCancel: () => void;
 }) => {
@@ -28,6 +31,7 @@ const RegistrationDialog = ({
             confirmText={item?.status.value === 'pending' ? '立即支付' : '确认'}
             onConfirm={onConfirm}
             onCancel={onCancel}
+            disableConfirmButton={loading}
         >
             {item && (
                 <View className="flex flex-col space-y-2 py-5">
@@ -111,6 +115,8 @@ const RegistrationList = ({
         hasMore,
     } = useRegistrationList();
 
+    const { startPayment, isPaying } = usePayment();
+
     // 处理下拉刷新
     const handlePullDownRefresh = async () => {
         console.log('下拉刷新');
@@ -143,12 +149,20 @@ const RegistrationList = ({
     };
 
     // 处理弹窗按钮函数
-    const handleDialogConfirm = () => {
+    const handleDialogConfirm =  async () => {
+        if (!dialogItem) return;
+
         if (dialogItem?.status.value === 'pending') {
-            Taro.showToast({
-                icon: 'success',
-                title: '模拟支付成功'
+            const result = await startPayment({
+                orderId: dialogItem.id,
+                orderType: 'activity',
             });
+
+            if (result.success) {
+                setIsDialogVisible(false);
+                await refresh();
+            }
+
             return;
         }
         setIsDialogVisible(false);
@@ -185,6 +199,7 @@ const RegistrationList = ({
             <RegistrationDialog
                 item={dialogItem}
                 visible={isDialogVisible}
+                loading={isPaying}
                 onConfirm={handleDialogConfirm}
                 onCancel={() => setIsDialogVisible(false)}
             />

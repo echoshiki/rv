@@ -24,11 +24,25 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/sale/index",
-          "pathName": "pages/sale/index",
+          "name": "pages/registration/index",
+          "pathName": "pages/registration/index",
           "query": "",
           "scene": null,
           "launchMode": "default"
+        },
+        {
+          "name": "pages/activity/detail/index",
+          "pathName": "pages/activity/detail/index",
+          "query": "id=41",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/sale/index",
+          "pathName": "pages/sale/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         },
         {
           "name": "pages/registration/index",
