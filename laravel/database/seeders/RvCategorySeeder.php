@@ -16,12 +16,12 @@ class RvCategorySeeder extends Seeder
         ],
         [
             'code' => 'ford_t8_long',
-            'title' => '福特T8长轴高顶',
+            'title' => '福特T8长高',
             'description' => '福特T8四驱'
         ],
         [
             'code' => 'ford_t8_mid',
-            'title' => '福特T8中轴高顶',
+            'title' => '福特T8中高',
             'description' => '福特T8四驱'
         ],
         [
@@ -45,9 +45,9 @@ class RvCategorySeeder extends Seeder
             'description' => '福特T6'
         ],
         [
-            'code' => 'ford_jmc',
-            'title' => '福特JMC',
-            'description' => '福特JMC'
+            'code' => 'jmc_long',
+            'title' => '福顺JMC长高',
+            'description' => '福顺JMC长高'
         ],
         [
             'code' => 'maxus_v90',
