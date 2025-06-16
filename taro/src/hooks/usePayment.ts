@@ -74,11 +74,17 @@ const usePayment = (): UsePaymentReturn => {
 
             // 拉起微信支付
             await Taro.requestPayment({
-                timeStamp: paymentParams.timeStamp,
+                timeStamp: paymentParams.timestamp,
                 nonceStr: paymentParams.nonceStr,
                 package: paymentParams.package,
                 signType: paymentParams.signType,
-                paySign: paymentParams.paySign
+                paySign: paymentParams.paySign,
+                fail: function (res) {
+                    console.log(res);
+                },
+                success: function (res) {
+                    console.log(res);
+                }
             });
 
             // 内置轮询，确认后端支付状态

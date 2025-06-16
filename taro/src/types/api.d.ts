@@ -311,7 +311,7 @@ interface PaymentStatus {
  */
 interface PaymentParam {
     appId: string,
-    timeStamp: string,
+    timestamp: string,
     nonceStr: string,
     package: string,
     signType: 'MD5' | 'HMAC-SHA256' | 'RSA',
