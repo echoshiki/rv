@@ -24,8 +24,9 @@ return [
         'private_key' => storage_path('certs/wechat_pay/apiclient_key.pem'),
         'certificate' => storage_path('certs/wechat_pay/apiclient_cert.pem'),
         'serial_no'   => env('WECHAT_PAY_SERIAL_NO', ''),
-        'platform_certs' => env('WECHAT_PAY_PLATFORM_CERTS', ''),
-        'platform_public_key' => env('WECHAT_PAY_PUBLIC_KEY', ''),
+        'platform_certs' => [
+            "PUB_KEY_ID_0117194284062025061600332347001803" => storage_path('certs/wechat_pay/pub_key.pem'),
+        ],
         'notify_url' => env('WECHAT_PAY_NOTIFY_URL', '/api/v1/payments/notify/wechat'),
         'http' => [
             'throw'  => true,
