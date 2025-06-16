@@ -48,8 +48,10 @@ function transformApiMenuItem(apiItem: ApiMenuItem): MenuItem {
     } else if (apiItem.link_type === "function") {
         // 如果是函数类型，使用 # 作为占位符
         displayProps.link = "#";
+
         // link_value 此时应为函数名称，通过查找表找到对应的函数
         const action = clientSideFunctions[apiItem.link_value as keyof typeof clientSideFunctions];
+        
         // 如果找到对应的函数，设置 onClick
         if (action) {
             displayProps.onClick = action;

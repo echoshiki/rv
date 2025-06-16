@@ -9,15 +9,18 @@ import { useState } from 'react';
 import Card from '@/components/Card';
 import AspectRatioImage from '@/components/AspectRatioImage';
 import { RvOrderItem as RvOrderItemProps } from '@/types/ui';
+import usePayment from '@/hooks/usePayment';
 
 const RvOrderDialog = ({
     item,
     visible,
+    loading,
     onConfirm,
     onCancel
 }: {
     item: RvOrderItemProps | null;
     visible: boolean;
+    loading: boolean;
     onConfirm: () => void;
     onCancel: () => void;
 }) => {
@@ -28,6 +31,7 @@ const RvOrderDialog = ({
             confirmText={item?.status.value === 'pending' ? '立即支付' : '确认'}
             onConfirm={onConfirm}
             onCancel={onCancel}
+            disableConfirmButton={loading}
         >
             {item && (
                 <View className="flex flex-col space-y-2 py-5">
@@ -108,6 +112,8 @@ const RvOrderList = ({
         hasMore,
     } = useRvOrderList();
 
+    const { startPayment, isPaying } = usePayment();
+
     // 处理下拉刷新
     const handlePullDownRefresh = async () => {
         console.log('下拉刷新');
@@ -142,12 +148,20 @@ const RvOrderList = ({
     };
 
     // 处理弹窗按钮函数
-    const handleDialogConfirm = () => {
+    const handleDialogConfirm =  async () => {
+        if (!dialogItem) return;
+
         if (dialogItem?.status.value === 'pending') {
-            Taro.showToast({
-                icon: 'success',
-                title: '模拟支付成功'
+            const result = await startPayment({
+                orderId: dialogItem.id,
+                orderType: 'rv',
             });
+
+            if (result.success) {
+                setIsDialogVisible(false);
+                await refresh();
+            }
+
             return;
         }
         setIsDialogVisible(false);
@@ -184,6 +198,7 @@ const RvOrderList = ({
             <RvOrderDialog
                 item={dialogItem}
                 visible={isDialogVisible}
+                loading={isPaying}
                 onConfirm={handleDialogConfirm}
                 onCancel={() => setIsDialogVisible(false)}
             />
