@@ -52,12 +52,11 @@ class PaymentService extends BaseWechatService
             ) {
             // 通过支付应用实例，调用 easywechat 方法创建预支付订单
             $response = $app->getClient()->postJson('/v3/pay/transactions/jsapi', [
-                // Arr::get($this->config, 'app_id')
-                'appid' => $app->getConfig()->app_id,
-                'mchid' => $app->getConfig()->mch_id,
+                'appid' => $app->getConfig()['app_id'],
+                'mchid' => $app->getConfig()['mch_id'],
                 'description' => $description,
                 'out_trade_no' => $outTradeNo,
-                'notify_url' => $app->getConfig()->notify_url,
+                'notify_url' => $app->getConfig()['notify_url'],
                 'amount' => [
                     'total' => $amountInCents
                 ],
@@ -70,7 +69,7 @@ class PaymentService extends BaseWechatService
             $prepayId = $response->toArray(false)['prepay_id'];
             
             // 使用 Bridge 生成前端 JSSDK 配置
-            return $app->getUtils()->buildSdkConfig($prepayId, $app->getConfig()->app_id);
+            return $app->getUtils()->buildSdkConfig($prepayId, $app->getConfig()['app_id']);
 
         }, 'v3/pay/transactions/jsapi');
     }

@@ -43,7 +43,6 @@ return [
         'certificate' => storage_path('certs/wechat_pay/apiclient_cert.pem'),
         'serial_no'   => env('WECHAT_PAY_SERIAL_NO', ''),
         'platform_certs' => [
-            '/path/to/wechatpay/cert.pem',
             "PUB_KEY_ID_0117194284062025061600332347001803" => storage_path('certs/wechat_pay/pub_key.pem'),
         ],
         'notify_url' => env('WECHAT_PAY_NOTIFY_URL', '/api/v1/payments/notify/wechat'),
