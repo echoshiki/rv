@@ -9,6 +9,12 @@ import useAuthStore from '@/stores/auth';
  * 将 API 提供的函数名称映射到客户端实际函数
  */
 const clientSideFunctions: Record<string, () => void> = {
+    // 拨打客服电话 TODO 统一后端获取
+    "makePhoneCall": () => {
+        Taro.makePhoneCall({
+            phoneNumber: '15050773500'
+        });
+    },
     // 打开客服
     "openCustomerServiceChat": () => {
         Taro.openCustomerServiceChat({

@@ -40,10 +40,10 @@ class MenuGroupSeeder extends Seeder
                     'requires_auth' => true,
                 ],
                 [
-                    'title' => '在线客服',
+                    'title' => '客服电话',
                     'icon' =>  'origin/icons/service.svg',
                     'link_type' => 'function',
-                    'link_value' => 'openCustomerServiceChat',
+                    'link_value' => 'makePhoneCall',
                     'requires_auth' => false,
                 ],
             ]
