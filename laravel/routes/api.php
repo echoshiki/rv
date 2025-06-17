@@ -132,10 +132,3 @@ Route::prefix('v1')->group(function () {
     });
 
 });
-
-// 测试API
-Route::prefix('v2')->group(function () {
-    Route::get('/test', function () {
-        return response()->json(['message' => 'Hello World!']);
-    });
-});
