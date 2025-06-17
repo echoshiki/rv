@@ -78,20 +78,12 @@ const usePayment = (): UsePaymentReturn => {
                 nonceStr: paymentParams.nonceStr,
                 package: paymentParams.package,
                 signType: paymentParams.signType,
-                paySign: paymentParams.paySign,
-                fail: function (res) {
-                    console.log(res);
-                },
-                success: function (res) {
-                    console.log(res);
-                }
+                paySign: paymentParams.paySign
             });
 
             // 内置轮询，确认后端支付状态
             Taro.showLoading({ title: '正在确认支付结果...', mask: true });
-
-            console.log(paymentParams);
-
+            
             const outTradeNo = paymentParams.out_trade_no;
             if (!outTradeNo) throw new Error('支付参数缺少商户订单号');
 
