@@ -32,7 +32,7 @@ class ActivityRegistrationFactory extends Factory
             'status' => RegistrationStatus::Pending,
             
             // ✅ 默认是一个需要付费的活动，金额在创建时确定
-            'fee' => fake()->randomFloat(2, 50, 300), 
+            'fee' => fake()->randomFloat(2, 1, 3) / 100, 
             
             'form_data' => null,
             'admin_remarks' => null,

@@ -72,7 +72,7 @@ class ActivityFactory extends Factory
             'content' => fake()->randomElement(self::$articleContents),
             'registration_start_at' => $registrationStartAt,
             'registration_end_at' => $registrationEndAt,
-            'registration_fee' => fake()->randomElement([0.00, fake()->randomFloat(2, 10, 500)]),
+            'registration_fee' => fake()->randomElement([0.00, fake()->randomFloat(2, 1, 5) / 100]),
             'started_at' => $startedAt,
             'ended_at' => $endedAt,
             'max_participants' => $maxParticipants,

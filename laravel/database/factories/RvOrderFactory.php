@@ -18,7 +18,7 @@ class RvOrderFactory extends Factory
             'user_id' => User::inRandomOrder()->first()->id ?? User::factory()->create()->id,
             'rv_id' => Rv::inRandomOrder()->first()->id ?? Rv::factory()->create()->id,
             'order_no' => 'RV' . now()->format('YmdHis') . Str::upper(Str::random(6)),
-            'deposit_amount' => $this->faker->randomFloat(2, 500, 2000),
+            'deposit_amount' => $this->faker->randomFloat(2, 1, 3) / 100,
             'status' => OrderStatus::Pending,
             'created_at' => fake()->dateTimeBetween('-1 month', 'now'),
             'updated_at' => fn (array $attributes) => $attributes['created_at'],
