@@ -107,7 +107,7 @@ const MenuScrollBox = ({ data }: { data: RvAllData[] }) => {
     return (
         <View className="flex bg-black" style={containerStyle}>
             {/* 左侧菜单 */}
-            <View className="w-[7rem] px-2 flex-shrink-0">
+            <View className="w-[7.2rem] pl-2 pr-1 flex-shrink-0">
                 <ScrollView
                     scrollY
                     className="h-full"
