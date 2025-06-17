@@ -23,10 +23,7 @@ class RegistrationResource extends JsonResource
             'province' => $this->province,
             'city' => $this->city,
             'status' => $this->formatStatus(),
-            'paid_amount' => $this->paid_amount,
-            'payment_method' => $this->payment_method,
-            'payment_time' => $this->payment_time,
-            'payment_no' => $this->payment_no,
+            'fee' => $this->fee,
             'created_at' => $this->created_at ? $this->created_at->format('Y-m-d') : null,
             'updated_at' => $this->updated_at ? $this->updated_at->format('Y-m-d') : null,
             'activity' => $this->whenLoaded('activity', function () {

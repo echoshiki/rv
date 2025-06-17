@@ -50,6 +50,9 @@ const RegistrationDialog = ({
                     <View>
                         <Text>报名状态：{item.status.label}</Text>
                     </View>
+                    <View>
+                        <Text>支付金额：{item.fee}</Text>
+                    </View>
                 </View>
             )}
         </Dialog>

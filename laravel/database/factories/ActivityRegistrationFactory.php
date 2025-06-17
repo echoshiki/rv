@@ -51,7 +51,7 @@ class ActivityRegistrationFactory extends Factory
         return $this->state(fn (array $attributes) => [
             // 关键：将 fake() 调用放在 state 的闭包内，
             // 这样每次创建记录时都会生成一个新的随机金额。
-            'fee' => fake()->randomFloat(2, 100, 500),
+            'fee' => fake()->randomFloat(2, 1, 3) / 100,
             'status' => RegistrationStatus::Approved,
         ])
         ->afterCreating(function (ActivityRegistration $registration) {
@@ -74,7 +74,7 @@ class ActivityRegistrationFactory extends Factory
     public function withPendingPayment(): static
     {
         return $this->state(fn (array $attributes) => [
-            'fee' => fake()->randomFloat(2, 50, 200),
+            'fee' => fake()->randomFloat(2, 1, 3) / 100,
             'status' => RegistrationStatus::Pending,
         ])
         ->afterCreating(function (ActivityRegistration $registration) {
