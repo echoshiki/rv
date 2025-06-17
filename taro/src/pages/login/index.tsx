@@ -17,7 +17,8 @@ const Login = () => {
 
     // 静默执行获取 openid
     useDidShow( async () => {
-        if (openid || silenceLoading) return;
+        // if (openid || silenceLoading) return;
+        if (silenceLoading) return;
         try {
             setSilenceLoading(true);
             await loginInSilence();
