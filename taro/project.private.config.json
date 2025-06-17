@@ -19,7 +19,7 @@
     "bigPackageSizeSupport": false
   },
   "projectname": "%E5%8D%AB%E8%88%AA%E6%88%BF%E8%BD%A6%E5%B0%8F%E7%A8%8B%E5%BA%8F",
-  "libVersion": "3.8.6",
+  "libVersion": "3.8.8",
   "condition": {
     "miniprogram": {
       "list": [

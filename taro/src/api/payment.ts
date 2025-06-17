@@ -12,7 +12,7 @@ const paymentApi = {
     // 支付状态查询
     checkPaymentStatus: (outTradeNo: string): Promise<ApiResponse<PaymentStatus>> => {
         return http.get(`${PAYMENT_API}/status`, {
-            params: { out_trade_no: outTradeNo }
+            out_trade_no: outTradeNo
         });
     },
 
