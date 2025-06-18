@@ -12,7 +12,7 @@ interface AuthStoreProps{
     isBound: boolean | null;
     token: string | null;
     userInfo: UserInfoProps | null;
-    loginInSilence: () => Promise<void>;
+    loginInSilence: () => Promise<boolean>;
     loginOnBound: (
         e: any, 
         currentOpenid: string | null, 
@@ -25,6 +25,7 @@ interface AuthStoreProps{
     logout: () => void;
     syncUserInfo: () => void;
     updateUserInfo: (data: UserInfoSubmission) => Promise<void>;
+    updateLastActiveAt: () => Promise<void>;
     isLoggedIn: () => boolean;
     isLoggingOut: boolean;
     isLoading: boolean;
@@ -63,11 +64,13 @@ const useAuthStore = create<AuthStoreProps>()(
                     // 获取后存入本地
                     if (response?.openid && response.isBound !== null) {
                         set({ openid: response.openid, isBound: response.isBound });
+                        return true;
                     } else {
                         throw new Error('静默处理错误');
                     }
                 } catch (e) {
                     console.error(e);
+                    return false;
                 }
             },
 
@@ -204,6 +207,14 @@ const useAuthStore = create<AuthStoreProps>()(
                     console.error(e);
                     set({ isLoading: false });
                 }
+            },
+
+            updateLastActiveAt: async () => {
+                try {
+                    await userApi.updateLastActiveAt();
+                } catch (e) {
+                    console.error('更新用户活跃时间失败:', e);
+                } 
             },
 
             isLoggedIn: () => !!get().token

@@ -11,10 +11,18 @@ function App({ children }: PropsWithChildren<any>) {
 		// 获取全局设置
 		useSettingStore.getState().fetchSettings();
 
-		// 静默登录
-		if (!useAuthStore.getState().openid) {
-			console.log('执行静默处理');
-			useAuthStore.getState().loginInSilence();
+		const authStore = useAuthStore.getState();
+		if (!authStore.isLoggedIn()) {
+			console.log('执行静默登录...');
+			authStore.loginInSilence().then(isLoggedIn => {
+				if (isLoggedIn) {
+					console.log('登录成功，记录活跃时间...');
+					authStore.updateLastActiveAt();
+				}
+			});
+		} else {
+			console.log('用户已登录，记录活跃时间...');
+			authStore.updateLastActiveAt();
 		}
 	});
 
