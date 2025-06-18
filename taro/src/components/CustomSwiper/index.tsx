@@ -84,6 +84,11 @@ const CustomSwiper: React.FC<CustomSwiperProps> = ({
     // 点击轮播图
     const handleClick = (item) => {
         if (onClick) onClick(item);
+        if (item.link) {
+            Taro.navigateTo({
+                url: item.link
+            });
+        }
     };
 
     // 根据指示器位置返回样式类名

@@ -19,6 +19,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Section;
+use Illuminate\Support\HtmlString;
 
 class BannerResource extends Resource
 {
@@ -57,7 +58,11 @@ class BannerResource extends Resource
                             ->columnSpanFull(),
                         Forms\Components\TextInput::make('link')
                             ->label('跳转链接')
-                            ->url()
+                            ->helperText(new HtmlString('
+                                <p>文章详情：/pages/article/detail/index?id=文章ID</p>
+                                <p>活动详情：/pages/activity/detail/index?id=活动ID</p>
+                                <p>车型详情：/pages/sale/detail/index?id=车型ID</p>
+                            '))
                             ->maxLength(255)
                             ->columnSpanFull(),
                         Forms\Components\Select::make('channel')

@@ -79,6 +79,9 @@ class UsedRvResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->sortable(),
                 Tables\Columns\ImageColumn::make('cover')
                     ->label('封面')
                     ->searchable(),
