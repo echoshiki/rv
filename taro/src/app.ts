@@ -12,14 +12,9 @@ function App({ children }: PropsWithChildren<any>) {
 		useSettingStore.getState().fetchSettings();
 
 		const authStore = useAuthStore.getState();
-		if (!authStore.isLoggedIn()) {
+		if (!authStore.openid) {
 			console.log('执行静默登录...');
-			authStore.loginInSilence().then(isLoggedIn => {
-				if (isLoggedIn) {
-					console.log('登录成功，记录活跃时间...');
-					authStore.updateLastActiveAt();
-				}
-			});
+			authStore.loginInSilence();
 		} else {
 			console.log('用户已登录，记录活跃时间...');
 			authStore.updateLastActiveAt();

@@ -49,6 +49,10 @@ class UserAuthService
             return $this->createUserAndUpdateWechatUser($wechatUser);
         }
 
+        // 更新用户最后活跃时间
+        $wechatUser->user->last_active_at = now();
+        $wechatUser->user->saveQuietly();
+
         return $wechatUser;
     }
 
