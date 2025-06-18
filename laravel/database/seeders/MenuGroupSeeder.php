@@ -237,7 +237,7 @@ class MenuGroupSeeder extends Seeder
                     'title' => '促销活动',
                     'icon' =>  null,
                     'link_type' => 'channel',
-                    'link_value' => '3|activity',
+                    'link_value' => '2|activity',
                     'requires_auth' => false,
                 ],
                 [

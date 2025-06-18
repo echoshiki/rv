@@ -13,11 +13,27 @@ class ActivityCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        //清空活动分类表
-        ActivityCategory::truncate();
 
-        $this->command->info('开始创建活动分类...');
-        ActivityCategory::factory()->count(3)->create();
-        $this->command->info('活动分类创建完毕');
+        $this->command->info('开始创建核心活动分类...');
+
+        ActivityCategory::updateOrCreate(
+            ['code' => 'rv_friends_activity'], 
+            [
+                'title' => '车友活动',
+                'description' => '专为车友社群组织的各类线下聚会和活动。',
+                'is_active' => true,
+            ]
+        );
+
+        ActivityCategory::updateOrCreate(
+            ['code' => 'promotion_activity'],
+            [
+                'title' => '促销活动',
+                'description' => '官方发布的各类优惠、促销和特卖活动。',
+                'is_active' => true,
+            ]
+        );
+
+        $this->command->info('核心活动分类创建完毕！');
     }
 }

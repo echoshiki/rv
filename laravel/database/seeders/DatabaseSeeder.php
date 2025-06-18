@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ArticleCategorySeeder::class,
+            ActivityCategorySeeder::class,
             ArticleSeeder::class, 
             MenuGroupSeeder::class,
             RvCategorySeeder::class
@@ -23,7 +24,6 @@ class DatabaseSeeder extends Seeder
         if (app()->environment('local')) {
             $this->call([
                 UserSeeder::class,
-                ActivityCategorySeeder::class,
                 ActivitySeeder::class,
                 ActivityRegistrationSeeder::class,
                 BannerSeeder::class,
