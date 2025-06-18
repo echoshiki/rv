@@ -33,8 +33,11 @@ class Article extends Model
         'category_id', 
         'title', 
         'cover', 
+        'description',
+        'link',
         'content',
         'sort',
+        'is_single_page',
         'is_recommend',
         'is_active',
         'code',
@@ -47,6 +50,7 @@ class Article extends Model
         return [
             'is_active' => 'boolean',
             'is_recommend' => 'boolean',
+            'is_single_page' => 'boolean',
             'sort' => 'integer',
             'published_at' => 'datetime'
         ];
