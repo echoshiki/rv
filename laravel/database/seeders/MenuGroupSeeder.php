@@ -42,8 +42,8 @@ class MenuGroupSeeder extends Seeder
                 [
                     'title' => '客服电话',
                     'icon' =>  'origin/icons/service.svg',
-                    'link_type' => 'function',
-                    'link_value' => 'makePhoneCall',
+                    'link_type' => 'phone',
+                    'link_value' => '15050773500',
                     'requires_auth' => false,
                 ],
             ]
@@ -169,24 +169,24 @@ class MenuGroupSeeder extends Seeder
             'layout' => 'grid',
             'items' => [
                 [
-                    'title' => '快速救援',
-                    'icon' =>  'origin/icons/usage/float/network.svg',
-                    'link_type' => 'page',
-                    'link_value' => 'onMakePhoneCall',
-                    'requires_auth' => false,
-                ],
-                [
                     'title' => '售后服务',
                     'icon' =>  'origin/icons/usage/float/help.svg',
-                    'link_type' => 'function',
-                    'link_value' => 'onMakePhoneCall',
+                    'link_type' => 'phone',
+                    'link_value' => '15050773500',
                     'requires_auth' => false,
                 ],
                 [
                     'title' => '管家服务',
                     'icon' =>  'origin/icons/usage/float/service.svg',
-                    'link_type' => 'function',
-                    'link_value' => 'onOpenCustomerServiceChat',
+                    'link_type' => 'phone',
+                    'link_value' => '15050773500',
+                    'requires_auth' => false,
+                ],
+                [
+                    'title' => '用户投诉',
+                    'icon' =>  'origin/icons/usage/float/network.svg',
+                    'link_type' => 'phone',
+                    'link_value' => '15050773500',
                     'requires_auth' => false,
                 ],
                 [

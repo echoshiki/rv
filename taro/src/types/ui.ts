@@ -29,6 +29,7 @@ import {
  * @param description 菜单副标题
  * @param link 菜单链接
  * @param onClick 菜单点击事件
+ * @param openType 打开方式: contact, feedback, ...
  */
 interface MenuItem {
     title: string,
@@ -36,6 +37,7 @@ interface MenuItem {
     description?: string,
     link: string,
     onClick?: (item: MenuItem) => void,
+    openType?: string
 }
 
 /**

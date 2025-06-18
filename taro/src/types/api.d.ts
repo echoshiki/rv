@@ -63,6 +63,7 @@ interface BannerItem {
  * @param link_type 链接类型: page, miniprogram, webview, function
  * @param link_value 链接值
  * @param requires_auth 是否需要登录
+ * @param openType 打开方式: contact, feedback, ...
  */
 interface MenuItem {
     id: string,
@@ -72,7 +73,8 @@ interface MenuItem {
     cover?: string,
     link_type: string,
     link_value?: string,
-    requires_auth: boolean
+    requires_auth: boolean,
+    openType?: string
 }
 
 interface Category {

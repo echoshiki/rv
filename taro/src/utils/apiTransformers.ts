@@ -9,12 +9,6 @@ import useAuthStore from '@/stores/auth';
  * 将 API 提供的函数名称映射到客户端实际函数
  */
 const clientSideFunctions: Record<string, () => void> = {
-    // 拨打客服电话 TODO 统一后端获取
-    "makePhoneCall": () => {
-        Taro.makePhoneCall({
-            phoneNumber: '15050773500'
-        });
-    },
     // 打开客服
     "openCustomerServiceChat": () => {
         Taro.openCustomerServiceChat({
@@ -44,33 +38,55 @@ function transformApiMenuItem(apiItem: ApiMenuItem): MenuItem {
         description: apiItem.subtitle || undefined,
     };
 
-    if (apiItem.link_type === "page") {
-        // 如果是页面类型，先判断是否需要登录
-        if (apiItem.requires_auth) {
-            // 需要登陆则进行跳转前验证
-            displayProps.onClick = ({ link }) => checkLoginBeforeNavigate(link);
-        }
-        displayProps.link = apiItem.link_value;
-    } else if (apiItem.link_type === "function") {
-        // 如果是函数类型，使用 # 作为占位符
-        displayProps.link = "#";
+    switch (apiItem.link_type) {
+        // 页面跳转
+        case "page":
+            displayProps.link = apiItem.link_value;
+            if (apiItem.requires_auth) {
+                // 需要登陆则进行跳转前验证
+                displayProps.onClick = () => checkLoginBeforeNavigate(displayProps.link as string);
+            }
+            break;
 
-        // link_value 此时应为函数名称，通过查找表找到对应的函数
-        const action = clientSideFunctions[apiItem.link_value as keyof typeof clientSideFunctions];
+        // 函数调用
+        case "function":
+            displayProps.link = "#"; // 函数类型使用 # 作为占位符
+            const action = clientSideFunctions[apiItem.link_value as keyof typeof clientSideFunctions];
+            if (action) {
+                displayProps.onClick = action;
+            } else {
+                console.warn(`没有能为这个菜单找到对应的映射函数: ${apiItem.link_value}`);
+            }
+            break;
+
+        // 电话拨打
+        case "phone":
+            displayProps.link = "#";
+            displayProps.onClick = () => {
+                const phoneNumber = apiItem.link_value;
+                if (phoneNumber) {
+                    Taro.makePhoneCall({ phoneNumber });
+                } else {
+                    console.warn(`电话菜单项 [${apiItem.title}] 未提供号码。`);
+                }
+            };
+            break;
         
-        // 如果找到对应的函数，设置 onClick
-        if (action) {
-            displayProps.onClick = action;
-        } else {
-            console.warn(`没有能为这个菜单找到对应的映射函数: ${apiItem.link_value}`);
-            displayProps.onClick = () => alert(`没有能为这个菜单找到对应的映射函数: ${apiItem.link_value}`);
-        }
-    } else if (apiItem.link_type === "channel" && apiItem.link_value) {
-        // 给标签栏传参
-        displayProps.link = apiItem.link_value;
-    } else {
-        displayProps.link = "#";
-        console.warn(`不支持的链接类型: ${apiItem.link_type}`);
+        // 客服按钮
+        case "contact":
+            displayProps.link = "#";
+            displayProps.openType = 'contact';
+            break;
+
+        // 标签栏传参
+        case "channel":
+            displayProps.link = apiItem.link_value;
+            break;
+
+        // 未知类型
+        default:
+            displayProps.link = "#";
+            console.warn(`不支持的链接类型: ${apiItem.link_type}`);
     }
 
     return displayProps as MenuItem;
