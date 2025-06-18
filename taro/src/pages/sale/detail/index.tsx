@@ -7,6 +7,7 @@ import { useBookingFlow } from "@/hooks/useRvOrder";
 import { Dialog } from '@nutui/nutui-react-taro'
 import { RvItem } from "@/types/ui";
 import { useState } from "react";
+import useSettingStore from "@/stores/setting";
 
 const RvBookingDialog = ({
     item,
@@ -72,8 +73,7 @@ const RvDetail = () => {
     };
 
     const handlePhoneCallClick = () => {
-        // TODO 统一后端获取
-        const phoneNumber = '15050773500';
+        const phoneNumber = useSettingStore.getState().settings.phone ?? '';
         makePhoneCall({
             phoneNumber: phoneNumber
         });
