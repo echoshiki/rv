@@ -65,7 +65,7 @@ const useBookingFlow = (): UseBookingFlowReturn => {
                 Taro.showToast({ title: '预订成功！', icon: 'success', duration: 1500 });
                 setTimeout(() => {
                     Taro.redirectTo({
-                        url: `/pages/order-detail/index?id=${paymentResult.orderId}`
+                        url: `/pages/order/index`
                     });
                 }, 1500);
             }
