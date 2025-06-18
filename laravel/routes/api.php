@@ -19,9 +19,13 @@ use App\Http\Controllers\Api\V1\SuggestController;
 use App\Http\Controllers\Api\V1\WebhookController;
 use App\Http\Controllers\Api\V1\RvOrderController;
 use App\Http\Controllers\Api\V1\PaymentController;
+use App\Http\Controllers\Api\V1\SettingController;
 
 // 服务接口 v1 版本
 Route::prefix('v1')->group(function () {
+    // 全局设置
+    Route::get('/settings/general', [SettingController::class, 'general']);
+
     // 小程序静默登录
     Route::post('/login-silence', [AuthController::class, 'miniLoginInSilence']);
     // 小程序登录（未绑定手机号）
