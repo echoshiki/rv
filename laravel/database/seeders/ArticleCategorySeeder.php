@@ -51,6 +51,11 @@ class ArticleCategorySeeder extends Seeder
             'title' => '仪表指示',
             'description' => '小程序用车频道栏目'
         ],
+        [
+            'code' => 'weihang_camping',
+            'title' => '卫航营地',
+            'description' => '小程序玩车频道栏目'
+        ],
     ];
 
     /**

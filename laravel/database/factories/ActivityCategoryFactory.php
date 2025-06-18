@@ -28,7 +28,6 @@ class ActivityCategoryFactory extends Factory
     {
         $categoryTitles = [
             '车友活动',
-            '卫航营地',
             '促销活动'
         ];
 
