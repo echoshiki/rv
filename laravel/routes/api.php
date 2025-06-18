@@ -38,8 +38,10 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->prefix('user')->group(function () {
         Route::get('/', [UserController::class, 'index']);
         Route::put('/', [UserController::class, 'update']);
-        // 积分记录 ✅
+        // 积分记录
         Route::get('/point-logs/consumption', [PointLogController::class, 'consumptionLogs']);
+        // 更新用户最后活跃时间
+        Route::post('/active', [UserController::class, 'updateLastActiveAt']);
     });
 
     // 轮播图API
@@ -89,33 +91,33 @@ Route::prefix('v1')->group(function () {
 
     // 报名相关API
     Route::middleware('auth:sanctum')->prefix('registrations')->group(function () {
-        // 创建一个新的报名 ✅
+        // 创建一个新的报名
         Route::post('/', [RegistrationController::class, 'store']);
-        // 我的报名列表 ✅
+        // 我的报名列表
         Route::get('/my', [RegistrationController::class, 'index']);
-        // 获取报名状态 ✅
+        // 获取报名状态
         Route::get('/{activityId}/status', [RegistrationController::class, 'status']);
-        // 获取报名详情 ✅
+        // 获取报名详情
         Route::get('/{registration}', [RegistrationController::class, 'show']);
-        // 取消报名 ✅
+        // 取消报名
         // Route::post('/{registration}/cancel', [RegistrationController::class, 'cancel']);
     });
 
     // 房车订单相关
     Route::middleware('auth:sanctum')->prefix('rv-orders')->group(function () {
-        // 房车订单列表 ✅
+        // 房车订单列表
         Route::get('/', [RvOrderController::class, 'index']);
-        // 房车订单详情 ✅
+        // 房车订单详情
         Route::get('/{id}', [RvOrderController::class, 'show']);
-        // 创建一个新的房车订单 ✅
+        // 创建一个新的房车订单
         Route::post('/', [RvOrderController::class, 'store']);
     });
 
     // 支付相关
     Route::middleware('auth:sanctum')->prefix('payments')->group(function () {
-        // 查询支付状态 ✅
+        // 查询支付状态
         Route::get('/status', [PaymentController::class, 'pollPaymentStatus']);
-        // 获取支付单详情 ✅
+        // 获取支付单详情
         Route::get('/{payment}', [PaymentController::class, 'getPaymentDetail']);
         // 为指定的房车订单发起支付 （线上测试）
         Route::post('/rv-orders/{rvOrder}/pay', [PaymentController::class, 'createForRvOrder']);
@@ -127,11 +129,11 @@ Route::prefix('v1')->group(function () {
     Route::post('/payments/notify/wechat', [WebhookController::class, 'handlePaymentNotify']);
 
     Route::middleware('auth:sanctum')->group(function () {
-        // 用户建议 ✅
+        // 用户建议
         Route::apiResource('suggests', SuggestController::class);
-        // 维保预约 ✅
+        // 维保预约
         Route::apiResource('maintenances', MaintenanceController::class);
-        // 我的爱车 ✅
+        // 我的爱车
         Route::apiResource('my-cars', MyCarController::class);
     });
 
