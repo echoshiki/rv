@@ -34,6 +34,8 @@ class BannerResource extends Resource
 
     protected static ?string $label = '轮播图';
 
+    protected static ?string $pluralLabel = '轮播图列表';
+
     public static function form(Form $form): Form
     {
         return $form

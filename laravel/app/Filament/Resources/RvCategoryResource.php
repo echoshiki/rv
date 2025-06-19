@@ -23,7 +23,9 @@ class RvCategoryResource extends Resource
 
     protected static ?string $navigationLabel = '底盘管理';
 
-    protected static ?string $label = '底盘管理';
+    protected static ?string $label = '底盘';
+
+    protected static ?string $pluralLabel = '底盘列表';
 
     public static function form(Form $form): Form
     {

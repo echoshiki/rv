@@ -25,7 +25,9 @@ class SinglePageResource extends Resource
 
     protected static ?string $navigationLabel = '单页管理';
 
-    protected static ?string $label = '单页列表';
+    protected static ?string $label = '单页';
+
+    protected static ?string $pluralLabel = '单页列表';
 
     public static function form(Form $form): Form
     {

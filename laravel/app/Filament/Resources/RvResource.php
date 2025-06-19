@@ -24,7 +24,9 @@ class RvResource extends Resource
 
     protected static ?string $navigationLabel = '新车管理';
 
-    protected static ?string $label = '新车列表';
+    protected static ?string $label = '新车';
+
+    protected static ?string $pluralLabel = '新车列表';
 
     public static function form(Form $form): Form
     {

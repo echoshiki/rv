@@ -24,7 +24,9 @@ class ActivityResource extends Resource
 
     protected static ?string $navigationLabel = '活动列表';
 
-    protected static ?string $label = '活动列表';
+    protected static ?string $label = '活动';
+
+    protected static ?string $pluralLabel = '活动列表';
 
     protected static ?string $slug = 'activities';
 
@@ -41,6 +43,7 @@ class ActivityResource extends Resource
                             ->label('活动分类')
                             ->relationship('category', 'title')
                             ->columnSpanFull()
+                            ->native(false)
                             ->required(),
                         Forms\Components\TextInput::make('title')
                             ->label('活动标题')

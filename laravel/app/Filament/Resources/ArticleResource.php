@@ -24,7 +24,9 @@ class ArticleResource extends Resource
 
     protected static ?string $navigationLabel = '文章管理';
 
-    protected static ?string $label = '文章列表';
+    protected static ?string $label = '文章';
+
+    protected static ?string $pluralLabel = '文章列表';
 
     public static function form(Form $form): Form
     {

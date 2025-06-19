@@ -20,7 +20,8 @@ class UsedRvResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-truck';
     protected static ?string $navigationGroup = '房车管理';
     protected static ?string $navigationLabel = '二手车管理';
-    protected static ?string $label = '二手车列表';
+    protected static ?string $label = '二手车';
+    protected static ?string $pluralLabel = '二手车列表';
 
     public static function form(Form $form): Form
     {

@@ -27,7 +27,9 @@ class ActivityRegistrationResource extends Resource
 
     protected static ?string $navigationLabel = '报名列表';
 
-    protected static ?string $label = '报名列表';
+    protected static ?string $label = '报名';
+
+    protected static ?string $pluralLabel = '报名列表';
 
     protected static ?string $slug = 'activity-registrations';
 
