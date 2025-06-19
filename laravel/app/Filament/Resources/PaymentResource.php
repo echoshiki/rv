@@ -68,7 +68,7 @@ class PaymentResource extends Resource
                     ->formatStateUsing(function ($state) {
                         return match ($state) {
                             'App\Models\RvOrder' => '房车订单',
-                            'App\Models\ActivityReservation' => '活动预约',
+                            'App\Models\ActivityRegistration' => '活动报名',
                             default => $state,
                         };
                     })
@@ -108,7 +108,7 @@ class PaymentResource extends Resource
                     ->formatStateUsing(function ($state) {
                         return match ($state) {
                             'App\Models\RvOrder' => '房车订单',
-                            'App\Models\ActivityReservation' => '活动预约',
+                            'App\Models\ActivityRegistration' => '活动报名',
                             default => $state,
                         };
                     })
