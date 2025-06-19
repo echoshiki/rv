@@ -52,6 +52,11 @@ class ArticleSeeder extends Seeder
             'title' => '售后网点',
             'content' => '请在此处填写售后网点内容...',
         ],
+        [
+            'code' => 'meter_indication',
+            'title' => '仪表指示',
+            'content' => '请在此处填写仪表指示内容...',
+        ]
         // ... 其他需要的核心单页
     ];
 

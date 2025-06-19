@@ -157,7 +157,7 @@ class MenuGroupSeeder extends Seeder
                     'title' => '仪表指示',
                     'icon' =>  'origin/icons/usage/dashboard.svg',
                     'link_type' => 'page',
-                    'link_value' => '/pages/article/index?code=meter_indication',
+                    'link_value' => '/pages/article/detail/index?code=meter_indication',
                     'requires_auth' => false,
                 ],
             ],
