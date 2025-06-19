@@ -27,8 +27,8 @@
           "name": "pages/sale/index",
           "pathName": "pages/sale/index",
           "query": "",
-          "scene": null,
-          "launchMode": "default"
+          "launchMode": "default",
+          "scene": null
         },
         {
           "name": "pages/sale/detail/index",

@@ -5,6 +5,7 @@ import RightArrowIcon from '@/assets/icons/right-arrow.svg';
 interface SectionTitleProps {
     title: string,
     subtitle?: string,
+    image?: string,
     link?: string,
     theme?: 'light' | 'dark',
     type?: 'default' | 'row',
@@ -23,6 +24,7 @@ interface SectionTitleProps {
 const SectionTitle = ({ 
     title, 
     subtitle, 
+    image,
     link, 
     theme = 'light',
     type = 'default',
@@ -39,9 +41,18 @@ const SectionTitle = ({
     const renderTitle = () => {
         if (type === 'row') {
             return (
-                <View className="flex flex-row items-center space-x-3">
-                    <Text className={`${titleTextColorClass} font-semibold text-lg`}>{title}</Text>
-                    <Text className={`${subtitleTextColorClass} font-light`}>{subtitle}</Text>
+                <View className={`flex flex-row w-full items-center ${image ? 'justify-between' : 'space-x-1'}`}>
+                    <Text className={`${titleTextColorClass} font-semibold text-lg`}>{title}</Text>\
+                    {/* 大标题左侧 logo 等图片 */}
+                    {image ? (
+                        <Image
+                            src={image}
+                            mode="heightFix"
+                            className="h-6"
+                        />
+                    ) : (
+                        <Text className={`${subtitleTextColorClass} font-light`}>{subtitle}</Text>
+                    )}
                 </View>
             );
         }

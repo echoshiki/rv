@@ -107,7 +107,7 @@ const RvDetail = () => {
             {/* 底部按钮 */}
             <View className="w-full flex flex-nowrap bg-black bg-opacity-85 p-6 items-center fixed bottom-0">
                 <Button
-                    className="w-24 text-[.8rem] bg-red-600 text-white !border-solid !border-red-600 !border-2"
+                    className="w-24 text-[.8rem] bg-red-600 text-white !border-solid !border-red-600 !border-2 font-semibold"
                     onClick={() => setIsDialogVisible(true)}
                     loading={isProcessing}
                     disabled={isProcessing}
@@ -115,13 +115,13 @@ const RvDetail = () => {
                     现在下订
                 </Button>
                 <Button 
-                    className="w-24 text-[.8rem] !border border-solid !border-white !bg-transparent !text-white"
+                    className="w-24 text-[.8rem] bg-red-600 text-white !border-solid !border-red-600 !border-2 font-semibold"
                     openType="contact"
                 >
                     在线咨询
                 </Button>
                 <Button 
-                    className="w-24 text-[.8rem] !border border-solid !border-white !bg-transparent !text-white"
+                    className="w-24 text-[.8rem] !border border-solid !border-white !bg-transparent !text-white font-semibold"
                     onClick={handlePhoneCallClick}
                 >
                     客服电话
