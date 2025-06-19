@@ -273,7 +273,7 @@ class MenuGroupSeeder extends Seeder
                     'title' => '卫航营地',
                     'icon' =>  null,
                     'link_type' => 'channel',
-                    'link_value' => '9|article',
+                    'link_value' => '8|article',
                     'requires_auth' => false,
                 ]
             ]
