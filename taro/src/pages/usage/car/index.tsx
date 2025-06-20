@@ -1,12 +1,25 @@
 import { View, Text, Button } from "@tarojs/components";
 import Card from '@/components/Card';
-import { useMyCarList } from '@/hooks/useMyCarList';
 import Loading from "@/components/Loading";
 import { showModal } from "@tarojs/taro";
 import { mapsTo } from "@/utils/common";
+import useMyCarList from "@/hooks/useMyCarList";
+
+const AddMyCarButton = () => {
+    return (
+        <View className="flex justify-center items-center mx-auto pb-10 min-h-36">
+            <Button 
+                className="w-52 !border-2 !border-solid !border-white text-white bg-transparent"
+                onClick={() => mapsTo('/pages/usage/car/add/index')}
+            >
+                添加爱车
+            </Button>
+        </View>
+    )
+}
 
 const MyCar = () => {
-    const { myCars, deleteMyCar, loading } = useMyCarList();
+    const { cars, deleteCar, loading } = useMyCarList();
 
     const onDeleteMyCar = async (id: string) => {
         if (loading) return;
@@ -19,16 +32,17 @@ const MyCar = () => {
             confirmColor: '#e54d42',
             success: (res) => {
                 if (res.confirm && !loading) {
-                    deleteMyCar(id);
+                    deleteCar(id);
                 }
             }
         });
     }
 
-    if (myCars?.list.length === 0 || !myCars) {
+    if (cars?.length === 0 || !cars) {
         return (
-            <View className="bg-black flex justify-center items-center h-screen">
+            <View className="bg-black flex flex-col justify-center items-center h-screen">
                 <Text className="text-white">你还没有添加爱车</Text>
+                <AddMyCarButton />
             </View>
         );
     }
@@ -44,7 +58,7 @@ const MyCar = () => {
     return (
         <View className="bg-black p-5 min-h-screen flex flex-col justify-between">
             <View className="flex flex-col space-y-3">
-                {myCars && myCars.list.map(car => (
+                {cars && cars.map(car => (
                     <Card key={car.id} className="bg-opacity-50 !bg-[#3c3c3c] text-white">
                         <View className="flex flex-col space-y-2">
                             <View className="flex space-x-2 items-center">
@@ -73,15 +87,7 @@ const MyCar = () => {
                     </Card>
                 ))}
             </View>
-
-            <View className="flex justify-center items-center mx-auto pb-10">
-                <Button 
-                    className="w-52 !border-2 !border-solid !border-white text-white bg-transparent"
-                    onClick={() => mapsTo('/pages/usage/car/add/index')}
-                >
-                    添加爱车
-                </Button>
-            </View>
+            <AddMyCarButton />
         </View >
     )
 }

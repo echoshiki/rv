@@ -3,14 +3,13 @@ import { useState, useRef } from 'react';
 import { DatePicker, Form, Input, FormInstance } from '@nutui/nutui-react-taro';
 import AreaPicker from '@/components/AreaPicker';
 import PageCard from '@/components/PageCard';
-import myCarApi from '@/api/car';
 import { navigateBack, showToast } from "@tarojs/taro";
 import { parseAddress } from "@/utils/common";
+import useCarStore from "@/stores/car";
 
 const AddMyCar = () => {
 
-    // 我的爱车
-    const [loading, setLoading] = useState<boolean>(false);
+    const { addCar, loading } = useCarStore();
     const formRef = useRef<FormInstance>(null);
 
     // 日期组件
@@ -40,7 +39,7 @@ const AddMyCar = () => {
     }
 
     const onSubmit = async (formData) => {
-        setLoading(true);
+        if (loading) return;
         try {
             // 处理省份城市为空的情况
             const { province, city } = formData.address ? parseAddress(formData.address) : {
@@ -60,9 +59,8 @@ const AddMyCar = () => {
                 city,
                 address: formData.address_info?.trim(),
             };
-            const response = await myCarApi.create(submissionData);
-
-            if (response.success) {
+            const { success } = await addCar(submissionData);
+            if (success) {
                 showToast({
                     icon: 'success',
                     title: '添加成功！'
@@ -71,16 +69,14 @@ const AddMyCar = () => {
                     navigateBack();
                 }, 1000);
             } else {
-                throw new Error(response.message);
+                throw new Error('添加失败');
             }
         } catch (error) {
             console.error('添加失败:', error);
             showToast({
                 icon: 'none',
-                title: error.data.message
+                title: error.message
             });
-        } finally {
-            setLoading(false);
         }
     }
 
