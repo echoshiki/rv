@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('phone')->comment('手机号');
             $table->string('province')->nullable()->comment('省份');
             $table->string('city')->nullable()->comment('城市');
-            $table->string('brand')->comment('车型');
-            $table->string('vin')->comment('车架号');
-            $table->string('licence_plate')->comment('车牌号');
+            $table->string('brand')->nullable()->comment('车型');
+            $table->string('vin')->nullable()->comment('车架号');
+            $table->string('licence_plate')->nullable()->comment('车牌号');
             $table->timestamp('listing_at')->nullable()->comment('上牌日期');
             $table->timestamp('birthday')->nullable()->comment('生日');
             $table->string('address')->nullable()->comment('详细地址');

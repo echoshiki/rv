@@ -24,7 +24,7 @@ class MyCarRequest extends FormRequest
             'phone' => 'required|string|regex:/^1[3-9]\d{9}$/',
             'province' => 'nullable|string|max:20',
             'city' => 'nullable|string|max:20',
-            'brand' => 'required|string|max:50',
+            'brand' => 'nullable|string|max:50',
             'vin' => [
                 'required',
                 'string',
@@ -52,7 +52,6 @@ class MyCarRequest extends FormRequest
             'name.max' => '姓名长度不能超过50个字符',
             'phone.required' => '手机号不能为空',
             'phone.regex' => '手机号格式不正确',
-            'brand.required' => '车型不能为空',
             'brand.max' => '车型长度不能超过50个字符',
             'vin.required' => '车架号不能为空',
             'vin.size' => '车架号必须是17位',
