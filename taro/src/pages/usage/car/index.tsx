@@ -3,7 +3,7 @@ import Card from '@/components/Card';
 import Loading from "@/components/Loading";
 import { showModal } from "@tarojs/taro";
 import { mapsTo } from "@/utils/common";
-import useMyCarList from "@/hooks/useMyCarList";
+import useMyCar from "@/hooks/useMyCar";
 
 const AddMyCarButton = () => {
     return (
@@ -19,7 +19,7 @@ const AddMyCarButton = () => {
 }
 
 const MyCar = () => {
-    const { cars, deleteCar, loading } = useMyCarList();
+    const { cars, deleteCar, loading } = useMyCar();
 
     const onDeleteMyCar = async (id: string) => {
         if (loading) return;

@@ -36,7 +36,7 @@ class MyCarController extends Controller
             $data = $request->validated();
             $car = $this->myCarService->createMyCar($data);
 
-            return $this->successResponse($car, '已成功添加我的爱车。', 201);
+            return $this->successResponse($car, '已成功添加我的爱车。');
         } catch (\Throwable $e) {
             return $this->errorResponse('添加失败：' . $e->getMessage(), 500);
         }
@@ -87,7 +87,7 @@ class MyCarController extends Controller
                 return $this->errorResponse('车辆删除失败，请稍后重试', 500);
             }
 
-            return $this->successResponse(null, '删除成功', 204);
+            return $this->successResponse(null, '删除成功');
         } catch (\Throwable $e) {
             return $this->errorResponse('删除失败：' . $e->getMessage(), 500);
         }

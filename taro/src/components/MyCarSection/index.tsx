@@ -1,36 +1,18 @@
 import { View, Image, Button } from '@tarojs/components';
 import MyCarBg from '@/assets/images/mycar.jpg';
-import { useDidShow } from '@tarojs/taro';
-import myCarApi from '@/api/car';
-import { useState } from 'react';
-import { MyCarItem } from '@/types/api';
 import Loading from '@/components/Loading';
-import { isLoggedIn, checkLoginBeforeNavigate } from '@/utils/auth';
+import { checkLoginBeforeNavigate } from '@/utils/auth';
+import useMyCar from '@/hooks/useMyCar';
 
 const MyCarSection = () => {
-    // 有车、无车、未获取
-    const [myCar, setMyCar] = useState<MyCarItem | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
-
-    const fetchMyCar = async () => {
-        setLoading(true);
-        try {
-            const response = await myCarApi.list();
-            setMyCar(response.data.list[0] || null);
-        } catch (error) {
-            console.error('获取我的爱车失败:', error);
-        } finally {
-            setLoading(false);
-        }
-    }
+    const { myCar, loading, isLoggedIn } = useMyCar();
 
     const renderContent = () => {
         if (loading) {
-            return (
-                <Loading />
-            );
+            return <Loading />
         }
-        if (myCar) {
+
+        if (myCar && isLoggedIn()) {
             return (
                 <View className="w-4/5 bg-[#3c3c3c] bg-opacity-50 p-5 rounded-lg text-white flex flex-col space-y-1">
                     <View className="text-lg font-semibold">
@@ -45,6 +27,7 @@ const MyCarSection = () => {
                 </View>
             );
         }
+
         return (
             <Button
                 className="w-52 !border-2 !border-solid !border-white text-white bg-transparent"
@@ -54,20 +37,6 @@ const MyCarSection = () => {
             </Button>
         );
     }
-
-    useDidShow(() => {
-        // 如果登录且未有我的爱车数据状态时请求        
-        if (isLoggedIn() && myCar === null) {
-            console.log('登录状态下且爱车数据为空，请求爱车数据...');
-            fetchMyCar();
-        }
-
-        // 如果未登录且有我的爱车数据状态时清除
-        if (!isLoggedIn() && myCar) {
-            console.log('未登录状态下且爱车数据存在，清除爱车数据...');
-            setMyCar(null);
-        }
-    });
 
     return (
         <View className="w-full relative flex justify-center">
