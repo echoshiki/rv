@@ -104,6 +104,7 @@ interface ArticleList {
 interface ArticleDetail {
     id: string,
     title: string,
+    video: string | null,
     content: string,
     cover: string | null,
     is_single_page: boolean,

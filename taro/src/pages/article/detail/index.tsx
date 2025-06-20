@@ -1,4 +1,4 @@
-import { View, Text, RichText } from "@tarojs/components";
+import { View, Text, RichText, Video } from "@tarojs/components";
 import DefaultCover from '@/assets/images/cover.jpg';
 import { useArticleDetail } from "@/hooks/useArticleDetail";
 import Taro from "@tarojs/taro";
@@ -62,7 +62,24 @@ const Detail = () => {
                             </View>
                         </View>
                     )}
-                    
+
+                    {/* 视频区块 */}
+                    {articleDetail.video && (
+                        <View className="mb-5 flex justify-center">
+                            <Video 
+                                src={articleDetail.video} 
+                                controls={true}
+                                show-progress={true}
+                                show-play-btn={true}
+                                show-center-play-btn={true}
+                                show-loading={true}
+                                show-loading-indicator={true}
+                                className="w-full"
+                            />
+                        </View>
+                    )}
+
+                    {/* 内容区块 */}
                     <View>
                         <RichText
                             className="font-light text-left leading-loose"
