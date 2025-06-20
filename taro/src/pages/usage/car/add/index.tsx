@@ -151,7 +151,7 @@ const AddMyCar = () => {
                     name="address"
                 >
                     <Input
-                        placeholder="请选择地址"
+                        placeholder="请选择所在城市"
                         readOnly
                         onClick={() => setAreaPickerState(prev => ({ ...prev, visible: true }))}
                         style={{ caretColor: 'transparent' }}
@@ -162,7 +162,7 @@ const AddMyCar = () => {
                     label="详细地址"
                     name="address_info"
                 >
-                    <Input placeholder="请输入详细的住宅" type="text" />
+                    <Input placeholder="请输入常用住址" type="text" />
                 </Form.Item>
 
                 <View className="mt-5">
