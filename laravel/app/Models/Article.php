@@ -35,6 +35,7 @@ class Article extends Model
         'cover', 
         'description',
         'link',
+        'video',
         'content',
         'sort',
         'is_single_page',
@@ -139,14 +140,6 @@ class Article extends Model
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
-    }
-
-    /**
-     * 获取封面图片公共地址
-     */
-    public function getCoverUrlAttribute(): ?string
-    {
-        return $this->cover ? Storage::disk('public')->url($this->cover) : null;
     }
 
 }

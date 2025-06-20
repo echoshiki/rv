@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('cover')->nullable()->comment('封面图');
             $table->string('description')->nullable()->comment('描述');
             $table->string('link')->nullable()->comment('公众号文章链接');
+            $table->string('video')->nullable()->comment('视频');
             $table->longText('content')->comment('文章内容');
             $table->integer('sort')->default(0)->comment('排序');
             $table->boolean('is_single_page')->default(false)->comment('是否单页');

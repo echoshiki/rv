@@ -46,6 +46,12 @@ class ArticleResource extends Resource
                             ->required()
                             ->columnSpanFull()
                             ->maxLength(255),
+                        Forms\Components\FileUpload::make('video')
+                            ->label('视频')
+                            ->directory('articles/'. now()->format('Ymd'))
+                            ->disk('public')
+                            ->nullable()
+                            ->columnSpanFull(),
                         Forms\Components\RichEditor::make('content')
                             ->label('内容')
                             ->required()

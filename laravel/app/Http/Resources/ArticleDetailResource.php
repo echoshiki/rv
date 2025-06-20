@@ -24,6 +24,7 @@ class ArticleDetailResource extends JsonResource
             'category_id' => $this->category_id, // 分类 ID
             'title' => $this->title,
             'content' => $this->content,
+            'video' => $this->video ? asset('storage/' . $this->video) : null,
             'cover' => $this->cover ? asset('storage/' . $this->cover) : $defaultCover,
             'sort' => $this->sort,
             'is_single_page' => $this->is_single_page,
