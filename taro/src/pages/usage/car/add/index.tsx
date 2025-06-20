@@ -97,7 +97,7 @@ const AddMyCar = () => {
                     name="name"
                     rules={[{ required: true, message: '请输入姓名' }]}
                 >
-                    <Input placeholder="请输入姓名" type="text" />
+                    <Input placeholder="请输入姓名（必填）" type="text" />
                 </Form.Item>
 
                 <Form.Item
@@ -108,14 +108,7 @@ const AddMyCar = () => {
                         { pattern: /^1[3-9]\d{9}$/, message: '手机号格式不正确' }
                     ]}
                 >
-                    <Input placeholder="请输入手机号" type="number" maxLength={11} />
-                </Form.Item>
-
-                <Form.Item
-                    label="车型"
-                    name="brand"
-                >
-                    <Input placeholder="请输入车型，选填" type="text" />
+                    <Input placeholder="请输入手机号（必填）" type="number" maxLength={11} />
                 </Form.Item>
 
                 <Form.Item
@@ -123,7 +116,7 @@ const AddMyCar = () => {
                     name="vin"
                     rules={[{ required: true, pattern: /^[A-Za-z0-9]{17}$/, message: '请输入17位的车架号' }]}
                 >
-                    <Input placeholder="请输入称呼" type="text" />
+                    <Input placeholder="请输入车架号（必填）" type="text" />
                 </Form.Item>
 
                 <Form.Item
@@ -131,7 +124,7 @@ const AddMyCar = () => {
                     name="licence_plate"
                     rules={[{ required: true, message: '请输入车牌号' }]}
                 >
-                    <Input placeholder="请输入称呼" type="text" />
+                    <Input placeholder="请输入车牌号（必填）" type="text" />
                 </Form.Item>
 
                 <Form.Item
@@ -139,11 +132,18 @@ const AddMyCar = () => {
                     name="listing_at"
                 >
                     <Input
-                        placeholder="请选择日期"
+                        placeholder="请选择上牌日期"
                         readOnly
                         onClick={() => setDatePickerState(prev => ({ ...prev, visible: true }))}
                         style={{ caretColor: 'transparent' }}
                     />
+                </Form.Item>
+
+                <Form.Item
+                    label="底盘品牌"
+                    name="brand"
+                >
+                    <Input placeholder="请输入底盘品牌" type="text" />
                 </Form.Item>
 
                 <Form.Item

@@ -90,7 +90,7 @@ class MyCarResource extends Resource
                     ->columns(2)
                     ->schema([
                         Forms\Components\TextInput::make('brand')
-                            ->label('车型')
+                            ->label('底盘品牌')
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('vin')
@@ -120,7 +120,7 @@ class MyCarResource extends Resource
                     ->label('手机号')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('brand')
-                    ->label('车型')
+                    ->label('底盘')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('licence_plate')
                     ->label('车牌号')

@@ -52,7 +52,7 @@ class MyCarRequest extends FormRequest
             'name.max' => '姓名长度不能超过50个字符',
             'phone.required' => '手机号不能为空',
             'phone.regex' => '手机号格式不正确',
-            'brand.max' => '车型长度不能超过50个字符',
+            'brand.max' => '底盘品牌长度不能超过50个字符',
             'vin.required' => '车架号不能为空',
             'vin.size' => '车架号必须是17位',
             'vin.regex' => '车架号格式不正确',
