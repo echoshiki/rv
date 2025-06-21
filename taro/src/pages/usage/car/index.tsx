@@ -62,13 +62,13 @@ const MyCar = () => {
                     <Card key={car.id} className="bg-opacity-50 !bg-[#3c3c3c] text-white">
                         <View className="flex flex-col space-y-2">
                             <View className="flex space-x-2 items-center">
-                                <Text className="font-semibold text-lg">{car.licence_plate}</Text>
+                                <Text className="font-semibold text-lg">{car.vin}</Text>
                                 <Text className="font-light text-xs">{car.brand}</Text>
                             </View>
                             <View>
                                 <View className="flex space-x-2">
                                     <Text className="font-light text-xs">{car.name}</Text>
-                                    <Text className="font-light text-xs">{car.vin}</Text>
+                                    <Text className="font-light text-xs">{car.licence_plate || '暂无车牌号'}</Text>
                                 </View>
                                 <View className="flex flex-nowrap justify-between items-center">
                                     <View>

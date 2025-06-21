@@ -34,7 +34,7 @@ class MyCarRequest extends FormRequest
                 Rule::unique('my_cars', 'vin')->ignore($this->my_car?->id),
             ],
             'licence_plate' => [
-                'required',
+                'nullable',
                 'string',
                 'max:10',
                 Rule::unique('my_cars', 'licence_plate')->ignore($this->my_car?->id),
@@ -57,7 +57,6 @@ class MyCarRequest extends FormRequest
             'vin.size' => '车架号必须是17位',
             'vin.regex' => '车架号格式不正确',
             'vin.unique' => '车架号已经被绑定',
-            'licence_plate.required' => '车牌号不能为空',
             'licence_plate.max' => '车牌号长度不能超过10个字符',
             'licence_plate.unique' => '车牌号已经被绑定',
             'listing_at.date' => '上牌日期格式不正确',

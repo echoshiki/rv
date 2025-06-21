@@ -43,7 +43,8 @@ const useCarStore = create<CarStoreProps>((set, get) => ({
         try {
             const response = await myCarApi.create(carSubmission);
             if (response.success) {
-                set({ cars: [...get().cars, response.data] });
+                // 重新获取
+                await get().fetchCars(true);
                 return { success: true };
             }
             throw new Error(response.message);

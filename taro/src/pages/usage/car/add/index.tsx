@@ -53,7 +53,7 @@ const AddMyCar = () => {
                 phone: formData.phone.trim(),
                 brand: formData.brand ? formData.brand.trim() : null,
                 vin: formData.vin.trim(),
-                licence_plate: formData.licence_plate?.trim(),
+                licence_plate: formData.licence_plate ? formData.licence_plate.trim() : null,
                 listing_at: formData.listing_at,
                 province,
                 city,
@@ -118,9 +118,8 @@ const AddMyCar = () => {
                 <Form.Item
                     label="车牌号"
                     name="licence_plate"
-                    rules={[{ required: true, message: '请输入车牌号' }]}
                 >
-                    <Input placeholder="请输入车牌号（必填）" type="text" />
+                    <Input placeholder="请输入车牌号" type="text" />
                 </Form.Item>
 
                 <Form.Item

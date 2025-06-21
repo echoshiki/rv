@@ -251,9 +251,9 @@ interface MyCarItem {
     phone: string,
     province?: string,
     city?: string,
-    brand: string,
+    brand?: string,
     vin: string,
-    licence_plate: string,
+    licence_plate?: string,
     listing_at?: string | null,
     birthday?: string | null,
     address?: string

@@ -16,13 +16,13 @@ const MyCarSection = () => {
             return (
                 <View className="w-4/5 bg-[#3c3c3c] bg-opacity-50 p-5 rounded-lg text-white flex flex-col space-y-1">
                     <View className="text-lg font-semibold">
-                        {myCar.licence_plate}
+                        {myCar.vin}
                     </View>
                     <View className="text-xs text-gray-400">
                         {myCar.name} 
                     </View>
                     <View className="text-xs text-gray-400">
-                        {myCar.brand}
+                        {myCar.licence_plate || "暂无车牌号"}
                     </View>
                 </View>
             );

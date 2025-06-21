@@ -31,6 +31,13 @@
           "launchMode": "default"
         },
         {
+          "name": "pages/usage/car/index",
+          "pathName": "pages/usage/car/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/article/detail/index",
           "pathName": "pages/article/detail/index",
           "query": "id=10",
