@@ -34,7 +34,7 @@ const Usage = () => {
             
             {/* 用车常识 */}
             <PageCard 
-                title="用车常识" 
+                title="使用说明" 
                 subtitle="在使用房车时的小知识" 
                 link="/pages/article/index?code=common_sense"
                 className="pt-0"
