@@ -55,17 +55,17 @@ const AddSuggest = () => {
                 <Form.Item
                     label=""
                     name="name"
-                    rules={[{ required: true, message: '请输入称呼' }]}
+                    rules={[{ required: true, message: '请输入您的姓氏或姓名' }]}
                 >
-                    <Input placeholder="请输入称呼" type="text" />
+                    <Input placeholder="请输入您的姓氏或姓名" type="text" />
                 </Form.Item>
 
                 <Form.Item
                     label=""
                     name="content"
-                    rules={[{ required: true, message: '请输入建议内容' }]}
+                    rules={[{ required: true, message: '请输入您的建议' }]}
                 >
-                    <TextArea placeholder="请输入您的建议" />
+                    <TextArea placeholder="请输入您的建议，如有需要回复请留下联系电话，非常感谢！" />
                 </Form.Item>
 
                 <View className="mt-5">

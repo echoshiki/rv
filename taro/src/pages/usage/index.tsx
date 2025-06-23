@@ -32,7 +32,7 @@ const Usage = () => {
                 <MenuRow menuList={rawMenuItems} isLoading={rowLoading} />
             </View>
             
-            {/* 用车常识 */}
+            {/* 使用说明 */}
             <PageCard 
                 title="使用说明" 
                 subtitle="在使用房车时的小知识" 
