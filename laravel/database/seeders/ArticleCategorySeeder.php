@@ -23,7 +23,7 @@ class ArticleCategorySeeder extends Seeder
         ],
         [
             'code' => 'common_sense',
-            'title' => '用车常识',
+            'title' => '使用说明',
             'description' => '小程序用车频道栏目'
         ],
         [
