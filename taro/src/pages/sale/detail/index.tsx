@@ -1,7 +1,6 @@
-import { getCurrentInstance, makePhoneCall } from "@tarojs/taro";
+import { getCurrentInstance, makePhoneCall, previewImage } from "@tarojs/taro";
 import { useRvDetail } from "@/hooks/useRvDetail";
-import { View, RichText, Button, Text } from "@tarojs/components";
-import { cleanHTML } from '@/utils/common';
+import { View, Button, Text, Image } from "@tarojs/components";
 import { ArticleItemSkeleton } from '@/components/Skeleton';
 import { useBookingFlow } from "@/hooks/useRvOrder";
 import { Dialog } from '@nutui/nutui-react-taro'
@@ -79,6 +78,13 @@ const RvDetail = () => {
         });
     };
 
+    const handlePreviewImage = (currentUrl: string) => {
+        previewImage({
+          current: currentUrl,
+          urls: rvDetail?.photos ?? [],
+        });
+    };
+
     if (pageLoading) {
         return (
             <View className="flex justify-center py-4">
@@ -98,22 +104,31 @@ const RvDetail = () => {
     return (
         <View>
             <View>
-                <RichText
-                    className="font-light text-left leading-loose"
-                    nodes={cleanHTML(rvDetail?.content || '', true)}
-                />
+                {/* 可放大缩小图片 */}
+                {rvDetail?.photos?.map((photo, index) => (
+                    <Image
+                        key={index}
+                        className='w-full block'
+                        src={photo}
+                        mode='widthFix'
+                        onClick={() => handlePreviewImage(photo)}
+                    />
+                ))}
             </View>
 
             {/* 底部按钮 */}
             <View className="w-full flex flex-nowrap bg-black bg-opacity-85 p-6 items-center fixed bottom-0">
-                <Button
-                    className="w-24 text-[.8rem] !border border-solid !border-white !bg-transparent !text-white font-semibold"
-                    onClick={() => setIsDialogVisible(true)}
-                    loading={isProcessing}
-                    disabled={isProcessing}
-                >
-                    现在下订
-                </Button>
+                {!used && (
+                    <Button
+                        className="w-24 text-[.8rem] !border border-solid !border-white !bg-transparent !text-white font-semibold"
+                        onClick={() => setIsDialogVisible(true)}
+                        loading={isProcessing}
+                        disabled={isProcessing}
+                    >
+                        现在下订
+                    </Button>
+                ) }
+                
                 <Button 
                     className="w-24 text-[.8rem] bg-red-600 text-white !border-solid !border-red-600 !border-2 font-semibold"
                     openType="contact"

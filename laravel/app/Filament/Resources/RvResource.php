@@ -62,19 +62,15 @@ class RvResource extends Resource
                             ->label('定金')
                             ->numeric()
                             ->default(0),
-                        Forms\Components\RichEditor::make('content')
-                            ->label('详情')
-                            ->required()
-                            ->fileAttachmentsDisk('public')
-                            ->fileAttachmentsDirectory('rvs/'. now()->format('Ymd'))
-                            ->fileAttachmentsVisibility('private')
-                            ->columnSpanFull(),
                         Forms\Components\FileUpload::make('photos')
-                            ->label('相册')
+                            ->label('详情图组')
                             ->multiple()
                             ->directory('rvs/'. now()->format('Ymd'))
                             ->disk('public')
                             ->imageEditor()
+                            ->reorderable() 
+                            ->appendFiles()
+                            ->panelLayout('grid')
                             ->nullable()
                             ->columnSpanFull(),
                         Forms\Components\TextInput::make('sort')

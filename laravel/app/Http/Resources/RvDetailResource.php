@@ -27,7 +27,6 @@ class RvDetailResource extends JsonResource
             }, $this->photos) : null,
             'price' => $this->price,
             'order_price' => $this->order_price,
-            'content' => $this->content,
             'is_active' => (bool) $this->is_active,
             'sort' => $this->sort
         ];

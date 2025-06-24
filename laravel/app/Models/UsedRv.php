@@ -35,4 +35,14 @@ class UsedRv extends Model
     {
         return json_decode($value, true);
     }
+
+     // 数据创建时默认 content 的值
+     protected static function booted()
+     {
+         static::saving(function ($model) {
+             if (empty($model->content)) {
+                 $model->content = '默认值'; 
+             }
+         });
+     }
 }

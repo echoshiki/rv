@@ -47,4 +47,14 @@ class Rv extends Model
     {
         return $query->where('is_active', true);
     }
+    
+    // 数据创建时默认 content 的值
+    protected static function booted()
+    {
+        static::saving(function ($model) {
+            if (empty($model->content)) {
+                $model->content = '默认值'; 
+            }
+        });
+    }
 }

@@ -26,7 +26,6 @@ class UsedRvDetailResource extends JsonResource
                 return asset('storage/' . $photo);
             }, $this->photos) : null,
             'price' => $this->price,
-            'content' => $this->content,
             'is_active' => (bool) $this->is_active,
             'sort' => $this->sort
         ];
