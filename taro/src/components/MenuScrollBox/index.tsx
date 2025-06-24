@@ -166,15 +166,14 @@ const MenuScrollBox = ({ data }: { data: RvAllData[] }) => {
                                             src={rv.cover}
                                             ratio={1.8}
                                         />
-                                        <View className="absolute right-5 bottom-5 text-white flex flex-col text-right opacity-90">
+                                        <View className="absolute right-5 bottom-5 text-white flex flex-row justify-end items-center space-x-2 opacity-90">
                                             <View>
-                                                <Text className="font-semibold text-xl opacity-85">{rv.name}</Text>
+                                                <Text className="font-semibold text-lg opacity-85">{rv.name}</Text>
                                             </View>
-                                            <View>
-                                                <Text className="font-light text-xs">¥{rv.price} 起</Text>
-                                            </View>
-                                            <View>
-                                                <Text className="font-bold text-xs">点击查看详情</Text>
+                                            <View className="w-[1px] h-3 bg-gray-300"></View>
+                                            <View className="flex flex-col items-end font-light text-xs">
+                                                <Text><Text className="font-semibold">¥{rv.price}</Text> 起</Text>
+                                                <Text>点击查看详情</Text>
                                             </View>
                                         </View>
                                     </View>
