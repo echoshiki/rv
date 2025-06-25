@@ -1,4 +1,4 @@
-import { getCurrentInstance, makePhoneCall, previewImage } from "@tarojs/taro";
+import { getCurrentInstance, makePhoneCall, previewImage, useShareAppMessage } from "@tarojs/taro";
 import { useRvDetail } from "@/hooks/useRvDetail";
 import { View, Button, Text, Image } from "@tarojs/components";
 import { ArticleItemSkeleton } from '@/components/Skeleton';
@@ -84,6 +84,13 @@ const RvDetail = () => {
           urls: rvDetail?.photos ?? [],
         });
     };
+
+    useShareAppMessage(() => {
+        return {
+          title: rvDetail?.name,
+          path: `pages/sale/detail/index?id=${id}&used=${used}`,
+        }
+    });
 
     if (pageLoading) {
         return (
