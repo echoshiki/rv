@@ -8,7 +8,7 @@ class UsedRvService
 {
     // 获取二手车列表
     public function getUsedRvList(
-        string $orderBy = 'created_at',
+        string $orderBy = 'sort',
         string $sort = 'desc',
         int $page = 1,
         int $limit = 10
