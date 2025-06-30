@@ -69,6 +69,13 @@ const RegistrationForm = ({ onSubmit, loading = false, isVisible = false }: Regi
                     />
                 </Form.Item>
 
+                <Form.Item
+                    label="备注"
+                    name="remarks"
+                >
+                    <Input placeholder="请输入您的备注" type="text" />
+                </Form.Item>
+
                 <View className="mt-5">
                     <Button 
                         type="primary" 

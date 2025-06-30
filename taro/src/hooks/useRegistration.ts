@@ -174,12 +174,14 @@ const useRegistration = ({
             // 格式化出地址的相关参数
             const { province, city, full_address } = parseAddress(formData.address);
             // 构造提交到接口的参数
+            // 2025.06.30 添加备注字段
             const submissionData = {
                 activity_id: activityDetail.id,
                 name: formData.name.trim(),
                 phone: formData.phone.trim(),
                 province,
                 city,
+                remarks: formData.remarks.trim(),
                 form_data: {
                     full_address,
                     submit_time: new Date().toISOString()

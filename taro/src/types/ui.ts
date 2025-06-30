@@ -54,11 +54,13 @@ interface Category extends ApiCategory {
  * @param name 称呼
  * @param phone 手机号
  * @param address 地址（未格式化）
+ * @param remarks 备注
  */
 interface RegistrationFormData {
     name: string,
     phone: string,
-    address: string
+    address: string,
+    remarks: string
 }
 
 export {
