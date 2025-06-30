@@ -38,11 +38,11 @@ const RegistrationForm = ({ onSubmit, loading = false, isVisible = false }: Regi
                 onFinish={onSubmit}
             >
                 <Form.Item
-                    label="称呼"
+                    label="姓名"
                     name="name"
-                    rules={[{ required: true, message: '请输入称呼' }]}
+                    rules={[{ required: true, message: '请输入姓名' }]}
                 >
-                    <Input placeholder="请输入称呼" type="text" />
+                    <Input placeholder="请输入姓名" type="text" />
                 </Form.Item>
 
                 <Form.Item

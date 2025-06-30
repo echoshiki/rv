@@ -82,7 +82,7 @@ interface UserInfoSubmission {
 /**
  * 报名表单提交数据
  * @param activity_id 活动ID
- * @param name 称呼
+ * @param name 姓名
  * @param phone 手机号
  * @param province 省份
  * @param city 城市
@@ -101,7 +101,7 @@ interface RegistrationSubmission {
 
 /**
  * 添加爱车提交数据
- * @param name 称呼
+ * @param name 姓名
  * @param phone 手机号
  * @param province 省份
  * @param city 城市
@@ -127,7 +127,7 @@ interface MyCarSubmission {
 
 /**
  * 维保预约表单提交数据
- * @param name 称呼
+ * @param name 姓名
  * @param phone 手机号
  * @param province 省份
  * @param city 城市
@@ -143,7 +143,7 @@ interface MaintenanceSubmission {
 
 /**
  * 用户建议表单提交数据
- * @param name 称呼
+ * @param name 姓名
  * @param content 建议内容
  */
 interface SuggestSubmission {

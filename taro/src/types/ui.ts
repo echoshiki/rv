@@ -51,7 +51,7 @@ interface Category extends ApiCategory {
 
 /**
  * 用户报名表单初始提交数据
- * @param name 称呼
+ * @param name 姓名
  * @param phone 手机号
  * @param address 地址（未格式化）
  * @param remarks 备注
