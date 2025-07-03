@@ -1,4 +1,5 @@
 export default definePageConfig({
   navigationBarTitleText: '卫航房车',
-  enableShareAppMessage: true
+  enableShareAppMessage: true,
+  enableShareTimeline: true
 })
