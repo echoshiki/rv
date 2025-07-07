@@ -33,9 +33,21 @@ class UserResource extends Resource
 
     protected static ?string $slug = 'users';
 
+    // public static function getEloquentQuery(): Builder
+    // {
+    //     return parent::getEloquentQuery()->whereDoesntHave('roles');
+    // }
+
+    // 2025.07.07 优化查询性能
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->whereDoesntHave('roles');
+        return parent::getEloquentQuery()
+            ->select(['id', 'name', 'phone', 'level', 'points', 'created_at'])
+            ->leftJoin('model_has_roles', function ($join) {
+                $join->on('users.id', '=', 'model_has_roles.model_id')
+                    ->where('model_has_roles.model_type', '=', User::class);
+            })
+            ->whereNull('model_has_roles.model_id');
     }
 
     public static function form(Form $form): Form
@@ -148,7 +160,18 @@ class UserResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('level')
                     ->options(User::getLevels())
-                    ->label('会员等级')
+                    ->label('会员等级'),
+                Tables\Filters\TernaryFilter::make('phone')
+                    ->label('有无手机号')
+                    ->placeholder('全部用户') // "全部"状态的提示文字
+                    ->trueLabel('有手机号')   // "是"状态的标签
+                    ->falseLabel('无手机号')  // "否"状态的标签
+                    ->queries(
+                        // 当选择"有手机号"时，执行此查询
+                        true: fn (Builder $query) => $query->whereNotNull('phone')->where('phone', '<>', ''),
+                        // 当选择"无手机号"时，执行此查询
+                        false: fn (Builder $query) => $query->whereNull('phone')->orWhere('phone', '=', '')
+                    )
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
