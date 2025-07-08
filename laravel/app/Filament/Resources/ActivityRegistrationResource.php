@@ -150,8 +150,6 @@ class ActivityRegistrationResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->label('状态')
                     ->badge()
-                    ->formatStateUsing(fn (RegistrationStatus $state): string => $state->label())
-                    ->color(fn (RegistrationStatus $state): string => $state->color())
                     ->searchable(),
                 Tables\Columns\TextColumn::make('fee')
                     ->label('支付金额')

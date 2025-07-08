@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Services\RegionService;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Forms\Components\Placeholder;
 
 class MyCarResource extends Resource
 {
@@ -49,10 +50,15 @@ class MyCarResource extends Resource
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('phone')
-                            ->label('手机号')
+                            ->label('爱车手机号')
                             ->tel()
                             ->required()
                             ->maxLength(255),
+                        // 关联注册用户手机号
+                        Placeholder::make('user_phone_display')
+                            ->label('注册手机号')
+                            ->content(fn (?string $state) => $state ?: '请选择用户') // 初始内容，或在编辑时显示
+                            ->columnSpanFull(), // 如果你想让它占满一行
                         Forms\Components\DatePicker::make('birthday')
                             ->label('生日'),
                         Forms\Components\Select::make('province')
@@ -117,7 +123,10 @@ class MyCarResource extends Resource
                     ->label('姓名')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
-                    ->label('手机号')
+                    ->label('爱车手机号')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('user.phone')
+                    ->label('注册手机号')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('brand')
                     ->label('底盘')
