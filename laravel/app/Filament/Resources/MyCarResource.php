@@ -25,7 +25,7 @@ class MyCarResource extends Resource
 
     protected static ?string $navigationGroup = '互动管理';
 
-    protected static ?string $navigationLabel = '用户爱车';
+    protected static ?string $navigationLabel = '爱车用户';
 
     protected static ?string $modelLabel = '爱车';
 

@@ -29,7 +29,7 @@ class UserResource extends Resource
 
     protected static ?string $navigationGroup = '用户管理';
 
-    protected static ?string $label = '用户';
+    protected static ?string $label = '注册用户';
 
     protected static ?string $slug = 'users';
 
